@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -19,6 +20,38 @@ export default {
 		},
 		extend: {
 			colors: {
+				// Gov.br color palette
+				govbr: {
+					blue: {
+						warm: {
+							10: '#E6F7FF',
+							20: '#D1F2FF',
+							vivid: '#0050B2',
+							dark: '#003366'
+						}
+					},
+					green: {
+						cool: {
+							5: '#F0FDF4',
+							vivid: '#00804E',
+							dark: '#004D2F'
+						}
+					},
+					gray: {
+						5: '#F8F9FA',
+						10: '#F1F3F4',
+						20: '#E8EAED',
+						30: '#DADCE0',
+						cool: {
+							5: '#F7F9FC',
+							10: '#EEF2F7',
+							30: '#C7D2E3'
+						}
+					},
+					yellow: {
+						vivid: '#FFCD07'
+					}
+				},
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
@@ -63,6 +96,10 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				}
 			},
+			fontFamily: {
+				'rawline': ['Rawline', 'sans-serif'],
+				'raleway': ['Raleway', 'sans-serif']
+			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
@@ -84,11 +121,16 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'fade-in': {
+					'0%': { opacity: '0', transform: 'translateY(10px)' },
+					'100%': { opacity: '1', transform: 'translateY(0)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fade-in': 'fade-in 0.5s ease-out'
 			}
 		}
 	},

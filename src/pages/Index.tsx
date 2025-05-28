@@ -1,12 +1,135 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useState } from 'react';
+import Header from '@/components/Header';
+import Sidebar from '@/components/Sidebar';
+import Dashboard from '@/components/Dashboard';
+import SearchAdvanced from '@/components/SearchAdvanced';
 
 const Index = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [currentSection, setCurrentSection] = useState('dashboard');
+  const [userRole] = useState<'servidor' | 'moderador' | 'administrador'>('servidor');
+  const [userName] = useState('João Silva Santos');
+
+  const handleMenuClick = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  const handleNavigation = (section: string) => {
+    setCurrentSection(section);
+  };
+
+  const renderContent = () => {
+    switch (currentSection) {
+      case 'dashboard':
+        return <Dashboard userRole={userRole} userName={userName} />;
+      case 'search':
+        return <SearchAdvanced />;
+      case 'my-works':
+        return (
+          <div className="space-y-6 animate-fade-in">
+            <h1 className="govbr-heading-1">Meus Trabalhos</h1>
+            <p className="govbr-body">Gerencie suas publicações acadêmicas na plataforma.</p>
+            <div className="bg-govbr-gray-5 rounded-lg p-8 text-center">
+              <p className="text-gray-600">Funcionalidade em desenvolvimento...</p>
+            </div>
+          </div>
+        );
+      case 'repository':
+        return (
+          <div className="space-y-6 animate-fade-in">
+            <h1 className="govbr-heading-1">Repositório</h1>
+            <p className="govbr-body">Explore coleções temáticas e repositórios especializados.</p>
+            <div className="bg-govbr-gray-5 rounded-lg p-8 text-center">
+              <p className="text-gray-600">Funcionalidade em desenvolvimento...</p>
+            </div>
+          </div>
+        );
+      case 'admin':
+        return (
+          <div className="space-y-6 animate-fade-in">
+            <h1 className="govbr-heading-1">Painel Administrativo</h1>
+            <p className="govbr-body">Gestão e administração da plataforma BNSP.</p>
+            <div className="bg-govbr-gray-5 rounded-lg p-8 text-center">
+              <p className="text-gray-600">Funcionalidade em desenvolvimento...</p>
+            </div>
+          </div>
+        );
+      case 'moderation':
+        return (
+          <div className="space-y-6 animate-fade-in">
+            <h1 className="govbr-heading-1">Moderação</h1>
+            <p className="govbr-body">Revisão e moderação de submissões.</p>
+            <div className="bg-govbr-gray-5 rounded-lg p-8 text-center">
+              <p className="text-gray-600">Funcionalidade em desenvolvimento...</p>
+            </div>
+          </div>
+        );
+      default:
+        return <Dashboard userRole={userRole} userName={userName} />;
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-govbr-gray-5">
+      <Header 
+        onMenuClick={handleMenuClick}
+        userRole={userRole}
+        userName={userName}
+      />
+      
+      <div className="flex">
+        <Sidebar 
+          isOpen={sidebarOpen}
+          onNavigate={handleNavigation}
+          currentSection={currentSection}
+          userRole={userRole}
+        />
+        
+        <main className="flex-1 p-6 lg:p-8 overflow-auto">
+          <div className="max-w-7xl mx-auto">
+            {renderContent()}
+          </div>
+        </main>
       </div>
+
+      {/* Government Footer */}
+      <footer className="bg-govbr-blue-warm-dark text-white py-8 mt-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+              <h3 className="text-lg font-semibold mb-4">BNSP</h3>
+              <p className="text-govbr-blue-warm-20 text-sm">
+                Biblioteca Nacional da Segurança Pública - Plataforma oficial para 
+                compartilhamento de conhecimento acadêmico entre servidores de segurança pública.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Links Importantes</h3>
+              <ul className="space-y-2 text-sm text-govbr-blue-warm-20">
+                <li><a href="#" className="hover:text-white">Portal Gov.br</a></li>
+                <li><a href="#" className="hover:text-white">SENASP</a></li>
+                <li><a href="#" className="hover:text-white">Ministério da Justiça</a></li>
+                <li><a href="#" className="hover:text-white">Sinesp Segurança</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Suporte</h3>
+              <ul className="space-y-2 text-sm text-govbr-blue-warm-20">
+                <li><a href="#" className="hover:text-white">Central de Ajuda</a></li>
+                <li><a href="#" className="hover:text-white">Termos de Uso</a></li>
+                <li><a href="#" className="hover:text-white">Política de Privacidade</a></li>
+                <li><a href="#" className="hover:text-white">LGPD</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-govbr-blue-warm-vivid mt-8 pt-6 text-center">
+            <p className="text-govbr-blue-warm-20 text-sm">
+              © 2024 Governo Federal - Ministério da Justiça e Segurança Pública - SENASP
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
