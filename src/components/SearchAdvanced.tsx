@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search, Filter, Calendar, User, BookOpen, FileText } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -24,14 +23,14 @@ interface SearchFilters {
 const SearchAdvanced: React.FC = () => {
   const [filters, setFilters] = useState<SearchFilters>({
     query: '',
-    category: '',
+    category: 'all',
     author: '',
     institution: '',
     yearFrom: '',
     yearTo: '',
     docType: '',
     forceType: [],
-    state: ''
+    state: 'all'
   });
 
   const [searchResults, setSearchResults] = useState([
@@ -122,14 +121,14 @@ const SearchAdvanced: React.FC = () => {
   const clearFilters = () => {
     setFilters({
       query: '',
-      category: '',
+      category: 'all',
       author: '',
       institution: '',
       yearFrom: '',
       yearTo: '',
       docType: '',
       forceType: [],
-      state: ''
+      state: 'all'
     });
   };
 
@@ -176,6 +175,7 @@ const SearchAdvanced: React.FC = () => {
                     <SelectValue placeholder="Selecione uma categoria" />
                   </SelectTrigger>
                   <SelectContent className="bg-white border border-govbr-gray-20 shadow-lg max-h-48 overflow-y-auto">
+                    <SelectItem value="all">Todas as categorias</SelectItem>
                     {categories.map((category) => (
                       <SelectItem key={category} value={category}>
                         {category}
@@ -251,6 +251,7 @@ const SearchAdvanced: React.FC = () => {
                     <SelectValue placeholder="Selecione um estado" />
                   </SelectTrigger>
                   <SelectContent className="bg-white border border-govbr-gray-20 shadow-lg max-h-48 overflow-y-auto">
+                    <SelectItem value="all">Todos os estados</SelectItem>
                     {states.map((state) => (
                       <SelectItem key={state} value={state}>
                         {state}

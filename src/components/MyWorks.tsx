@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search, Edit, Trash2, Eye, Download, Filter, Calendar, BookOpen, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -87,8 +86,8 @@ const mockWorks = [
 
 const MyWorks: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('');
-  const [typeFilter, setTypeFilter] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [typeFilter, setTypeFilter] = useState('all');
 
   const getStatusBadge = (status: string) => {
     const statusConfig = {
@@ -109,8 +108,8 @@ const MyWorks: React.FC = () => {
   const filteredWorks = mockWorks.filter(work => {
     const matchesSearch = work.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          work.category.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === '' || work.status === statusFilter;
-    const matchesType = typeFilter === '' || work.type === typeFilter;
+    const matchesStatus = statusFilter === 'all' || work.status === statusFilter;
+    const matchesType = typeFilter === 'all' || work.type === typeFilter;
     
     return matchesSearch && matchesStatus && matchesType;
   });
@@ -223,7 +222,7 @@ const MyWorks: React.FC = () => {
                 <SelectValue placeholder="Filtrar por status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Todos os status</SelectItem>
+                <SelectItem value="all">Todos os status</SelectItem>
                 <SelectItem value="Aprovado">Aprovado</SelectItem>
                 <SelectItem value="Em Revisão">Em Revisão</SelectItem>
                 <SelectItem value="Pendente">Pendente</SelectItem>
@@ -236,7 +235,7 @@ const MyWorks: React.FC = () => {
                 <SelectValue placeholder="Filtrar por tipo" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Todos os tipos</SelectItem>
+                <SelectItem value="all">Todos os tipos</SelectItem>
                 <SelectItem value="Dissertação">Dissertação</SelectItem>
                 <SelectItem value="Artigo Científico">Artigo Científico</SelectItem>
                 <SelectItem value="Monografia">Monografia</SelectItem>
@@ -344,7 +343,7 @@ const MyWorks: React.FC = () => {
                 Nenhum trabalho encontrado
               </h3>
               <p className="text-gray-500">
-                {searchTerm || statusFilter || typeFilter 
+                {searchTerm || statusFilter !== 'all' || typeFilter !== 'all'
                   ? 'Tente ajustar os filtros de busca.' 
                   : 'Você ainda não enviou nenhum trabalho.'}
               </p>
