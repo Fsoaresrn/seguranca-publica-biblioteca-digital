@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search, Filter, Calendar, User, BookOpen, FileText } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -91,14 +90,14 @@ const SearchAdvanced: React.FC = () => {
   ];
 
   const forceTypes = [
-    'Polícia Federal',
-    'Polícia Civil',
-    'Polícia Militar',
     'Corpo de Bombeiros',
-    'Polícia Rodoviária Federal',
+    'Força Nacional',
     'Guarda Civil Municipal',
     'Guarda Municipal',
-    'Força Nacional'
+    'Polícia Civil',
+    'Polícia Federal',
+    'Polícia Militar',
+    'Polícia Rodoviária Federal'
   ];
 
   const states = [
