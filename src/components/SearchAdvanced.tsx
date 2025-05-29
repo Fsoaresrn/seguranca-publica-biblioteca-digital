@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Search, Filter, Calendar, User, BookOpen, FileText } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -95,6 +96,7 @@ const SearchAdvanced: React.FC = () => {
     'Polícia Militar',
     'Corpo de Bombeiros',
     'Polícia Rodoviária Federal',
+    'Guarda Civil Municipal',
     'Guarda Municipal',
     'Força Nacional'
   ];
@@ -230,7 +232,7 @@ const SearchAdvanced: React.FC = () => {
               <div>
                 <Label className="text-sm font-medium">Força de Segurança</Label>
                 <div className="space-y-2 mt-2">
-                  {forceTypes.slice(0, 5).map((force) => (
+                  {forceTypes.slice(0, 6).map((force) => (
                     <div key={force} className="flex items-center space-x-2">
                       <Checkbox
                         id={force}
