@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
 import Dashboard from '@/components/Dashboard';
 import SearchAdvanced from '@/components/SearchAdvanced';
+import SubmitWork from '@/components/SubmitWork';
 
 const Index = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -25,6 +26,8 @@ const Index = () => {
         return <Dashboard userRole={userRole} userName={userName} />;
       case 'search':
         return <SearchAdvanced />;
+      case 'submit-work':
+        return <SubmitWork />;
       case 'my-works':
         return (
           <div className="space-y-6 animate-fade-in">
