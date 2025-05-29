@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Search, Filter, Calendar, User, BookOpen, FileText } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -95,6 +96,7 @@ const SearchAdvanced: React.FC = () => {
     'Guarda Civil Municipal',
     'Guarda Municipal',
     'Polícia Civil',
+    'Polícia Científica',
     'Polícia Federal',
     'Polícia Militar',
     'Polícia Rodoviária Federal'
