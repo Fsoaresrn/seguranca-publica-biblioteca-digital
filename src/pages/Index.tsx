@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
@@ -5,6 +6,7 @@ import Dashboard from '@/components/Dashboard';
 import SearchAdvanced from '@/components/SearchAdvanced';
 import SubmitWork from '@/components/SubmitWork';
 import MyWorks from '@/components/MyWorks';
+import Repository from '@/components/Repository';
 
 const Index = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -31,15 +33,7 @@ const Index = () => {
       case 'my-works':
         return <MyWorks />;
       case 'repository':
-        return (
-          <div className="space-y-6 animate-fade-in">
-            <h1 className="govbr-heading-1">Repositório</h1>
-            <p className="govbr-body">Explore coleções temáticas e repositórios especializados.</p>
-            <div className="bg-govbr-gray-5 rounded-lg p-8 text-center">
-              <p className="text-gray-600">Funcionalidade em desenvolvimento...</p>
-            </div>
-          </div>
-        );
+        return <Repository />;
       case 'admin':
         return (
           <div className="space-y-6 animate-fade-in">
