@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -12,7 +12,9 @@ import {
   Users,
   Link as LinkIcon,
   Save,
-  Send
+  Send,
+  CheckCircle,
+  AlertCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -37,6 +39,9 @@ import {
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import FileUpload from './FileUpload';
+import DraftManager from './DraftManager';
+import { WorkSubmission } from '@/types/work';
+import { saveDraft, submitWork, uploadFile, saveSubmission } from '@/utils/workSubmission';
 
 const workSchema = z.object({
   title: z.string().min(10, 'O título deve ter pelo menos 10 caracteres'),
@@ -62,6 +67,9 @@ type WorkFormData = z.infer<typeof workSchema>;
 const SubmitWork: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [currentDraftId, setCurrentDraftId] = useState<string | null>(null);
   const { toast } = useToast();
 
   const form = useForm<WorkFormData>({
@@ -70,6 +78,21 @@ const SubmitWork: React.FC = () => {
       language: 'português',
     }
   });
+
+  // Auto-save functionality
+  useEffect(() => {
+    const subscription = form.watch((data) => {
+      if (Object.values(data).some(value => value && value !== '')) {
+        const timer = setTimeout(() => {
+          handleSaveDraft(true); // Silent save
+        }, 3000);
+        
+        return () => clearTimeout(timer);
+      }
+    });
+    
+    return () => subscription.unsubscribe();
+  }, [form.watch]);
 
   const categories = [
     'Investigação Criminal',
@@ -98,14 +121,15 @@ const SubmitWork: React.FC = () => {
   ];
 
   const securityForces = [
-    'Polícia Civil',
-    'Polícia Militar',
-    'Polícia Federal',
-    'Polícia Rodoviária Federal',
     'Corpo de Bombeiros',
+    'Força Nacional',
     'Guarda Municipal',
+    'Polícia Civil',
+    'Polícia Científica',
+    'Polícia Federal',
+    'Polícia Militar',
     'Polícia Penal',
-    'Força Nacional'
+    'Polícia Rodoviária Federal'
   ];
 
   const brazilianStates = [
@@ -125,36 +149,113 @@ const SubmitWork: React.FC = () => {
     }
 
     setIsSubmitting(true);
+    setIsUploading(true);
 
     try {
-      // Simular envio do formulário
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Upload file first
+      toast({
+        title: "Enviando arquivo...",
+        description: "Fazendo upload do arquivo, aguarde...",
+      });
+
+      const uploadResult = await uploadFile(selectedFile);
+      
+      if (!uploadResult.success) {
+        throw new Error(uploadResult.error || 'Erro no upload do arquivo');
+      }
+
+      setIsUploading(false);
+      setUploadProgress(100);
+
+      // Submit work data
+      toast({
+        title: "Processando envio...",
+        description: "Finalizando o envio do trabalho...",
+      });
+
+      const workData: WorkSubmission = {
+        ...data,
+        fileName: uploadResult.fileName,
+        fileSize: uploadResult.fileSize,
+        fileType: selectedFile.type,
+        status: 'submitted',
+        submittedAt: new Date(),
+        updatedAt: new Date()
+      };
+
+      const submitResult = await submitWork(workData, selectedFile);
+      
+      if (!submitResult.success) {
+        throw new Error(submitResult.error || 'Erro ao enviar trabalho');
+      }
+
+      // Save to submissions history
+      workData.id = submitResult.id;
+      saveSubmission(workData);
       
       toast({
         title: "Trabalho enviado com sucesso!",
-        description: "Seu trabalho está em análise e será moderado em até 72 horas.",
+        description: `Seu trabalho "${data.title}" está em análise e será moderado em até 72 horas. Número de protocolo: ${submitResult.id}`,
       });
 
-      // Reset form
+      // Clear form and file
       form.reset();
       setSelectedFile(null);
+      setCurrentDraftId(null);
+      setUploadProgress(0);
       
     } catch (error) {
+      console.error('Submission error:', error);
       toast({
         title: "Erro ao enviar trabalho",
-        description: "Tente novamente em alguns minutos.",
+        description: error instanceof Error ? error.message : "Tente novamente em alguns minutos.",
         variant: "destructive"
       });
     } finally {
       setIsSubmitting(false);
+      setIsUploading(false);
     }
   };
 
-  const saveDraft = () => {
-    toast({
-      title: "Rascunho salvo",
-      description: "Suas alterações foram salvas automaticamente.",
-    });
+  const handleSaveDraft = (silent = false) => {
+    const formData = form.getValues();
+    
+    const draftData: Partial<WorkSubmission> = {
+      id: currentDraftId,
+      ...formData,
+      fileName: selectedFile?.name,
+      fileSize: selectedFile?.size,
+      fileType: selectedFile?.type,
+      status: 'draft',
+      updatedAt: new Date()
+    };
+
+    saveDraft(draftData);
+    
+    if (!currentDraftId) {
+      setCurrentDraftId(draftData.id!);
+    }
+
+    if (!silent) {
+      toast({
+        title: "Rascunho salvo",
+        description: "Suas alterações foram salvas automaticamente.",
+      });
+    }
+  };
+
+  const handleLoadDraft = (draft: WorkSubmission) => {
+    form.reset(draft);
+    setCurrentDraftId(draft.id!);
+    
+    // Note: File cannot be restored from draft as it's not stored locally
+    if (draft.fileName) {
+      toast({
+        title: "Atenção",
+        description: `Rascunho carregado. Será necessário fazer upload do arquivo "${draft.fileName}" novamente.`,
+        variant: "destructive"
+      });
+    }
   };
 
   return (
@@ -171,6 +272,30 @@ const SubmitWork: React.FC = () => {
           Todos os campos marcados com * são obrigatórios
         </p>
       </div>
+
+      <DraftManager onLoadDraft={handleLoadDraft} />
+
+      {/* Progress indicator during submission */}
+      {(isSubmitting || isUploading) && (
+        <Card className="border-govbr-blue-warm-vivid">
+          <CardContent className="p-6">
+            <div className="flex items-center space-x-4">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-govbr-blue-warm-vivid"></div>
+              <div className="flex-1">
+                <p className="font-medium">
+                  {isUploading ? 'Fazendo upload do arquivo...' : 'Processando envio...'}
+                </p>
+                <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+                  <div 
+                    className="bg-govbr-blue-warm-vivid h-2 rounded-full transition-all duration-300"
+                    style={{ width: `${uploadProgress}%` }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -539,8 +664,9 @@ const SubmitWork: React.FC = () => {
             <Button
               type="button"
               variant="outline"
-              onClick={saveDraft}
+              onClick={() => handleSaveDraft(false)}
               className="govbr-btn-secondary"
+              disabled={isSubmitting}
             >
               <Save className="h-4 w-4 mr-2" />
               Salvar Rascunho
@@ -548,7 +674,7 @@ const SubmitWork: React.FC = () => {
             
             <Button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || isUploading}
               className="govbr-btn-primary"
             >
               <Send className="h-4 w-4 mr-2" />
