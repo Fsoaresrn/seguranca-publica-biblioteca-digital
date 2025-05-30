@@ -32,3 +32,23 @@ export interface FileUploadResult {
   fileSize?: number;
   error?: string;
 }
+
+// Form data type that matches the schema validation
+export interface WorkFormData {
+  title: string;
+  abstract: string;
+  author: string;
+  email: string;
+  registration: string;
+  institution: string;
+  state: string;
+  force: string;
+  course: string;
+  year: string;
+  advisor?: string;
+  keywords: string;
+  category: string;
+  type: string;
+  externalLink?: string;
+  language: string;
+}
