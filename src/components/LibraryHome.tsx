@@ -5,7 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
-const LibraryHome: React.FC = () => {
+interface LibraryHomeProps {
+  onContribute?: () => void;
+  onNavigate?: (section: string) => void;
+}
+
+const LibraryHome: React.FC<LibraryHomeProps> = ({ onContribute, onNavigate }) => {
   const features = [
     {
       icon: BookOpen,
@@ -51,6 +56,18 @@ const LibraryHome: React.FC = () => {
     'Segurança Pública'
   ];
 
+  const handleExploreRepository = () => {
+    if (onNavigate) {
+      onNavigate('repository');
+    }
+  };
+
+  const handleContributeClick = () => {
+    if (onContribute) {
+      onContribute();
+    }
+  };
+
   return (
     <div className="space-y-12 animate-fade-in">
       {/* Hero Section */}
@@ -62,15 +79,16 @@ const LibraryHome: React.FC = () => {
           Biblioteca Nacional da Segurança Pública
         </h1>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-          Plataforma oficial para compartilhamento de conhecimento acadêmico entre 
-          servidores de segurança pública do Brasil. Conectando pesquisa, prática e inovação.
+          Plataforma oficial da Secretaria Nacional de Segurança Pública - Senasp/MJSP para 
+          compartilhamento de conhecimento acadêmico entre servidores de segurança pública do Brasil. 
+          Conectando pesquisa, prática e inovação.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
-          <Button size="lg" className="govbr-btn-primary">
+          <Button size="lg" className="govbr-btn-primary" onClick={handleExploreRepository}>
             <Search className="h-5 w-5 mr-2" />
             Explorar Acervo
           </Button>
-          <Button size="lg" variant="outline">
+          <Button size="lg" variant="outline" onClick={handleContributeClick}>
             <FileText className="h-5 w-5 mr-2" />
             Contribuir com Trabalho
           </Button>
@@ -192,10 +210,13 @@ const LibraryHome: React.FC = () => {
             acadêmicos e ajude a construir uma base sólida de conhecimento em segurança pública.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Button className="govbr-btn-primary">
+            <Button 
+              className="govbr-btn-primary"
+              onClick={() => window.open('https://cadastros.sinesp.gov.br/sinesp-cadastros/public/precadastro_envio_link.jsf?lg=pt', '_blank')}
+            >
               Criar Conta
             </Button>
-            <Button variant="outline">
+            <Button variant="outline" onClick={() => onNavigate && onNavigate('central-ajuda')}>
               Saiba Mais
             </Button>
           </div>

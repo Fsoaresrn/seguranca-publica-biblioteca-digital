@@ -21,13 +21,17 @@ interface HeaderProps {
   userRole?: 'servidor' | 'moderador' | 'administrador';
   userName?: string;
   onNavigate?: (section: string) => void;
+  onLogout?: () => void;
+  isLoggedIn?: boolean;
 }
 
 const Header: React.FC<HeaderProps> = ({ 
   onMenuClick, 
   userRole = 'servidor',
   userName = 'João Silva',
-  onNavigate
+  onNavigate,
+  onLogout,
+  isLoggedIn = false
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -87,6 +91,12 @@ const Header: React.FC<HeaderProps> = ({
     }
   };
 
+  const handleLogoutClick = () => {
+    if (onLogout) {
+      onLogout();
+    }
+  };
+
   return (
     <header className="bg-white border-b border-govbr-gray-20 shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -135,72 +145,83 @@ const Header: React.FC<HeaderProps> = ({
 
           {/* User Actions */}
           <div className="flex items-center space-x-4">
-            {/* Notifications */}
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="ghost" size="sm" className="relative" aria-label="Notificações">
-                  <Bell className="h-5 w-5" />
-                  <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full text-xs"></span>
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent align="end" className="w-80">
-                <div className="space-y-4">
-                  <h3 className="font-semibold text-lg">Notificações</h3>
-                  <div className="space-y-3">
-                    {notifications.map((notification) => (
-                      <div 
-                        key={notification.id} 
-                        className={`p-3 rounded-lg border ${notification.unread ? 'bg-blue-50 border-blue-200' : 'bg-gray-50 border-gray-200'}`}
-                      >
-                        <h4 className="font-medium text-sm">{notification.title}</h4>
-                        <p className="text-xs text-gray-600 mt-1">{notification.message}</p>
-                        <p className="text-xs text-gray-400 mt-2">{notification.time}</p>
+            {isLoggedIn ? (
+              <>
+                {/* Notifications */}
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="ghost" size="sm" className="relative" aria-label="Notificações">
+                      <Bell className="h-5 w-5" />
+                      <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full text-xs"></span>
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent align="end" className="w-80">
+                    <div className="space-y-4">
+                      <h3 className="font-semibold text-lg">Notificações</h3>
+                      <div className="space-y-3">
+                        {notifications.map((notification) => (
+                          <div 
+                            key={notification.id} 
+                            className={`p-3 rounded-lg border ${notification.unread ? 'bg-blue-50 border-blue-200' : 'bg-gray-50 border-gray-200'}`}
+                          >
+                            <h4 className="font-medium text-sm">{notification.title}</h4>
+                            <p className="text-xs text-gray-600 mt-1">{notification.message}</p>
+                            <p className="text-xs text-gray-400 mt-2">{notification.time}</p>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                  <Button variant="outline" className="w-full text-sm" onClick={handleNotificationsClick}>
-                    Ver todas as notificações
-                  </Button>
-                </div>
-              </PopoverContent>
-            </Popover>
+                      <Button variant="outline" className="w-full text-sm" onClick={handleNotificationsClick}>
+                        Ver todas as notificações
+                      </Button>
+                    </div>
+                  </PopoverContent>
+                </Popover>
 
-            {/* User Menu */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center space-x-2 h-10" aria-label="Menu do usuário">
-                  <div className="hidden sm:block text-right">
-                    <p className="text-sm font-medium text-gray-900">{userName}</p>
-                    <p className="text-xs text-gray-500">{getRoleLabel(userRole)}</p>
-                  </div>
-                  <div className="h-8 w-8 bg-govbr-blue-warm-vivid rounded-full flex items-center justify-center">
-                    <User className="h-4 w-4 text-white" />
-                  </div>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 bg-white border border-govbr-gray-20 shadow-lg">
-                <div className="px-3 py-2 border-b border-govbr-gray-10">
-                  <p className="text-sm font-medium">{userName}</p>
-                  <p className="text-xs text-gray-500">{getRoleLabel(userRole)}</p>
-                </div>
-                <DropdownMenuItem className="cursor-pointer" onClick={() => handleNavigation('profile')}>
-                  Meu Perfil
-                </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer" onClick={() => handleNavigation('my-works')}>
-                  Meus Trabalhos
-                </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer" onClick={() => handleNavigation('favorites')}>
-                  Favoritos
-                </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer" onClick={() => handleNavigation('settings')}>
-                  Configurações
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className="cursor-pointer text-red-600">
-                  Sair do Sistema
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                {/* User Menu */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="flex items-center space-x-2 h-10" aria-label="Menu do usuário">
+                      <div className="hidden sm:block text-right">
+                        <p className="text-sm font-medium text-gray-900">{userName}</p>
+                        <p className="text-xs text-gray-500">{getRoleLabel(userRole)}</p>
+                      </div>
+                      <div className="h-8 w-8 bg-govbr-blue-warm-vivid rounded-full flex items-center justify-center">
+                        <User className="h-4 w-4 text-white" />
+                      </div>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56 bg-white border border-govbr-gray-20 shadow-lg">
+                    <div className="px-3 py-2 border-b border-govbr-gray-10">
+                      <p className="text-sm font-medium">{userName}</p>
+                      <p className="text-xs text-gray-500">{getRoleLabel(userRole)}</p>
+                    </div>
+                    <DropdownMenuItem className="cursor-pointer" onClick={() => handleNavigation('profile')}>
+                      Meu Perfil
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="cursor-pointer" onClick={() => handleNavigation('my-works')}>
+                      Meus Trabalhos
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="cursor-pointer" onClick={() => handleNavigation('favorites')}>
+                      Favoritos
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="cursor-pointer" onClick={() => handleNavigation('settings')}>
+                      Configurações
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem className="cursor-pointer text-red-600" onClick={handleLogoutClick}>
+                      Sair do Sistema
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
+            ) : (
+              <Button 
+                className="govbr-btn-primary" 
+                onClick={() => handleNavigation('login')}
+              >
+                Entrar
+              </Button>
+            )}
           </div>
         </div>
 

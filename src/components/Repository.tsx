@@ -12,11 +12,12 @@ const Repository = () => {
 
   const categories = [
     { id: 'all', name: 'Todas as Coleções', count: 156 },
-    { id: 'policing', name: 'Policiamento', count: 45 },
     { id: 'investigation', name: 'Investigação Criminal', count: 38 },
-    { id: 'intelligence', name: 'Inteligência', count: 22 },
-    { id: 'forensics', name: 'Perícia Criminal', count: 28 },
-    { id: 'prevention', name: 'Prevenção', count: 23 }
+    { id: 'policing', name: 'Policiamento Comunitário', count: 45 },
+    { id: 'technology', name: 'Tecnologia Policial', count: 22 },
+    { id: 'intelligence', name: 'Inteligência Policial', count: 28 },
+    { id: 'forensics', name: 'Perícia Criminal', count: 23 },
+    { id: 'prevention', name: 'Prevenção Criminal', count: 18 }
   ];
 
   const featuredCollections = [
@@ -31,7 +32,7 @@ const Repository = () => {
       downloads: 1205,
       views: 3420,
       rating: 4.8,
-      lastUpdate: '2024-01-15',
+      lastUpdate: '2025-01-15',
       tags: ['Crimes Cibernéticos', 'Forense Digital', 'Perícia']
     },
     {
@@ -39,13 +40,13 @@ const Repository = () => {
       title: 'Policiamento Comunitário e Proximidade',
       description: 'Estratégias e práticas para fortalecimento da relação polícia-comunidade',
       image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=400&h=200',
-      category: 'Policiamento',
+      category: 'Policiamento Comunitário',
       totalWorks: 18,
       contributors: 12,
       downloads: 890,
       views: 2150,
       rating: 4.6,
-      lastUpdate: '2024-01-10',
+      lastUpdate: '2025-01-10',
       tags: ['Policiamento Comunitário', 'Prevenção', 'Cidadania']
     },
     {
@@ -53,13 +54,13 @@ const Repository = () => {
       title: 'Inteligência em Segurança Pública',
       description: 'Metodologias e ferramentas para análise de inteligência criminal',
       image: 'https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?auto=format&fit=crop&q=80&w=400&h=200',
-      category: 'Inteligência',
+      category: 'Inteligência Policial',
       totalWorks: 15,
       contributors: 6,
       downloads: 675,
       views: 1890,
       rating: 4.9,
-      lastUpdate: '2024-01-08',
+      lastUpdate: '2025-01-08',
       tags: ['Análise Criminal', 'Mapeamento', 'Estatística']
     }
   ];
@@ -73,27 +74,83 @@ const Repository = () => {
 
   const recentWorks = [
     {
+      id: 1,
       title: 'Análise Comportamental em Interrogatórios',
       author: 'Dr. Carlos Mendes',
+      institution: 'Academia Nacional de Polícia',
       category: 'Investigação Criminal',
+      abstract: 'Estudo sobre técnicas de análise comportamental aplicadas em interrogatórios policiais.',
       downloads: 234,
-      date: '2024-01-20'
+      views: 567,
+      date: '2025-01-20',
+      tags: ['Psicologia', 'Interrogatório', 'Comportamento']
     },
     {
-      title: 'Tecnologias de Reconhecimento Facial',
+      id: 2,
+      title: 'Tecnologias de Reconhecimento Facial na Segurança Pública',
       author: 'Perita Ana Santos',
-      category: 'Perícia Criminal',
+      institution: 'Instituto de Criminalística - PCSP',
+      category: 'Tecnologia Policial',
+      abstract: 'Análise das tecnologias de reconhecimento facial e sua aplicação na segurança pública.',
       downloads: 189,
-      date: '2024-01-18'
+      views: 423,
+      date: '2025-01-18',
+      tags: ['Reconhecimento Facial', 'IA', 'Tecnologia']
     },
     {
-      title: 'Mediação de Conflitos Urbanos',
+      id: 3,
+      title: 'Mediação de Conflitos em Áreas Urbanas Vulneráveis',
       author: 'Maj. Roberto Silva',
-      category: 'Policiamento',
+      institution: 'PMERJ',
+      category: 'Policiamento Comunitário',
+      abstract: 'Estratégias de mediação de conflitos em comunidades urbanas de alta vulnerabilidade social.',
       downloads: 156,
-      date: '2024-01-15'
+      views: 298,
+      date: '2025-01-15',
+      tags: ['Mediação', 'Conflitos', 'Comunidade']
+    },
+    {
+      id: 4,
+      title: 'Inteligência Artificial na Análise Criminal',
+      author: 'Del. Patricia Costa',
+      institution: 'PCDF',
+      category: 'Inteligência Policial',
+      abstract: 'Aplicação de algoritmos de machine learning para análise de padrões criminais.',
+      downloads: 298,
+      views: 645,
+      date: '2025-01-12',
+      tags: ['IA', 'Machine Learning', 'Análise Criminal']
+    },
+    {
+      id: 5,
+      title: 'Perícia em Crimes Ambientais',
+      author: 'Perito João Alves',
+      institution: 'Polícia Civil - MG',
+      category: 'Perícia Criminal',
+      abstract: 'Metodologias periciais aplicadas na investigação de crimes contra o meio ambiente.',
+      downloads: 145,
+      views: 267,
+      date: '2025-01-10',
+      tags: ['Meio Ambiente', 'Perícia', 'Crimes Ambientais']
     }
   ];
+
+  const getFilteredWorks = () => {
+    if (selectedCategory === 'all') {
+      return recentWorks;
+    }
+    
+    const categoryMap: { [key: string]: string } = {
+      'investigation': 'Investigação Criminal',
+      'policing': 'Policiamento Comunitário',
+      'technology': 'Tecnologia Policial',
+      'intelligence': 'Inteligência Policial',
+      'forensics': 'Perícia Criminal',
+      'prevention': 'Prevenção Criminal'
+    };
+    
+    return recentWorks.filter(work => work.category === categoryMap[selectedCategory]);
+  };
 
   return (
     <div className="space-y-8 animate-fade-in">
@@ -155,7 +212,7 @@ const Repository = () => {
 
           {/* Category Filter */}
           <div className="space-y-3">
-            <h4 className="font-semibold text-gray-700">Categorias</h4>
+            <h4 className="font-semibold text-gray-700">Filtrar por Categoria</h4>
             <div className="flex flex-wrap gap-2">
               {categories.map((category) => (
                 <Button
@@ -247,82 +304,85 @@ const Repository = () => {
       </div>
 
       {/* Recent Works Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
-          <Card className="govbr-card">
-            <CardHeader>
-              <CardTitle className="govbr-heading-3">Trabalhos Recentes</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {recentWorks.map((work, index) => (
-                <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                  <div className="flex-1">
-                    <h4 className="font-semibold text-govbr-blue-warm-dark mb-1">
-                      {work.title}
-                    </h4>
-                    <p className="text-sm text-gray-600">
-                      por {work.author} • {work.category}
-                    </p>
+      <div className="space-y-6">
+        <h2 className="govbr-heading-2">
+          {selectedCategory === 'all' ? 'Trabalhos Recentes' : `Trabalhos Recentes - ${categories.find(c => c.id === selectedCategory)?.name}`}
+        </h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {getFilteredWorks().map((work) => (
+            <Card key={work.id} className="govbr-card hover:shadow-lg transition-shadow">
+              <CardContent className="p-6 space-y-4">
+                <div>
+                  <div className="flex items-start justify-between mb-2">
+                    <Badge variant="secondary" className="text-xs">
+                      {work.category}
+                    </Badge>
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <Calendar size={14} />
+                      {new Date(work.date).toLocaleDateString('pt-BR')}
+                    </div>
                   </div>
-                  <div className="text-right text-sm text-gray-500">
-                    <div className="flex items-center gap-1 mb-1">
+                  <h3 className="govbr-heading-3 text-lg mb-2 hover:text-govbr-blue-warm-vivid cursor-pointer">
+                    {work.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-2">
+                    <strong>Autor:</strong> {work.author} • {work.institution}
+                  </p>
+                  <p className="text-sm text-gray-600 line-clamp-2">
+                    {work.abstract}
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap gap-1">
+                  {work.tags.map((tag, index) => (
+                    <Badge key={index} variant="outline" className="text-xs">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+
+                <Separator />
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4 text-sm text-gray-600">
+                    <div className="flex items-center gap-1">
                       <Download size={14} />
                       {work.downloads}
                     </div>
-                    <div>{new Date(work.date).toLocaleDateString('pt-BR')}</div>
+                    <div className="flex items-center gap-1">
+                      <Eye size={14} />
+                      {work.views}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Button variant="outline" size="sm">
+                      <Heart size={14} className="mr-1" />
+                      Favoritar
+                    </Button>
+                    <Button size="sm" className="govbr-btn-primary">
+                      <Download size={14} className="mr-1" />
+                      Download
+                    </Button>
                   </div>
                 </div>
-              ))}
-              <Button variant="outline" className="w-full">
-                Ver Todos os Trabalhos Recentes
-              </Button>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          ))}
         </div>
-
-        {/* Quick Access Panel */}
-        <div className="space-y-6">
-          <Card className="govbr-card">
-            <CardHeader>
-              <CardTitle className="govbr-heading-3">Acesso Rápido</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Button variant="outline" className="w-full justify-start">
-                <BookOpen className="mr-2" size={16} />
-                Meus Favoritos
-              </Button>
-              <Button variant="outline" className="w-full justify-start">
-                <Heart className="mr-2" size={16} />
-                Lista de Desejos
-              </Button>
-              <Button variant="outline" className="w-full justify-start">
-                <Download className="mr-2" size={16} />
-                Downloads Recentes
-              </Button>
-              <Button variant="outline" className="w-full justify-start">
-                <TrendingUp className="mr-2" size={16} />
-                Mais Populares
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card className="govbr-card">
-            <CardHeader>
-              <CardTitle className="govbr-heading-3">Contribua</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <p className="govbr-small">
-                Compartilhe seu conhecimento e enriqueça o repositório da comunidade.
-              </p>
-              <Button className="w-full govbr-btn-secondary">
-                Criar Nova Coleção
-              </Button>
-              <Button variant="outline" className="w-full">
-                Submeter Trabalho
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
+        
+        {getFilteredWorks().length === 0 && (
+          <div className="text-center py-8">
+            <p className="text-gray-500">Nenhum trabalho encontrado para esta categoria.</p>
+          </div>
+        )}
+        
+        {getFilteredWorks().length > 0 && (
+          <div className="text-center">
+            <Button variant="outline" size="lg">
+              Carregar Mais Trabalhos
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
