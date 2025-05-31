@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Settings as SettingsIcon, Bell, Eye, Shield, Download, Mail, User } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -52,6 +51,10 @@ const Settings: React.FC = () => {
   const resetSettings = () => {
     console.log('Restaurando configurações padrão');
     // Aqui seria feita a restauração das configurações padrão
+  };
+
+  const handleThemeChange = (value: string) => {
+    setTheme(value as 'light' | 'dark' | 'auto');
   };
 
   return (
@@ -250,7 +253,7 @@ const Settings: React.FC = () => {
             
             <div>
               <Label htmlFor="theme">Tema</Label>
-              <Select value={theme} onValueChange={setTheme}>
+              <Select value={theme} onValueChange={handleThemeChange}>
                 <SelectTrigger className="mt-1">
                   <SelectValue />
                 </SelectTrigger>

@@ -8,10 +8,14 @@ import {
   Eye, 
   Heart, 
   FolderPlus, 
-  Clock 
+  Clock,
+  Book,
+  Search,
+  Calendar
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 interface DashboardProps {
   userRole?: 'servidor' | 'moderador' | 'administrador';
