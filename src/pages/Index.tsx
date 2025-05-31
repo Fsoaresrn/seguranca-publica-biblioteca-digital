@@ -12,6 +12,12 @@ import UserProfile from '@/components/UserProfile';
 import Favorites from '@/components/Favorites';
 import Settings from '@/components/Settings';
 import LibraryHome from '@/components/LibraryHome';
+import Notifications from '@/components/Notifications';
+import Wishlist from '@/components/Wishlist';
+import RecentDownloads from '@/components/RecentDownloads';
+import MostPopular from '@/components/MostPopular';
+import CreateCollection from '@/components/CreateCollection';
+import AdminPanel from '@/components/AdminPanel';
 
 const Index = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -40,15 +46,7 @@ const Index = () => {
       case 'repository':
         return <Repository />;
       case 'admin':
-        return (
-          <div className="space-y-6 animate-fade-in">
-            <h1 className="govbr-heading-1">Painel Administrativo</h1>
-            <p className="govbr-body">Gestão e administração da plataforma BNSP.</p>
-            <div className="bg-govbr-gray-5 rounded-lg p-8 text-center">
-              <p className="text-gray-600">Funcionalidade em desenvolvimento...</p>
-            </div>
-          </div>
-        );
+        return <AdminPanel />;
       case 'moderation':
         return <Moderation />;
       case 'profile':
@@ -59,6 +57,16 @@ const Index = () => {
         return <Settings />;
       case 'library-home':
         return <LibraryHome />;
+      case 'notifications':
+        return <Notifications />;
+      case 'wishlist':
+        return <Wishlist />;
+      case 'recent-downloads':
+        return <RecentDownloads />;
+      case 'most-popular':
+        return <MostPopular />;
+      case 'create-collection':
+        return <CreateCollection />;
       default:
         return <Dashboard userRole={userRole} userName={userName} />;
     }

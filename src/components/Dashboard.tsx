@@ -1,24 +1,28 @@
 import React from 'react';
 import { 
   BookOpen, 
+  Users, 
   FileText, 
-  User, 
-  Search,
-  Calendar,
-  Book
+  Download, 
+  TrendingUp, 
+  Eye, 
+  Heart, 
+  FolderPlus, 
+  Clock 
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 
 interface DashboardProps {
   userRole?: 'servidor' | 'moderador' | 'administrador';
   userName?: string;
+  onNavigate?: (section: string) => void;
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ 
   userRole = 'servidor',
-  userName = 'João Silva'
+  userName = 'João Silva',
+  onNavigate
 }) => {
   const stats = [
     {
@@ -32,7 +36,7 @@ const Dashboard: React.FC<DashboardProps> = ({
       title: 'Autores Ativos',
       value: '3.421',
       change: '+8%',
-      icon: User,
+      icon: Users,
       color: 'text-govbr-green-cool-vivid'
     },
     {
@@ -90,42 +94,54 @@ const Dashboard: React.FC<DashboardProps> = ({
     { name: 'Prevenção Criminal', count: 834, color: 'bg-yellow-100 text-yellow-800' }
   ];
 
-  const getGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour < 12) return 'Bom dia';
-    if (hour < 18) return 'Boa tarde';
-    return 'Boa noite';
+  const handleNavigation = (section: string) => {
+    if (onNavigate) {
+      onNavigate(section);
+    }
   };
 
-  const getRoleGreeting = (role: string) => {
-    const roles = {
-      servidor: 'Servidor',
-      moderador: 'Moderador',
-      administrador: 'Administrador'
-    };
-    return roles[role as keyof typeof roles] || 'Usuário';
-  };
+  const quickActions = [
+    {
+      title: 'Lista de Desejos',
+      description: 'Trabalhos salvos para ler depois',
+      icon: Heart,
+      action: () => handleNavigation('wishlist'),
+      color: 'text-red-500'
+    },
+    {
+      title: 'Downloads Recentes',
+      description: 'Últimos trabalhos baixados',
+      icon: Clock,
+      action: () => handleNavigation('recent-downloads'),
+      color: 'text-blue-500'
+    },
+    {
+      title: 'Mais Populares',
+      description: 'Trabalhos em destaque',
+      icon: TrendingUp,
+      action: () => handleNavigation('most-popular'),
+      color: 'text-orange-500'
+    },
+    {
+      title: 'Criar Nova Coleção',
+      description: 'Organize trabalhos por tema',
+      icon: FolderPlus,
+      action: () => handleNavigation('create-collection'),
+      color: 'text-purple-500'
+    }
+  ];
 
   return (
     <div className="space-y-8 animate-fade-in">
       {/* Welcome Section */}
-      <div className="bg-gradient-to-r from-govbr-blue-warm-vivid to-govbr-blue-warm-dark rounded-lg p-8 text-white">
-        <h1 className="text-3xl font-bold mb-2">
-          {getGreeting()}, {userName}!
+      <div className="text-center">
+        <h1 className="govbr-heading-1 mb-4">
+          Bem-vindo, {userName}!
         </h1>
-        <p className="text-govbr-blue-warm-10 text-lg">
-          Bem-vindo(a) à Biblioteca Nacional da Segurança Pública
+        <p className="govbr-body max-w-2xl mx-auto">
+          Explore o conhecimento acadêmico em segurança pública. 
+          Acesse trabalhos, compartilhe pesquisas e contribua para o avanço da área.
         </p>
-        <p className="text-govbr-blue-warm-20 text-sm mt-1">
-          {getRoleGreeting(userRole)} • Acesso via Sinesp Segurança
-        </p>
-        
-        <div className="mt-6 flex flex-wrap gap-3">
-          <Button className="bg-white text-govbr-blue-warm-vivid hover:bg-govbr-gray-5">
-            <Search className="h-4 w-4 mr-2" />
-            Buscar Trabalhos
-          </Button>
-        </div>
       </div>
 
       {/* Statistics Cards */}
@@ -153,8 +169,29 @@ const Dashboard: React.FC<DashboardProps> = ({
         })}
       </div>
 
+      {/* Quick Actions Grid */}
+      <div>
+        <h2 className="govbr-heading-2 mb-6">Acesso Rápido</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {quickActions.map((action, index) => {
+            const Icon = action.icon;
+            return (
+              <Card key={index} className="hover:shadow-lg transition-shadow cursor-pointer" onClick={action.action}>
+                <CardContent className="p-6 text-center">
+                  <Icon className={`h-12 w-12 mx-auto mb-4 ${action.color}`} />
+                  <h3 className="font-semibold text-govbr-blue-warm-dark mb-2">
+                    {action.title}
+                  </h3>
+                  <p className="text-sm text-gray-600">{action.description}</p>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Recent Works */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Recent Works */}
         <div className="lg:col-span-2">
           <Card className="govbr-card">
             <CardHeader>

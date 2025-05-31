@@ -81,6 +81,12 @@ const Header: React.FC<HeaderProps> = ({
     }
   ];
 
+  const handleNotificationsClick = () => {
+    if (onNavigate) {
+      onNavigate('notifications');
+    }
+  };
+
   return (
     <header className="bg-white border-b border-govbr-gray-20 shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -152,7 +158,7 @@ const Header: React.FC<HeaderProps> = ({
                       </div>
                     ))}
                   </div>
-                  <Button variant="outline" className="w-full text-sm">
+                  <Button variant="outline" className="w-full text-sm" onClick={handleNotificationsClick}>
                     Ver todas as notificações
                   </Button>
                 </div>

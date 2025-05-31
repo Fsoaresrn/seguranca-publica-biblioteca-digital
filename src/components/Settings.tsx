@@ -7,8 +7,10 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
+import { useTheme } from '@/hooks/useTheme';
 
 const Settings: React.FC = () => {
+  const { theme, setTheme } = useTheme();
   const [settings, setSettings] = useState({
     notifications: {
       email: true,
@@ -26,7 +28,6 @@ const Settings: React.FC = () => {
     },
     preferences: {
       language: 'pt-BR',
-      theme: 'light',
       itemsPerPage: '10',
       autoSave: true,
       downloadFormat: 'pdf'
@@ -249,7 +250,7 @@ const Settings: React.FC = () => {
             
             <div>
               <Label htmlFor="theme">Tema</Label>
-              <Select value={settings.preferences.theme} onValueChange={(value) => updateSetting('preferences', 'theme', value)}>
+              <Select value={theme} onValueChange={setTheme}>
                 <SelectTrigger className="mt-1">
                   <SelectValue />
                 </SelectTrigger>
