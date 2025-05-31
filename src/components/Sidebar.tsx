@@ -74,6 +74,12 @@ const Sidebar: React.FC<SidebarProps> = ({
     }
   };
 
+  const handleSubmitWorkClick = () => {
+    if (onNavigate) {
+      onNavigate('submit-work');
+    }
+  };
+
   return (
     <aside 
       className={cn(
@@ -153,7 +159,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
           {/* Quick Actions */}
           <div className="pt-6 border-t border-govbr-gray-10">
-            <Button className="govbr-btn-primary w-full">
+            <Button className="govbr-btn-primary w-full" onClick={handleSubmitWorkClick}>
               Enviar Trabalho
             </Button>
           </div>

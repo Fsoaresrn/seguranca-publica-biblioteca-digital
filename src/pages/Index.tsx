@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
@@ -7,6 +6,7 @@ import SearchAdvanced from '@/components/SearchAdvanced';
 import SubmitWork from '@/components/SubmitWork';
 import MyWorks from '@/components/MyWorks';
 import Repository from '@/components/Repository';
+import Moderation from '@/components/Moderation';
 
 const Index = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -45,15 +45,7 @@ const Index = () => {
           </div>
         );
       case 'moderation':
-        return (
-          <div className="space-y-6 animate-fade-in">
-            <h1 className="govbr-heading-1">Moderação</h1>
-            <p className="govbr-body">Revisão e moderação de submissões.</p>
-            <div className="bg-govbr-gray-5 rounded-lg p-8 text-center">
-              <p className="text-gray-600">Funcionalidade em desenvolvimento...</p>
-            </div>
-          </div>
-        );
+        return <Moderation />;
       default:
         return <Dashboard userRole={userRole} userName={userName} />;
     }
