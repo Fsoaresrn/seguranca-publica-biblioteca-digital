@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import GovBrHeader from '@/components/GovBrHeader';
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
 import Dashboard from '@/components/Dashboard';
@@ -18,6 +19,9 @@ import RecentDownloads from '@/components/RecentDownloads';
 import MostPopular from '@/components/MostPopular';
 import CreateCollection from '@/components/CreateCollection';
 import AdminPanel from '@/components/AdminPanel';
+import CentralAjuda from '@/components/CentralAjuda';
+import TermosUso from '@/components/TermosUso';
+import PoliticaPrivacidade from '@/components/PoliticaPrivacidade';
 
 const Index = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -36,7 +40,7 @@ const Index = () => {
   const renderContent = () => {
     switch (currentSection) {
       case 'dashboard':
-        return <Dashboard userRole={userRole} userName={userName} />;
+        return <Dashboard userRole={userRole} userName={userName} onNavigate={handleNavigation} />;
       case 'search':
         return <SearchAdvanced />;
       case 'submit-work':
@@ -67,13 +71,24 @@ const Index = () => {
         return <MostPopular />;
       case 'create-collection':
         return <CreateCollection />;
+      case 'central-ajuda':
+        return <CentralAjuda />;
+      case 'termos-uso':
+        return <TermosUso />;
+      case 'politica-privacidade':
+        return <PoliticaPrivacidade />;
       default:
-        return <Dashboard userRole={userRole} userName={userName} />;
+        return <Dashboard userRole={userRole} userName={userName} onNavigate={handleNavigation} />;
     }
+  };
+
+  const handleLgpd = () => {
+    window.open('https://www.gov.br/esporte/pt-br/acesso-a-informacao/lgpd', '_blank');
   };
 
   return (
     <div className="min-h-screen bg-govbr-gray-5">
+      <GovBrHeader />
       <Header 
         onMenuClick={handleMenuClick}
         userRole={userRole}
@@ -110,19 +125,19 @@ const Index = () => {
             <div>
               <h3 className="text-lg font-semibold mb-4">Links Importantes</h3>
               <ul className="space-y-2 text-sm text-govbr-blue-warm-20">
-                <li><a href="#" className="hover:text-white">Portal Gov.br</a></li>
-                <li><a href="#" className="hover:text-white">SENASP</a></li>
-                <li><a href="#" className="hover:text-white">Ministério da Justiça</a></li>
-                <li><a href="#" className="hover:text-white">Sinesp Segurança</a></li>
+                <li><a href="https://www.gov.br/pt-br" target="_blank" className="hover:text-white">Portal Gov.br</a></li>
+                <li><a href="https://www.gov.br/mj/pt-br/assuntos/sua-seguranca/seguranca-publica" target="_blank" className="hover:text-white">SENASP</a></li>
+                <li><a href="https://www.gov.br/mj/pt-br" target="_blank" className="hover:text-white">Ministério da Justiça e Segurança Pública</a></li>
+                <li><a href="https://seguranca.sinesp.gov.br/" target="_blank" className="hover:text-white">Sinesp Segurança</a></li>
               </ul>
             </div>
             <div>
               <h3 className="text-lg font-semibold mb-4">Suporte</h3>
               <ul className="space-y-2 text-sm text-govbr-blue-warm-20">
-                <li><a href="#" className="hover:text-white">Central de Ajuda</a></li>
-                <li><a href="#" className="hover:text-white">Termos de Uso</a></li>
-                <li><a href="#" className="hover:text-white">Política de Privacidade</a></li>
-                <li><a href="#" className="hover:text-white">LGPD</a></li>
+                <li><button onClick={() => handleNavigation('central-ajuda')} className="hover:text-white">Central de Ajuda</button></li>
+                <li><button onClick={() => handleNavigation('termos-uso')} className="hover:text-white">Termos de Uso</button></li>
+                <li><button onClick={() => handleNavigation('politica-privacidade')} className="hover:text-white">Política de Privacidade</button></li>
+                <li><button onClick={handleLgpd} className="hover:text-white">LGPD</button></li>
               </ul>
             </div>
           </div>
