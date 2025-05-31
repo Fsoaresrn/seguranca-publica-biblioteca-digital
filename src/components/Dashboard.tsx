@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   BookOpen, 
@@ -126,10 +125,6 @@ const Dashboard: React.FC<DashboardProps> = ({
             <Search className="h-4 w-4 mr-2" />
             Buscar Trabalhos
           </Button>
-          <Button variant="outline" className="border-white text-white hover:bg-white/10">
-            <FileText className="h-4 w-4 mr-2" />
-            Enviar Trabalho
-          </Button>
         </div>
       </div>
 
@@ -246,10 +241,6 @@ const Dashboard: React.FC<DashboardProps> = ({
               <CardTitle className="govbr-heading-3">Ações Rápidas</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Button className="w-full govbr-btn-primary">
-                <FileText className="h-4 w-4 mr-2" />
-                Enviar Novo Trabalho
-              </Button>
               <Button variant="outline" className="w-full">
                 <Search className="h-4 w-4 mr-2" />
                 Busca Avançada

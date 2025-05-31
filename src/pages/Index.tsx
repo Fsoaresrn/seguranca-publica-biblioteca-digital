@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
@@ -7,11 +8,15 @@ import SubmitWork from '@/components/SubmitWork';
 import MyWorks from '@/components/MyWorks';
 import Repository from '@/components/Repository';
 import Moderation from '@/components/Moderation';
+import UserProfile from '@/components/UserProfile';
+import Favorites from '@/components/Favorites';
+import Settings from '@/components/Settings';
+import LibraryHome from '@/components/LibraryHome';
 
 const Index = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [currentSection, setCurrentSection] = useState('dashboard');
-  const [userRole] = useState<'servidor' | 'moderador' | 'administrador'>('servidor');
+  const [userRole] = useState<'servidor' | 'moderador' | 'administrador'>('moderador');
   const [userName] = useState('João Silva Santos');
 
   const handleMenuClick = () => {
@@ -46,6 +51,14 @@ const Index = () => {
         );
       case 'moderation':
         return <Moderation />;
+      case 'profile':
+        return <UserProfile userName={userName} userRole={userRole} />;
+      case 'favorites':
+        return <Favorites />;
+      case 'settings':
+        return <Settings />;
+      case 'library-home':
+        return <LibraryHome />;
       default:
         return <Dashboard userRole={userRole} userName={userName} />;
     }
@@ -57,6 +70,7 @@ const Index = () => {
         onMenuClick={handleMenuClick}
         userRole={userRole}
         userName={userName}
+        onNavigate={handleNavigation}
       />
       
       <div className="flex">

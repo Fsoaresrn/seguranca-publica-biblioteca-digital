@@ -10,17 +10,24 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 
 interface HeaderProps {
   onMenuClick?: () => void;
   userRole?: 'servidor' | 'moderador' | 'administrador';
   userName?: string;
+  onNavigate?: (section: string) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ 
   onMenuClick, 
   userRole = 'servidor',
-  userName = 'João Silva' 
+  userName = 'João Silva',
+  onNavigate
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -37,6 +44,42 @@ const Header: React.FC<HeaderProps> = ({
     };
     return roles[role as keyof typeof roles] || 'Usuário';
   };
+
+  const handleNavigation = (section: string) => {
+    if (onNavigate) {
+      onNavigate(section);
+    }
+  };
+
+  const handleLogoClick = () => {
+    if (onNavigate) {
+      onNavigate('library-home');
+    }
+  };
+
+  const notifications = [
+    {
+      id: 1,
+      title: 'Novo trabalho para revisão',
+      message: 'Um novo artigo foi submetido para moderação',
+      time: '5 min atrás',
+      unread: true
+    },
+    {
+      id: 2,
+      title: 'Trabalho aprovado',
+      message: 'Seu artigo "Tecnologia Policial" foi aprovado',
+      time: '1 hora atrás',
+      unread: true
+    },
+    {
+      id: 3,
+      title: 'Sistema atualizado',
+      message: 'Novas funcionalidades disponíveis na plataforma',
+      time: '2 horas atrás',
+      unread: false
+    }
+  ];
 
   return (
     <header className="bg-white border-b border-govbr-gray-20 shadow-sm sticky top-0 z-50">
@@ -55,7 +98,7 @@ const Header: React.FC<HeaderProps> = ({
             </Button>
             
             <div className="flex items-center space-x-3">
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 cursor-pointer" onClick={handleLogoClick}>
                 <BookOpen className="h-8 w-8 text-govbr-blue-warm-vivid" />
                 <div>
                   <h1 className="text-lg font-bold text-govbr-blue-warm-dark">BNSP</h1>
@@ -87,10 +130,34 @@ const Header: React.FC<HeaderProps> = ({
           {/* User Actions */}
           <div className="flex items-center space-x-4">
             {/* Notifications */}
-            <Button variant="ghost" size="sm" className="relative" aria-label="Notificações">
-              <Bell className="h-5 w-5" />
-              <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full text-xs"></span>
-            </Button>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="sm" className="relative" aria-label="Notificações">
+                  <Bell className="h-5 w-5" />
+                  <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full text-xs"></span>
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent align="end" className="w-80">
+                <div className="space-y-4">
+                  <h3 className="font-semibold text-lg">Notificações</h3>
+                  <div className="space-y-3">
+                    {notifications.map((notification) => (
+                      <div 
+                        key={notification.id} 
+                        className={`p-3 rounded-lg border ${notification.unread ? 'bg-blue-50 border-blue-200' : 'bg-gray-50 border-gray-200'}`}
+                      >
+                        <h4 className="font-medium text-sm">{notification.title}</h4>
+                        <p className="text-xs text-gray-600 mt-1">{notification.message}</p>
+                        <p className="text-xs text-gray-400 mt-2">{notification.time}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <Button variant="outline" className="w-full text-sm">
+                    Ver todas as notificações
+                  </Button>
+                </div>
+              </PopoverContent>
+            </Popover>
 
             {/* User Menu */}
             <DropdownMenu>
@@ -110,16 +177,16 @@ const Header: React.FC<HeaderProps> = ({
                   <p className="text-sm font-medium">{userName}</p>
                   <p className="text-xs text-gray-500">{getRoleLabel(userRole)}</p>
                 </div>
-                <DropdownMenuItem className="cursor-pointer">
+                <DropdownMenuItem className="cursor-pointer" onClick={() => handleNavigation('profile')}>
                   Meu Perfil
                 </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer">
+                <DropdownMenuItem className="cursor-pointer" onClick={() => handleNavigation('my-works')}>
                   Meus Trabalhos
                 </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer">
+                <DropdownMenuItem className="cursor-pointer" onClick={() => handleNavigation('favorites')}>
                   Favoritos
                 </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer">
+                <DropdownMenuItem className="cursor-pointer" onClick={() => handleNavigation('settings')}>
                   Configurações
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
