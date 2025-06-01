@@ -1,257 +1,279 @@
-
 import React, { useState } from 'react';
-import { Heart, Download, Eye, Calendar, User, Search, Filter } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Heart, Download, Eye, Star, Search, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
-const Favorites: React.FC = () => {
+interface FavoritesProps {
+  userRole?: 'servidor' | 'moderador' | 'administrador';
+  userName?: string;
+  onNavigate?: (section: string) => void;
+}
+
+const Favorites: React.FC<FavoritesProps> = ({ userRole, userName, onNavigate }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('all');
-  const [favorites, setFavorites] = useState<number[]>([1, 2, 3, 4, 5]); // IDs dos favoritos
+  const [sortBy, setSortBy] = useState('recent');
+  const [filterCategory, setFilterCategory] = useState('all');
 
-  const favoriteWorks = [
+  const [favoriteWorks] = useState([
     {
       id: 1,
-      title: 'Inteligência Artificial na Investigação Criminal Moderna',
-      author: 'Dr. Carlos Mendes',
-      institution: 'Academia Nacional de Polícia',
+      title: 'Tecnologia Policial e Direitos Humanos',
+      author: 'Dr. Carlos Silva',
       category: 'Tecnologia Policial',
-      type: 'Artigo Científico',
-      year: '2025',
-      downloads: 2456,
-      views: 5670,
-      favoriteDate: '2025-01-15',
-      abstract: 'Estudo sobre a aplicação de IA em processos investigativos, incluindo reconhecimento facial, análise de padrões e predição de crimes.'
+      type: 'Dissertação',
+      year: 2024,
+      rating: 4.8,
+      downloads: 342,
+      views: 1250,
+      favoritedAt: '2024-12-15',
+      abstract: 'Análise sobre o uso de tecnologias emergentes nas operações policiais...'
     },
     {
       id: 2,
-      title: 'Mediação de Conflitos em Comunidades Vulneráveis: Abordagem Humanizada',
-      author: 'Dra. Ana Paula Santos',
-      institution: 'PMERJ',
-      category: 'Policiamento Comunitário',
-      type: 'Dissertação',
-      year: '2024',
-      downloads: 1834,
-      views: 3421,
-      favoriteDate: '2025-01-10',
-      abstract: 'Análise das técnicas de mediação aplicadas em comunidades de alta vulnerabilidade social, focando na construção de confiança.'
+      title: 'Políticas de Segurança Comunitária',
+      author: 'Dra. Ana Santos',
+      category: 'Políticas Públicas',
+      type: 'Artigo',
+      year: 2024,
+      rating: 4.6,
+      downloads: 278,
+      views: 890,
+      favoritedAt: '2024-12-10',
+      abstract: 'Estudo sobre implementação de políticas de segurança comunitária...'
     },
     {
       id: 3,
-      title: 'Crimes Cibernéticos: Metodologias Avançadas de Investigação Digital',
-      author: 'Ten. Cel. Roberto Lima',
-      institution: 'PCSP',
-      category: 'Investigação Criminal',
-      type: 'Monografia',
-      year: '2024',
-      downloads: 3102,
-      views: 4567,
-      favoriteDate: '2025-01-08',
-      abstract: 'Metodologias e ferramentas para investigação de crimes digitais, incluindo análise forense e rastreamento de evidências.'
+      title: 'Análise Criminal Forense Digital',
+      author: 'Prof. Roberto Lima',
+      category: 'Perícia Criminal',
+      type: 'TCC',
+      year: 2024,
+      rating: 4.9,
+      downloads: 456,
+      views: 1580,
+      favoritedAt: '2024-12-05',
+      abstract: 'Técnicas avançadas de análise forense em crimes digitais...'
     },
     {
       id: 4,
-      title: 'Gestão de Crises em Operações de Segurança Pública',
-      author: 'Maj. Fernanda Costa',
-      institution: 'Bombeiros Militares',
-      category: 'Gestão de Operações',
-      type: 'TCC',
-      year: '2024',
-      downloads: 987,
-      views: 1876,
-      favoriteDate: '2025-01-05',
-      abstract: 'Estratégias para gerenciamento de crises durante operações de segurança, incluindo protocolos e tomada de decisão.'
+      title: 'Gestão de Crises em Segurança Pública',
+      author: 'Maj. Patricia Costa',
+      category: 'Gestão',
+      type: 'Monografia',
+      year: 2023,
+      rating: 4.7,
+      downloads: 389,
+      views: 1120,
+      favoritedAt: '2024-11-28',
+      abstract: 'Protocolos e estratégias para gestão de crises em operações policiais...'
     },
     {
       id: 5,
-      title: 'Direitos Humanos e Abordagem Policial: Boas Práticas',
-      author: 'Del. Marcos Oliveira',
-      institution: 'Polícia Civil',
-      category: 'Direitos Humanos',
-      type: 'Artigo Científico',
-      year: '2025',
-      downloads: 1456,
-      views: 2834,
-      favoriteDate: '2025-01-03',
-      abstract: 'Estudo sobre a aplicação dos direitos humanos em abordagens policiais, promovendo práticas mais humanizadas.'
+      title: 'Inteligência Artificial na Investigação Criminal',
+      author: 'Dr. Fernando Oliveira',
+      category: 'Tecnologia Policial',
+      type: 'Artigo',
+      year: 2024,
+      rating: 4.8,
+      downloads: 512,
+      views: 1890,
+      favoritedAt: '2024-11-20',
+      abstract: 'Aplicação de IA para otimização de processos investigativos...'
     }
-  ];
+  ]);
 
   const filteredWorks = favoriteWorks.filter(work => {
     const matchesSearch = work.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          work.author.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = categoryFilter === 'all' || work.category === categoryFilter;
-    return matchesSearch && matchesCategory && favorites.includes(work.id);
+    const matchesCategory = filterCategory === 'all' || work.category === filterCategory;
+    return matchesSearch && matchesCategory;
   });
 
-  const categories = [
-    'Tecnologia Policial',
-    'Policiamento Comunitário',
-    'Investigação Criminal',
-    'Gestão de Operações',
-    'Direitos Humanos'
-  ];
+  const sortedWorks = [...filteredWorks].sort((a, b) => {
+    switch (sortBy) {
+      case 'rating':
+        return b.rating - a.rating;
+      case 'downloads':
+        return b.downloads - a.downloads;
+      case 'title':
+        return a.title.localeCompare(b.title);
+      case 'recent':
+      default:
+        return new Date(b.favoritedAt).getTime() - new Date(a.favoritedAt).getTime();
+    }
+  });
 
-  const removeFavorite = (workId: number) => {
-    setFavorites(prev => prev.filter(id => id !== workId));
+  const handleRemoveFavorite = (workId: number) => {
+    console.log('Removendo dos favoritos:', workId);
   };
 
   const handleDownload = (workId: number, title: string) => {
-    console.log(`Baixando trabalho ${workId}: ${title}`);
-    // Simular download
+    console.log('Fazendo download de:', title);
+    
     const link = document.createElement('a');
     link.href = '#';
-    link.download = `${title.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
+    link.download = `${title.replace(/\s+/g, '_')}.pdf`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
   return (
-    <div className="space-y-4 lg:space-y-6 animate-fade-in px-4 lg:px-0">
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-        <div>
-          <h1 className="govbr-heading-1 text-2xl lg:text-4xl flex items-center">
-            <Heart className="h-6 w-6 lg:h-8 lg:w-8 mr-3 text-red-500" />
-            Meus Favoritos
-          </h1>
-          <p className="text-gray-600 mt-2 text-sm lg:text-base">
-            Trabalhos marcados como favoritos para consulta rápida
-          </p>
-        </div>
-        <div className="text-right">
-          <div className="text-xl lg:text-2xl font-bold text-govbr-blue-warm-vivid">{filteredWorks.length}</div>
-          <div className="text-xs lg:text-sm text-gray-600">trabalhos salvos</div>
-        </div>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold text-govbr-blue-warm-dark mb-2">Meus Favoritos</h1>
+        <p className="text-gray-600">
+          Trabalhos acadêmicos que você marcou como favoritos para consulta rápida
+        </p>
       </div>
 
-      {/* Filters */}
-      <Card>
-        <CardContent className="p-4">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-              <Input
-                placeholder="Buscar por título ou autor..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-              <SelectTrigger className="w-full md:w-48">
-                <SelectValue placeholder="Filtrar por categoria" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Todas as Categorias</SelectItem>
-                {categories.map(category => (
-                  <SelectItem key={category} value={category}>
-                    {category}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+      {/* Search and Filters */}
+      <div className="flex flex-col md:flex-row gap-4 bg-white p-4 rounded-lg border border-govbr-gray-20">
+        <div className="flex-1">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Input
+              placeholder="Buscar nos favoritos..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10"
+            />
           </div>
-        </CardContent>
-      </Card>
+        </div>
+        
+        <Select value={filterCategory} onValueChange={setFilterCategory}>
+          <SelectTrigger className="w-full md:w-48">
+            <Filter className="h-4 w-4 mr-2" />
+            <SelectValue placeholder="Categoria" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Todas as Categorias</SelectItem>
+            <SelectItem value="Tecnologia Policial">Tecnologia Policial</SelectItem>
+            <SelectItem value="Políticas Públicas">Políticas Públicas</SelectItem>
+            <SelectItem value="Perícia Criminal">Perícia Criminal</SelectItem>
+            <SelectItem value="Gestão">Gestão</SelectItem>
+            <SelectItem value="Direitos Humanos">Direitos Humanos</SelectItem>
+          </SelectContent>
+        </Select>
 
-      {/* Favorites List */}
-      {filteredWorks.length === 0 ? (
-        <Card>
-          <CardContent className="p-8 lg:p-12 text-center">
-            <Heart className="h-12 w-12 lg:h-16 lg:w-16 mx-auto text-gray-300 mb-4" />
-            <h3 className="text-base lg:text-lg font-semibold text-gray-600 mb-2">
-              Nenhum favorito encontrado
-            </h3>
-            <p className="text-sm lg:text-base text-gray-500">
-              {searchTerm || categoryFilter !== 'all' 
-                ? 'Tente ajustar os filtros de busca'
-                : 'Marque trabalhos como favoritos para vê-los aqui'}
-            </p>
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="grid gap-4 lg:gap-6">
-          {filteredWorks.map((work) => (
-            <Card key={work.id} className="hover:shadow-lg transition-shadow">
-              <CardContent className="p-4 lg:p-6">
-                <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
-                  <div className="flex-1">
-                    <div className="flex flex-wrap items-center gap-2 mb-2">
-                      <Badge variant="secondary" className="text-xs">
-                        {work.category}
-                      </Badge>
-                      <Badge variant="outline" className="text-xs">
-                        {work.type}
-                      </Badge>
-                      <span className="text-xs text-gray-500">{work.year}</span>
-                    </div>
-                    
-                    <h3 className="text-base lg:text-lg font-semibold text-govbr-blue-warm-dark hover:text-govbr-blue-warm-vivid cursor-pointer mb-2">
-                      {work.title}
-                    </h3>
-                    
-                    <p className="text-xs lg:text-sm text-gray-600 mb-3 line-clamp-2">
-                      {work.abstract}
-                    </p>
-                    
-                    <div className="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-4 text-xs lg:text-sm text-gray-500 mb-4">
-                      <span className="flex items-center gap-1">
-                        <User className="h-3 w-3 lg:h-4 lg:w-4" />
-                        {work.author}
-                      </span>
-                      <span className="hidden lg:inline">•</span>
-                      <span>{work.institution}</span>
-                    </div>
-                    
-                    <div className="flex flex-wrap items-center gap-4 lg:gap-6 text-xs lg:text-sm text-gray-500">
-                      <span className="flex items-center gap-1">
-                        <Download className="h-3 w-3 lg:h-4 lg:w-4" />
-                        {work.downloads} downloads
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Eye className="h-3 w-3 lg:h-4 lg:w-4" />
-                        {work.views} visualizações
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Calendar className="h-3 w-3 lg:h-4 lg:w-4" />
-                        <span className="hidden lg:inline">Favoritado em </span>
-                        {new Date(work.favoriteDate).toLocaleDateString('pt-BR')}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <div className="flex flex-row lg:flex-col gap-2 lg:ml-6">
-                    <Button size="sm" className="govbr-btn-primary flex-1 lg:flex-none text-xs lg:text-sm">
-                      <Eye className="h-3 w-3 lg:h-4 lg:w-4 mr-1" />
-                      <span className="hidden lg:inline">Visualizar</span>
-                    </Button>
-                    <Button 
-                      size="sm" 
-                      variant="outline"
-                      className="flex-1 lg:flex-none text-xs lg:text-sm"
-                      onClick={() => handleDownload(work.id, work.title)}
-                    >
-                      <Download className="h-3 w-3 lg:h-4 lg:w-4 mr-1" />
-                      <span className="hidden lg:inline">Download</span>
-                    </Button>
-                    <Button 
-                      size="sm" 
-                      variant="outline" 
-                      className="text-red-600 hover:text-red-700 hover:bg-red-50 flex-1 lg:flex-none text-xs lg:text-sm"
-                      onClick={() => removeFavorite(work.id)}
-                    >
-                      <Heart className="h-3 w-3 lg:h-4 lg:w-4 mr-1 fill-current" />
-                      <span className="hidden lg:inline">Remover</span>
-                    </Button>
+        <Select value={sortBy} onValueChange={setSortBy}>
+          <SelectTrigger className="w-full md:w-48">
+            <SelectValue placeholder="Ordenar por" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="recent">Mais Recentes</SelectItem>
+            <SelectItem value="rating">Melhor Avaliados</SelectItem>
+            <SelectItem value="downloads">Mais Baixados</SelectItem>
+            <SelectItem value="title">Ordem Alfabética</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Results Summary */}
+      <div className="flex justify-between items-center">
+        <p className="text-sm text-gray-600">
+          {sortedWorks.length} trabalho{sortedWorks.length !== 1 ? 's' : ''} favorito{sortedWorks.length !== 1 ? 's' : ''}
+        </p>
+      </div>
+
+      {/* Favorite Works Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {sortedWorks.map((work) => (
+          <Card key={work.id} className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <div className="flex justify-between items-start">
+                <div className="flex-1">
+                  <CardTitle className="text-lg mb-2 line-clamp-2">{work.title}</CardTitle>
+                  <p className="text-sm text-gray-600 mb-2">Por {work.author}</p>
+                  <div className="flex flex-wrap gap-2 mb-2">
+                    <Badge variant="secondary">{work.category}</Badge>
+                    <Badge variant="outline">{work.type}</Badge>
+                    <Badge variant="outline">{work.year}</Badge>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          ))}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handleRemoveFavorite(work.id)}
+                  className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                >
+                  <Heart className="h-4 w-4 fill-current" />
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-gray-700 mb-4 line-clamp-3">
+                {work.abstract}
+              </p>
+              
+              <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center">
+                    <Star className="h-4 w-4 text-yellow-400 mr-1" />
+                    <span>{work.rating}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Download className="h-4 w-4 mr-1" />
+                    <span>{work.downloads}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Eye className="h-4 w-4 mr-1" />
+                    <span>{work.views}</span>
+                  </div>
+                </div>
+                <span className="text-xs">
+                  Favoritado em {new Date(work.favoritedAt).toLocaleDateString('pt-BR')}
+                </span>
+              </div>
+
+              <div className="flex gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => handleDownload(work.id, work.title)}
+                >
+                  <Download className="h-4 w-4 mr-2" />
+                  Download
+                </Button>
+                <Button
+                  size="sm"
+                  className="govbr-btn-primary flex-1"
+                >
+                  Visualizar
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {sortedWorks.length === 0 && (
+        <div className="text-center py-12">
+          <Heart className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-gray-900 mb-2">Nenhum favorito encontrado</h3>
+          <p className="text-gray-500 mb-4">
+            {searchTerm || filterCategory !== 'all' 
+              ? 'Tente ajustar os filtros de busca'
+              : 'Você ainda não favoritou nenhum trabalho'}
+          </p>
+          {!searchTerm && filterCategory === 'all' && (
+            <Button 
+              className="govbr-btn-primary"
+              onClick={() => onNavigate?.('repository')}
+            >
+              Explorar Trabalhos
+            </Button>
+          )}
         </div>
       )}
     </div>
