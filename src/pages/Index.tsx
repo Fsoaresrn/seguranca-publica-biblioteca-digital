@@ -23,6 +23,7 @@ import CentralAjuda from '@/components/CentralAjuda';
 import TermosUso from '@/components/TermosUso';
 import PoliticaPrivacidade from '@/components/PoliticaPrivacidade';
 import Login from '@/components/Login';
+import CollectionExplorer from '@/components/CollectionExplorer';
 
 const Index = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -30,13 +31,15 @@ const Index = () => {
   const [userRole] = useState<'servidor' | 'moderador' | 'administrador'>('moderador');
   const [userName, setUserName] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [navigationData, setNavigationData] = useState<any>(null);
 
   const handleMenuClick = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
-  const handleNavigation = (section: string) => {
+  const handleNavigation = (section: string, data?: any) => {
     setCurrentSection(section);
+    setNavigationData(data);
   };
 
   const handleLogin = (user: { cpf: string; name: string }) => {
@@ -75,9 +78,11 @@ const Index = () => {
       case 'my-works':
         return <MyWorks />;
       case 'repository':
-        return <Repository />;
+        return <Repository onNavigate={handleNavigation} />;
+      case 'collection-explorer':
+        return <CollectionExplorer collectionId={navigationData?.collectionId} onNavigate={handleNavigation} />;
       case 'admin':
-        return <AdminPanel />;
+        return <AdminPanel onNavigate={handleNavigation} />;
       case 'moderation':
         return <Moderation />;
       case 'profile':

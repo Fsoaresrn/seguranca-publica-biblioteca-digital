@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search, BookOpen, Users, Award, TrendingUp, Calendar, Download, Eye, Heart, Star } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,7 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 
-const Repository = () => {
+interface RepositoryProps {
+  onNavigate?: (section: string, data?: any) => void;
+}
+
+const Repository: React.FC<RepositoryProps> = ({ onNavigate }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [favorites, setFavorites] = useState<number[]>([2]); // IDs dos favoritos
@@ -172,6 +175,10 @@ const Repository = () => {
     document.body.removeChild(link);
   };
 
+  const handleExploreCollection = (collectionId: number) => {
+    onNavigate?.('collection-explorer', { collectionId });
+  };
+
   return (
     <div className="space-y-6 lg:space-y-8 animate-fade-in">
       {/* Header Section */}
@@ -209,7 +216,7 @@ const Repository = () => {
           <CardTitle className="govbr-heading-3 text-lg lg:text-xl flex items-center gap-2">
             <Search size={20} className="lg:hidden" />
             <Search size={24} className="hidden lg:block" />
-            Explorar Repositório
+            Pesquisar
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4 lg:space-y-6">
@@ -322,7 +329,10 @@ const Repository = () => {
                   </div>
                 </div>
 
-                <Button className="w-full govbr-btn-primary text-sm lg:text-base">
+                <Button 
+                  className="w-full govbr-btn-primary text-sm lg:text-base"
+                  onClick={() => handleExploreCollection(collection.id)}
+                >
                   Explorar Coleção
                 </Button>
               </CardContent>

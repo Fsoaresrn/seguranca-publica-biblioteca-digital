@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Shield, Users, FileText, BarChart3, Settings, Database, AlertTriangle, Activity } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,7 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-const AdminPanel: React.FC = () => {
+interface AdminPanelProps {
+  onNavigate?: (section: string) => void;
+}
+
+const AdminPanel: React.FC<AdminPanelProps> = ({ onNavigate }) => {
   const [activeTab, setActiveTab] = useState('overview');
 
   const systemStats = [
@@ -140,7 +143,10 @@ const AdminPanel: React.FC = () => {
             Gestão e monitoramento da plataforma BNSP
           </p>
         </div>
-        <Button className="govbr-btn-primary">
+        <Button 
+          className="govbr-btn-primary"
+          onClick={() => onNavigate?.('settings')}
+        >
           <Settings className="h-4 w-4 mr-2" />
           Configurações
         </Button>

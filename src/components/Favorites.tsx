@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Heart, Download, Eye, Star, Search, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -12,13 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-interface FavoritesProps {
-  userRole?: 'servidor' | 'moderador' | 'administrador';
-  userName?: string;
-  onNavigate?: (section: string) => void;
-}
-
-const Favorites: React.FC<FavoritesProps> = ({ userRole, userName, onNavigate }) => {
+const Favorites: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('recent');
   const [filterCategory, setFilterCategory] = useState('all');
@@ -267,10 +262,7 @@ const Favorites: React.FC<FavoritesProps> = ({ userRole, userName, onNavigate })
               : 'Você ainda não favoritou nenhum trabalho'}
           </p>
           {!searchTerm && filterCategory === 'all' && (
-            <Button 
-              className="govbr-btn-primary"
-              onClick={() => onNavigate?.('repository')}
-            >
+            <Button className="govbr-btn-primary">
               Explorar Trabalhos
             </Button>
           )}
