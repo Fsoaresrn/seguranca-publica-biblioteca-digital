@@ -23,6 +23,9 @@ export interface ModerationWork {
   moderatorNotes?: string;
   reviewedAt?: Date;
   reviewedBy?: string;
+  views?: number;
+  downloads?: number;
+  rating?: number;
 }
 
 export interface ModerationAction {

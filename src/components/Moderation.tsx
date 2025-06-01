@@ -23,7 +23,7 @@ const Moderation: React.FC = () => {
     searchTerm: ''
   });
 
-  // Mock data para demonstração
+  // Mock data expandido para demonstração
   const [works, setWorks] = useState<ModerationWork[]>([
     {
       id: '1',
@@ -46,6 +46,9 @@ const Moderation: React.FC = () => {
       fileSize: 2456789,
       status: 'submitted',
       submittedAt: new Date('2024-01-15'),
+      views: 127,
+      downloads: 45,
+      rating: 4.2
     },
     {
       id: '2',
@@ -68,7 +71,10 @@ const Moderation: React.FC = () => {
       status: 'under_review',
       submittedAt: new Date('2024-01-10'),
       moderatorNotes: 'Em análise inicial. Verificar referências bibliográficas.',
-      reviewedBy: 'Moderador João'
+      reviewedBy: 'Moderador João',
+      views: 89,
+      downloads: 23,
+      rating: 4.5
     },
     {
       id: '3',
@@ -90,6 +96,9 @@ const Moderation: React.FC = () => {
       fileSize: 3124567,
       status: 'submitted',
       submittedAt: new Date('2024-01-18'),
+      views: 156,
+      downloads: 67,
+      rating: 4.8
     },
     {
       id: '4',
@@ -109,8 +118,113 @@ const Moderation: React.FC = () => {
       language: 'Português',
       fileName: 'gestao_crises_resgate.pdf',
       fileSize: 2789123,
-      status: 'submitted',
+      status: 'approved',
       submittedAt: new Date('2024-01-20'),
+      reviewedAt: new Date('2024-01-25'),
+      reviewedBy: 'Moderador Maria',
+      views: 298,
+      downloads: 134,
+      rating: 4.9
+    },
+    {
+      id: '5',
+      title: 'Inteligência Artificial na Perícia Criminal',
+      abstract: 'Aplicação de algoritmos de IA na análise de evidências criminais e processamento de dados forenses.',
+      author: 'Dr. João Mendes Silva',
+      email: 'joao.silva@pericia.sp.gov.br',
+      registration: '567890',
+      institution: 'Instituto de Criminalística de São Paulo',
+      state: 'São Paulo',
+      force: 'Perícia Criminal',
+      course: 'Especialização em Criminalística',
+      year: '2024',
+      keywords: 'inteligência artificial, perícia criminal, forense digital',
+      category: 'tecnologia-seguranca',
+      type: 'Dissertação',
+      language: 'Português',
+      fileName: 'ia_pericia_criminal.pdf',
+      fileSize: 4123456,
+      status: 'submitted',
+      submittedAt: new Date('2024-01-22'),
+      views: 78,
+      downloads: 12,
+      rating: 4.1
+    },
+    {
+      id: '6',
+      title: 'Policiamento Rodoviário e Tecnologia de Monitoramento',
+      abstract: 'Estudo sobre implementação de sistemas tecnológicos de monitoramento em rodovias federais.',
+      author: 'Inspetor Carlos Alberto',
+      email: 'carlos.alberto@prf.gov.br',
+      registration: '234567',
+      institution: 'Academia Nacional da Polícia Rodoviária Federal',
+      state: 'Distrito Federal',
+      force: 'Polícia Rodoviária Federal',
+      course: 'Curso de Formação de Inspetores',
+      year: '2024',
+      keywords: 'policiamento rodoviário, tecnologia, monitoramento',
+      category: 'tecnologia-seguranca',
+      type: 'Artigo Científico',
+      language: 'Português',
+      fileName: 'policiamento_rodoviario_tech.pdf',
+      fileSize: 2987654,
+      status: 'rejected',
+      submittedAt: new Date('2024-01-12'),
+      reviewedAt: new Date('2024-01-20'),
+      reviewedBy: 'Moderador Pedro',
+      moderatorNotes: 'Necessária revisão metodológica e atualização das referências.',
+      views: 45,
+      downloads: 8,
+      rating: 3.2
+    },
+    {
+      id: '7',
+      title: 'Sistema Penitenciário: Gestão e Ressocialização',
+      abstract: 'Análise dos métodos de gestão penitenciária e programas de ressocialização no sistema prisional brasileiro.',
+      author: 'Dra. Mariana Santos',
+      email: 'mariana.santos@seap.rj.gov.br',
+      registration: '678901',
+      institution: 'Escola de Gestão Penitenciária do Rio de Janeiro',
+      state: 'Rio de Janeiro',
+      force: 'Polícia Penal Estadual',
+      course: 'Especialização em Gestão Penitenciária',
+      year: '2024',
+      keywords: 'sistema penitenciário, ressocialização, gestão prisional',
+      category: 'gestao-policial',
+      type: 'Dissertação',
+      language: 'Português',
+      fileName: 'sistema_penitenciario_gestao.pdf',
+      fileSize: 3456789,
+      status: 'under_review',
+      submittedAt: new Date('2024-01-25'),
+      reviewedBy: 'Moderador Ana',
+      views: 234,
+      downloads: 89,
+      rating: 4.6
+    },
+    {
+      id: '8',
+      title: 'Segurança Portuária: Desafios e Soluções Tecnológicas',
+      abstract: 'Estudo sobre os principais desafios de segurança em portos brasileiros e implementação de soluções tecnológicas.',
+      author: 'Comandante Ricardo Oliveira',
+      email: 'ricardo.oliveira@guardaportuaria.gov.br',
+      registration: '456789',
+      institution: 'Centro de Instrução Almirante Braz de Aguiar',
+      state: 'Rio de Janeiro',
+      force: 'Guarda Portuária',
+      course: 'Curso de Segurança Portuária',
+      year: '2024',
+      keywords: 'segurança portuária, tecnologia, portos',
+      category: 'seguranca-publica',
+      type: 'Monografia',
+      language: 'Português',
+      fileName: 'seguranca_portuaria.pdf',
+      fileSize: 2345678,
+      status: 'submitted',
+      submittedAt: new Date('2024-01-28'),
+      views: 67,
+      downloads: 15,
+      rating: 4.0
     }
   ]);
 
@@ -206,9 +320,15 @@ const Moderation: React.FC = () => {
         : work
     ));
     
+    // Simular envio de notificação para o autor
+    const work = works.find(w => w.id === workId);
+    if (work) {
+      console.log(`Notificação enviada para ${work.email}: Trabalho "${work.title}" foi rejeitado. Motivo: ${notes}`);
+    }
+    
     toast({
       title: 'Trabalho rejeitado',
-      description: 'O trabalho foi rejeitado.'
+      description: 'O trabalho foi rejeitado e o autor foi notificado.'
     });
   };
 
@@ -224,9 +344,15 @@ const Moderation: React.FC = () => {
         : work
     ));
     
+    // Simular envio de notificação para o autor
+    const work = works.find(w => w.id === workId);
+    if (work) {
+      console.log(`Notificação enviada para ${work.email}: Solicitation de alterações para "${work.title}". Observações: ${notes}`);
+    }
+    
     toast({
       title: 'Alterações solicitadas',
-      description: 'As alterações foram solicitadas ao autor.'
+      description: 'As alterações foram solicitadas e o autor foi notificado.'
     });
   };
 

@@ -79,11 +79,18 @@ const ModerationFilters: React.FC<ModerationFiltersProps> = ({
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Todas as Forças</SelectItem>
-              <SelectItem value="policia-militar">Polícia Militar</SelectItem>
+              <SelectItem value="agente-transito">Agente de Trânsito</SelectItem>
+              <SelectItem value="bombeiros">Bombeiros</SelectItem>
+              <SelectItem value="guarda-portuaria">Guarda Portuária</SelectItem>
+              <SelectItem value="pericia-criminal">Perícia Criminal</SelectItem>
               <SelectItem value="policia-civil">Polícia Civil</SelectItem>
               <SelectItem value="policia-federal">Polícia Federal</SelectItem>
-              <SelectItem value="bombeiros">Bombeiros</SelectItem>
-              <SelectItem value="policia-rodoviaria">Polícia Rodoviária</SelectItem>
+              <SelectItem value="policia-legislativa-estadual">Polícia Legislativa Estadual</SelectItem>
+              <SelectItem value="policia-legislativa-federal">Polícia Legislativa Federal</SelectItem>
+              <SelectItem value="policia-militar">Polícia Militar</SelectItem>
+              <SelectItem value="policia-penal-estadual">Polícia Penal Estadual</SelectItem>
+              <SelectItem value="policia-penal-federal">Polícia Penal Federal</SelectItem>
+              <SelectItem value="policia-rodoviaria-federal">Polícia Rodoviária Federal</SelectItem>
             </SelectContent>
           </Select>
           

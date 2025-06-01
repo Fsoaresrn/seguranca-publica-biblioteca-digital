@@ -1,299 +1,424 @@
-import React from 'react';
+
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   BookOpen, 
+  Upload, 
+  Search, 
+  Heart, 
+  TrendingUp, 
   Users, 
   FileText, 
-  Download, 
-  TrendingUp, 
-  Eye, 
-  Heart, 
-  FolderPlus, 
-  Clock,
-  Book,
-  Search,
-  Calendar
+  Download,
+  Calendar,
+  Star,
+  Eye,
+  ChevronRight,
+  User
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 
-interface DashboardProps {
-  userRole?: 'servidor' | 'moderador' | 'administrador';
-  userName?: string;
-  onNavigate?: (section: string) => void;
+interface Work {
+  id: number;
+  title: string;
+  author: string;
+  category: string;
+  downloads: number;
+  rating: number;
+  publishedDate: string;
+  views: number;
+  institution: string;
+  force: string;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ 
-  userRole = 'servidor',
-  userName = 'João Silva',
-  onNavigate
-}) => {
-  const stats = [
+const Dashboard: React.FC = () => {
+  const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const worksPerPage = 5;
+
+  const allRecentWorks: Work[] = [
     {
-      title: 'Trabalhos Publicados',
-      value: '12.543',
-      change: '+12%',
-      icon: BookOpen,
-      color: 'text-govbr-blue-warm-vivid'
+      id: 1,
+      title: "Inteligência Artificial na Investigação Criminal",
+      author: "Dr. Roberto Silva",
+      category: "Tecnologia Policial",
+      downloads: 2341,
+      rating: 4.8,
+      publishedDate: "2025-01-15",
+      views: 3456,
+      institution: "Academia Nacional de Polícia",
+      force: "Polícia Federal"
     },
     {
-      title: 'Autores Ativos',
-      value: '3.421',
-      change: '+8%',
-      icon: Users,
-      color: 'text-govbr-green-cool-vivid'
+      id: 2,
+      title: "Policiamento Comunitário em Áreas Vulneráveis",
+      author: "Cap. Maria Fernanda",
+      category: "Policiamento Comunitário",
+      downloads: 1876,
+      rating: 4.6,
+      publishedDate: "2025-01-12",
+      views: 2789,
+      institution: "PMERJ",
+      force: "Polícia Militar"
     },
     {
-      title: 'Downloads este Mês',
-      value: '45.892',
-      change: '+25%',
-      icon: FileText,
-      color: 'text-purple-600'
+      id: 3,
+      title: "Crimes Cibernéticos: Novas Abordagens",
+      author: "Del. Ana Carolina",
+      category: "Investigação Criminal",
+      downloads: 3102,
+      rating: 4.9,
+      publishedDate: "2025-01-10",
+      views: 4123,
+      institution: "PCSP",
+      force: "Polícia Civil"
     },
     {
-      title: 'Categorias Ativas',
-      value: '156',
-      change: '+3%',
-      icon: Book,
-      color: 'text-orange-600'
+      id: 4,
+      title: "Gestão de Trânsito Urbano Inteligente",
+      author: "Agente Carlos Mendes",
+      category: "Gestão de Trânsito",
+      downloads: 892,
+      rating: 4.3,
+      publishedDate: "2025-01-08",
+      views: 1567,
+      institution: "CET-SP",
+      force: "Agente de Trânsito"
+    },
+    {
+      id: 5,
+      title: "Perícia Digital: Análise de Evidências",
+      author: "Perito João Santos",
+      category: "Perícia Criminal",
+      downloads: 1234,
+      rating: 4.7,
+      publishedDate: "2025-01-05",
+      views: 2345,
+      institution: "Instituto de Criminalística",
+      force: "Perícia Criminal"
+    },
+    {
+      id: 6,
+      title: "Sistema Penitenciário: Ressocialização",
+      author: "Agente Pedro Lima",
+      category: "Sistema Penitenciário",
+      downloads: 567,
+      rating: 4.2,
+      publishedDate: "2025-01-03",
+      views: 1890,
+      institution: "SEAP",
+      force: "Polícia Penal Estadual"
+    },
+    {
+      id: 7,
+      title: "Segurança Portuária: Controle e Monitoramento",
+      author: "Guarda Roberto Costa",
+      category: "Segurança Portuária",
+      downloads: 723,
+      rating: 4.4,
+      publishedDate: "2025-01-01",
+      views: 1456,
+      institution: "Autoridade Portuária",
+      force: "Guarda Portuária"
+    },
+    {
+      id: 8,
+      title: "Prevenção de Acidentes Rodoviários",
+      author: "Inspetor Marcos Silva",
+      category: "Segurança Rodoviária",
+      downloads: 1456,
+      rating: 4.6,
+      publishedDate: "2024-12-28",
+      views: 2678,
+      institution: "Academia PRF",
+      force: "Polícia Rodoviária Federal"
+    },
+    {
+      id: 9,
+      title: "Bombeiros: Gestão de Emergências",
+      author: "Major Carlos Santos",
+      category: "Gestão de Emergências",
+      downloads: 987,
+      rating: 4.5,
+      publishedDate: "2024-12-25",
+      views: 1823,
+      institution: "Academia de Bombeiros",
+      force: "Corpo de Bombeiros"
+    },
+    {
+      id: 10,
+      title: "Força Nacional: Operações Especiais",
+      author: "Coronel Ana Silva",
+      category: "Operações Especiais",
+      downloads: 654,
+      rating: 4.3,
+      publishedDate: "2024-12-22",
+      views: 1345,
+      institution: "Academia da Força Nacional",
+      force: "Força Nacional"
+    },
+    {
+      id: 11,
+      title: "Polícia Científica: Inovações Tecnológicas",
+      author: "Dr. Paulo Oliveira",
+      category: "Perícia Científica",
+      downloads: 876,
+      rating: 4.7,
+      publishedDate: "2024-12-20",
+      views: 1987,
+      institution: "Instituto de Perícia",
+      force: "Polícia Científica"
+    },
+    {
+      id: 12,
+      title: "Segurança Legislativa: Proteção Institucional",
+      author: "Agente Maria Costa",
+      category: "Segurança Institucional",
+      downloads: 432,
+      rating: 4.1,
+      publishedDate: "2024-12-18",
+      views: 987,
+      institution: "Polícia Legislativa",
+      force: "Polícia Legislativa Federal"
     }
   ];
 
-  const recentWorks = [
-    {
-      title: 'Tecnologia Policial e Direitos Humanos na Era Digital',
-      author: 'Dra. Maria Santos',
-      institution: 'Academia Nacional de Polícia',
-      category: 'Tecnologia Policial',
-      date: '2024-01-15',
-      downloads: 1243,
-      status: 'aprovado'
-    },
-    {
-      title: 'Mediação de Conflitos em Comunidades Vulneráveis',
-      author: 'Ten. Carlos Oliveira',
-      institution: 'PMERJ',
-      category: 'Policiamento Comunitário',
-      date: '2024-01-12',
-      downloads: 856,
-      status: 'aprovado'
-    },
-    {
-      title: 'Investigação de Crimes Cibernéticos: Metodologias Avançadas',
-      author: 'Del. Ana Paula',
-      institution: 'PCSP',
-      category: 'Investigação Criminal',
-      date: '2024-01-10',
-      downloads: 2034,
-      status: 'aprovado'
-    }
-  ];
+  const totalPages = Math.ceil(allRecentWorks.length / worksPerPage);
+  const startIndex = (currentPage - 1) * worksPerPage;
+  const endIndex = startIndex + worksPerPage;
+  const currentWorks = allRecentWorks.slice(startIndex, endIndex);
 
-  const categories = [
-    { name: 'Investigação Criminal', count: 2134, color: 'bg-blue-100 text-blue-800' },
-    { name: 'Policiamento Comunitário', count: 1856, color: 'bg-green-100 text-green-800' },
-    { name: 'Tecnologia Policial', count: 1432, color: 'bg-purple-100 text-purple-800' },
-    { name: 'Direitos Humanos', count: 1203, color: 'bg-orange-100 text-orange-800' },
-    { name: 'Inteligência Policial', count: 987, color: 'bg-red-100 text-red-800' },
-    { name: 'Prevenção Criminal', count: 834, color: 'bg-yellow-100 text-yellow-800' }
-  ];
-
-  const handleNavigation = (section: string) => {
-    if (onNavigate) {
-      onNavigate(section);
+  const handleQuickAction = (action: string) => {
+    switch (action) {
+      case 'advanced-search':
+        navigate('/search-advanced');
+        break;
+      case 'favorites':
+        navigate('/favorites');
+        break;
+      case 'submit-work':
+        navigate('/submit-work');
+        break;
+      default:
+        break;
     }
   };
 
-  const quickActions = [
-    {
-      title: 'Lista de Desejos',
-      description: 'Trabalhos salvos para ler depois',
-      icon: Heart,
-      action: () => handleNavigation('wishlist'),
-      color: 'text-red-500'
-    },
-    {
-      title: 'Downloads Recentes',
-      description: 'Últimos trabalhos baixados',
-      icon: Clock,
-      action: () => handleNavigation('recent-downloads'),
-      color: 'text-blue-500'
-    },
-    {
-      title: 'Mais Populares',
-      description: 'Trabalhos em destaque',
-      icon: TrendingUp,
-      action: () => handleNavigation('most-popular'),
-      color: 'text-orange-500'
-    },
-    {
-      title: 'Criar Nova Coleção',
-      description: 'Organize trabalhos por tema',
-      icon: FolderPlus,
-      action: () => handleNavigation('create-collection'),
-      color: 'text-purple-500'
+  const handleViewAllWorks = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
     }
-  ];
+  };
 
   return (
-    <div className="space-y-8 animate-fade-in">
-      {/* Welcome Section */}
-      <div className="text-center">
-        <h1 className="govbr-heading-1 mb-4">
-          Bem-vindo, {userName}!
+    <div className="space-y-6 animate-fade-in">
+      {/* Cabeçalho Principal */}
+      <div className="bg-gradient-to-r from-govbr-blue-warm-vivid to-govbr-blue-warm-dark rounded-lg p-8 text-white">
+        <h1 className="text-3xl font-bold mb-2">
+          Bem-vindo à Biblioteca Nacional da Segurança Pública
         </h1>
-        <p className="govbr-body max-w-2xl mx-auto">
-          Explore o conhecimento acadêmico em segurança pública. 
-          Acesse trabalhos, compartilhe pesquisas e contribua para o avanço da área.
+        <p className="text-govbr-blue-warm-10 text-lg">
+          Acesse conhecimento acadêmico especializado em segurança pública
         </p>
       </div>
 
-      {/* Statistics Cards */}
+      {/* Cards de Estatísticas */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <Card key={stat.title} className="govbr-card">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-gray-600">
-                  {stat.title}
-                </CardTitle>
-                <Icon className={`h-5 w-5 ${stat.color}`} />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-govbr-blue-warm-dark">
-                  {stat.value}
+        <Card className="govbr-card">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total de Trabalhos</CardTitle>
+            <BookOpen className="h-4 w-4 text-govbr-blue-warm-vivid" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-govbr-blue-warm-dark">1,247</div>
+            <p className="text-xs text-gray-600">+12 esta semana</p>
+          </CardContent>
+        </Card>
+
+        <Card className="govbr-card">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Downloads Totais</CardTitle>
+            <Download className="h-4 w-4 text-govbr-green-cool-vivid" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-govbr-green-cool-vivid">45,678</div>
+            <p className="text-xs text-gray-600">+2,341 este mês</p>
+          </CardContent>
+        </Card>
+
+        <Card className="govbr-card">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Usuários Ativos</CardTitle>
+            <Users className="h-4 w-4 text-govbr-mint-vivid" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-govbr-mint-vivid">8,932</div>
+            <p className="text-xs text-gray-600">+156 hoje</p>
+          </CardContent>
+        </Card>
+
+        <Card className="govbr-card">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Avaliação Média</CardTitle>
+            <Star className="h-4 w-4 text-yellow-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-yellow-600">4.7</div>
+            <p className="text-xs text-gray-600">de 5.0 estrelas</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Ações Rápidas */}
+      <Card className="govbr-card">
+        <CardHeader>
+          <CardTitle className="govbr-heading-3">Ações Rápidas</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Button 
+              className="govbr-btn-primary h-16 flex flex-col gap-2"
+              onClick={() => handleQuickAction('advanced-search')}
+            >
+              <Search className="h-6 w-6" />
+              Busca Avançada
+            </Button>
+            <Button 
+              className="govbr-btn-secondary h-16 flex flex-col gap-2"
+              onClick={() => handleQuickAction('favorites')}
+            >
+              <Heart className="h-6 w-6" />
+              Meus Favoritos
+            </Button>
+            <Button 
+              className="govbr-btn-outline h-16 flex flex-col gap-2"
+              onClick={() => handleQuickAction('submit-work')}
+            >
+              <Upload className="h-6 w-6" />
+              Enviar Trabalho
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Trabalhos Recentes */}
+      <Card className="govbr-card">
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle className="govbr-heading-3">Trabalhos Recentes</CardTitle>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-600">
+              Página {currentPage} de {totalPages}
+            </span>
+            {currentPage < totalPages && (
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={handleViewAllWorks}
+              >
+                Ver Todos os Trabalhos
+                <ChevronRight className="h-4 w-4 ml-1" />
+              </Button>
+            )}
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {currentWorks.map((work) => (
+              <div key={work.id} className="border border-govbr-gray-20 rounded-lg p-4 hover:shadow-md transition-shadow">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-govbr-blue-warm-dark hover:text-govbr-blue-warm-vivid cursor-pointer">
+                      {work.title}
+                    </h4>
+                    <div className="flex flex-wrap items-center gap-4 mt-2 text-sm text-gray-600">
+                      <span className="flex items-center gap-1">
+                        <User className="h-3 w-3" />
+                        {work.author}
+                      </span>
+                      <span>{work.institution}</span>
+                      <span className="px-2 py-1 bg-govbr-gray-5 rounded text-xs">
+                        {work.category}
+                      </span>
+                      <span className="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs">
+                        {work.force}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-6 text-sm text-gray-600">
+                    <div className="flex items-center gap-1">
+                      <Eye className="h-4 w-4" />
+                      {work.views}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Download className="h-4 w-4" />
+                      {work.downloads}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Star className="h-4 w-4 text-yellow-500" />
+                      {work.rating}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Calendar className="h-4 w-4" />
+                      {new Date(work.publishedDate).toLocaleDateString('pt-BR')}
+                    </div>
+                  </div>
                 </div>
-                <p className="text-xs text-govbr-green-cool-vivid font-medium">
-                  {stat.change} em relação ao mês anterior
-                </p>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
-
-      {/* Quick Actions Grid */}
-      <div>
-        <h2 className="govbr-heading-2 mb-6">Acesso Rápido</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {quickActions.map((action, index) => {
-            const Icon = action.icon;
-            return (
-              <Card key={index} className="hover:shadow-lg transition-shadow cursor-pointer" onClick={action.action}>
-                <CardContent className="p-6 text-center">
-                  <Icon className={`h-12 w-12 mx-auto mb-4 ${action.color}`} />
-                  <h3 className="font-semibold text-govbr-blue-warm-dark mb-2">
-                    {action.title}
-                  </h3>
-                  <p className="text-sm text-gray-600">{action.description}</p>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Recent Works */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
-          <Card className="govbr-card">
-            <CardHeader>
-              <CardTitle className="govbr-heading-3 flex items-center">
-                <BookOpen className="h-5 w-5 mr-2 text-govbr-blue-warm-vivid" />
-                Trabalhos Recentes
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {recentWorks.map((work, index) => (
-                  <div key={index} className="border-b border-govbr-gray-10 pb-4 last:border-b-0">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <h4 className="font-semibold text-govbr-blue-warm-dark hover:text-govbr-blue-warm-vivid cursor-pointer">
-                          {work.title}
-                        </h4>
-                        <p className="text-sm text-gray-600 mt-1">
-                          {work.author} • {work.institution}
-                        </p>
-                        <div className="flex items-center space-x-4 mt-2">
-                          <Badge variant="secondary" className="text-xs">
-                            {work.category}
-                          </Badge>
-                          <span className="text-xs text-gray-500">
-                            {new Date(work.date).toLocaleDateString('pt-BR')}
-                          </span>
-                          <span className="text-xs text-govbr-green-cool-vivid">
-                            {work.downloads} downloads
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              </div>
+            ))}
+          </div>
+          
+          {/* Paginação */}
+          {totalPages > 1 && (
+            <div className="flex justify-center mt-6">
+              <div className="flex gap-2">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <Button
+                    key={page}
+                    variant={currentPage === page ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setCurrentPage(page)}
+                    className={currentPage === page ? "govbr-btn-primary" : ""}
+                  >
+                    {page}
+                  </Button>
                 ))}
               </div>
-              <div className="mt-4">
-                <Button variant="outline" className="w-full">
-                  Ver Todos os Trabalhos
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
-        {/* Categories */}
-        <div>
-          <Card className="govbr-card">
-            <CardHeader>
-              <CardTitle className="govbr-heading-3 flex items-center">
-                <Book className="h-5 w-5 mr-2 text-govbr-green-cool-vivid" />
-                Categorias Populares
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {categories.map((category, index) => (
-                  <div key={index} className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-gray-900">
-                        {category.name}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {category.count} trabalhos
-                      </p>
-                    </div>
-                    <Badge className={category.color}>
-                      {category.count}
-                    </Badge>
-                  </div>
-                ))}
+      {/* Categorias Populares */}
+      <Card className="govbr-card">
+        <CardHeader>
+          <CardTitle className="govbr-heading-3">Categorias Populares</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { name: "Investigação Criminal", count: 234, icon: "🔍" },
+              { name: "Tecnologia Policial", count: 189, icon: "💻" },
+              { name: "Policiamento Comunitário", count: 156, icon: "👥" },
+              { name: "Perícia Criminal", count: 134, icon: "🔬" },
+              { name: "Gestão Policial", count: 123, icon: "📊" },
+              { name: "Segurança Rodoviária", count: 98, icon: "🛣️" },
+              { name: "Sistema Penitenciário", count: 87, icon: "🏢" },
+              { name: "Segurança Portuária", count: 76, icon: "⚓" }
+            ].map((category) => (
+              <div 
+                key={category.name}
+                className="p-4 border border-govbr-gray-20 rounded-lg hover:shadow-md transition-shadow cursor-pointer"
+              >
+                <div className="text-2xl mb-2">{category.icon}</div>
+                <h4 className="font-medium text-sm mb-1">{category.name}</h4>
+                <p className="text-xs text-gray-600">{category.count} trabalhos</p>
               </div>
-              <div className="mt-4">
-                <Button variant="outline" className="w-full">
-                  Explorar Categorias
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Quick Actions */}
-          <Card className="govbr-card mt-6">
-            <CardHeader>
-              <CardTitle className="govbr-heading-3">Ações Rápidas</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Button variant="outline" className="w-full">
-                <Search className="h-4 w-4 mr-2" />
-                Busca Avançada
-              </Button>
-              <Button variant="outline" className="w-full">
-                <Calendar className="h-4 w-4 mr-2" />
-                Meus Favoritos
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
