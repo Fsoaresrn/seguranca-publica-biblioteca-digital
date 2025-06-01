@@ -25,14 +25,17 @@ interface InstitutionalInfoSectionProps {
 }
 
 const securityForces = [
+  'Agente de Trânsito',
   'Corpo de Bombeiros',
   'Força Nacional',
-  'Guarda Municipal',
+  'Guarda Portuária',
+  'Perícia Criminal',
   'Polícia Civil',
   'Polícia Científica',
   'Polícia Federal',
   'Polícia Militar',
-  'Polícia Penal',
+  'Polícia Penal Estadual',
+  'Polícia Penal Federal',
   'Polícia Rodoviária Federal'
 ];
 
@@ -149,7 +152,7 @@ const InstitutionalInfoSection: React.FC<InstitutionalInfoSectionProps> = ({ for
                 <FormLabel className="govbr-label required">Ano *</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="2024"
+                    placeholder="2025"
                     className="govbr-input"
                     {...field}
                   />

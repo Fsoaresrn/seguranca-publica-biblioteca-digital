@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Search, Filter, BookOpen, Users, Award, TrendingUp, Calendar, Download, Eye, Heart, Star } from 'lucide-react';
+import { Search, BookOpen, Users, Award, TrendingUp, Calendar, Download, Eye, Heart, Star } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -9,6 +9,7 @@ import { Separator } from '@/components/ui/separator';
 const Repository = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [favorites, setFavorites] = useState<number[]>([2]); // IDs dos favoritos
 
   const categories = [
     { id: 'all', name: 'Todas as Coleções', count: 156 },
@@ -152,29 +153,49 @@ const Repository = () => {
     return recentWorks.filter(work => work.category === categoryMap[selectedCategory]);
   };
 
+  const handleFavorite = (workId: number) => {
+    setFavorites(prev => 
+      prev.includes(workId) 
+        ? prev.filter(id => id !== workId)
+        : [...prev, workId]
+    );
+  };
+
+  const handleDownload = (workId: number, title: string) => {
+    console.log(`Baixando trabalho ${workId}: ${title}`);
+    // Simular download
+    const link = document.createElement('a');
+    link.href = '#';
+    link.download = `${title.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-6 lg:space-y-8 animate-fade-in">
       {/* Header Section */}
       <div className="text-center space-y-4">
-        <h1 className="govbr-heading-1">Repositório BNSP</h1>
-        <p className="govbr-body text-lg max-w-3xl mx-auto">
+        <h1 className="govbr-heading-1 text-2xl lg:text-4xl">Repositório BNSP</h1>
+        <p className="govbr-body text-base lg:text-lg max-w-3xl mx-auto px-4">
           Explore coleções temáticas especializadas e repositórios de conhecimento 
           organizados por área de atuação em segurança pública.
         </p>
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 px-4 lg:px-0">
         {repositoryStats.map((stat, index) => (
           <Card key={index} className="govbr-card">
-            <CardContent className="p-6">
+            <CardContent className="p-4 lg:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600 mb-1">{stat.label}</p>
-                  <p className="text-3xl font-bold text-govbr-blue-warm-dark">{stat.value}</p>
+                  <p className="text-xs lg:text-sm text-gray-600 mb-1">{stat.label}</p>
+                  <p className="text-xl lg:text-3xl font-bold text-govbr-blue-warm-dark">{stat.value}</p>
                 </div>
-                <div className={`p-3 rounded-lg bg-gray-50 ${stat.color}`}>
-                  <stat.icon size={24} />
+                <div className={`p-2 lg:p-3 rounded-lg bg-gray-50 ${stat.color}`}>
+                  <stat.icon size={16} className="lg:hidden" />
+                  <stat.icon size={24} className="hidden lg:block" />
                 </div>
               </div>
             </CardContent>
@@ -183,14 +204,15 @@ const Repository = () => {
       </div>
 
       {/* Search and Filter Section */}
-      <Card className="govbr-card">
+      <Card className="govbr-card mx-4 lg:mx-0">
         <CardHeader>
-          <CardTitle className="govbr-heading-3 flex items-center gap-2">
-            <Search size={24} />
+          <CardTitle className="govbr-heading-3 text-lg lg:text-xl flex items-center gap-2">
+            <Search size={20} className="lg:hidden" />
+            <Search size={24} className="hidden lg:block" />
             Explorar Repositório
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-4 lg:space-y-6">
           <div className="flex flex-col lg:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
@@ -205,14 +227,14 @@ const Repository = () => {
               </div>
             </div>
             <Button className="govbr-btn-primary flex items-center gap-2">
-              <Filter size={20} />
-              Filtros Avançados
+              <Search size={20} />
+              Pesquisar
             </Button>
           </div>
 
           {/* Category Filter */}
           <div className="space-y-3">
-            <h4 className="font-semibold text-gray-700">Filtrar por Categoria</h4>
+            <h4 className="font-semibold text-gray-700 text-sm lg:text-base">Filtrar por Categoria</h4>
             <div className="flex flex-wrap gap-2">
               {categories.map((category) => (
                 <Button
@@ -220,7 +242,7 @@ const Repository = () => {
                   variant={selectedCategory === category.id ? "default" : "outline"}
                   size="sm"
                   onClick={() => setSelectedCategory(category.id)}
-                  className="text-sm"
+                  className="text-xs lg:text-sm"
                 >
                   {category.name} ({category.count})
                 </Button>
@@ -231,25 +253,25 @@ const Repository = () => {
       </Card>
 
       {/* Featured Collections */}
-      <div className="space-y-6">
-        <h2 className="govbr-heading-2">Coleções em Destaque</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+      <div className="space-y-4 lg:space-y-6 px-4 lg:px-0">
+        <h2 className="govbr-heading-2 text-xl lg:text-2xl">Coleções em Destaque</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
           {featuredCollections.map((collection) => (
             <Card key={collection.id} className="govbr-card hover:shadow-lg transition-shadow">
               <div className="relative">
                 <img 
                   src={collection.image} 
                   alt={collection.title}
-                  className="w-full h-48 object-cover rounded-t-lg"
+                  className="w-full h-32 lg:h-48 object-cover rounded-t-lg"
                 />
-                <Badge className="absolute top-3 right-3 bg-govbr-blue-warm-vivid text-white">
+                <Badge className="absolute top-3 right-3 bg-govbr-blue-warm-vivid text-white text-xs">
                   {collection.category}
                 </Badge>
               </div>
-              <CardContent className="p-6 space-y-4">
+              <CardContent className="p-4 lg:p-6 space-y-3 lg:space-y-4">
                 <div>
-                  <h3 className="govbr-heading-3 text-xl mb-2">{collection.title}</h3>
-                  <p className="govbr-body text-sm text-gray-600 line-clamp-2">
+                  <h3 className="govbr-heading-3 text-base lg:text-xl mb-2">{collection.title}</h3>
+                  <p className="govbr-body text-xs lg:text-sm text-gray-600 line-clamp-2">
                     {collection.description}
                   </p>
                 </div>
@@ -264,21 +286,25 @@ const Repository = () => {
 
                 <Separator />
 
-                <div className="grid grid-cols-2 gap-4 text-sm text-gray-600">
+                <div className="grid grid-cols-2 gap-2 lg:gap-4 text-xs lg:text-sm text-gray-600">
                   <div className="flex items-center gap-1">
-                    <BookOpen size={16} />
+                    <BookOpen size={14} className="lg:hidden" />
+                    <BookOpen size={16} className="hidden lg:block" />
                     {collection.totalWorks} trabalhos
                   </div>
                   <div className="flex items-center gap-1">
-                    <Users size={16} />
+                    <Users size={14} className="lg:hidden" />
+                    <Users size={16} className="hidden lg:block" />
                     {collection.contributors} autores
                   </div>
                   <div className="flex items-center gap-1">
-                    <Download size={16} />
+                    <Download size={14} className="lg:hidden" />
+                    <Download size={16} className="hidden lg:block" />
                     {collection.downloads} downloads
                   </div>
                   <div className="flex items-center gap-1">
-                    <Eye size={16} />
+                    <Eye size={14} className="lg:hidden" />
+                    <Eye size={16} className="hidden lg:block" />
                     {collection.views} visualizações
                   </div>
                 </div>
@@ -288,13 +314,15 @@ const Repository = () => {
                     <Star className="fill-yellow-400 text-yellow-400" size={16} />
                     <span className="text-sm font-medium">{collection.rating}</span>
                   </div>
-                  <div className="flex items-center gap-1 text-sm text-gray-500">
-                    <Calendar size={14} />
-                    Atualizado em {new Date(collection.lastUpdate).toLocaleDateString('pt-BR')}
+                  <div className="flex items-center gap-1 text-xs lg:text-sm text-gray-500">
+                    <Calendar size={12} className="lg:hidden" />
+                    <Calendar size={14} className="hidden lg:block" />
+                    <span className="hidden lg:inline">Atualizado em </span>
+                    {new Date(collection.lastUpdate).toLocaleDateString('pt-BR')}
                   </div>
                 </div>
 
-                <Button className="w-full govbr-btn-primary">
+                <Button className="w-full govbr-btn-primary text-sm lg:text-base">
                   Explorar Coleção
                 </Button>
               </CardContent>
@@ -304,31 +332,32 @@ const Repository = () => {
       </div>
 
       {/* Recent Works Section */}
-      <div className="space-y-6">
-        <h2 className="govbr-heading-2">
+      <div className="space-y-4 lg:space-y-6 px-4 lg:px-0">
+        <h2 className="govbr-heading-2 text-xl lg:text-2xl">
           {selectedCategory === 'all' ? 'Trabalhos Recentes' : `Trabalhos Recentes - ${categories.find(c => c.id === selectedCategory)?.name}`}
         </h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
           {getFilteredWorks().map((work) => (
             <Card key={work.id} className="govbr-card hover:shadow-lg transition-shadow">
-              <CardContent className="p-6 space-y-4">
+              <CardContent className="p-4 lg:p-6 space-y-3 lg:space-y-4">
                 <div>
                   <div className="flex items-start justify-between mb-2">
                     <Badge variant="secondary" className="text-xs">
                       {work.category}
                     </Badge>
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
-                      <Calendar size={14} />
+                    <div className="flex items-center gap-2 text-xs lg:text-sm text-gray-500">
+                      <Calendar size={12} className="lg:hidden" />
+                      <Calendar size={14} className="hidden lg:block" />
                       {new Date(work.date).toLocaleDateString('pt-BR')}
                     </div>
                   </div>
-                  <h3 className="govbr-heading-3 text-lg mb-2 hover:text-govbr-blue-warm-vivid cursor-pointer">
+                  <h3 className="govbr-heading-3 text-base lg:text-lg mb-2 hover:text-govbr-blue-warm-vivid cursor-pointer">
                     {work.title}
                   </h3>
-                  <p className="text-sm text-gray-600 mb-2">
+                  <p className="text-xs lg:text-sm text-gray-600 mb-2">
                     <strong>Autor:</strong> {work.author} • {work.institution}
                   </p>
-                  <p className="text-sm text-gray-600 line-clamp-2">
+                  <p className="text-xs lg:text-sm text-gray-600 line-clamp-2">
                     {work.abstract}
                   </p>
                 </div>
@@ -344,24 +373,38 @@ const Repository = () => {
                 <Separator />
 
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4 text-sm text-gray-600">
+                  <div className="flex items-center gap-2 lg:gap-4 text-xs lg:text-sm text-gray-600">
                     <div className="flex items-center gap-1">
-                      <Download size={14} />
+                      <Download size={12} className="lg:hidden" />
+                      <Download size={14} className="hidden lg:block" />
                       {work.downloads}
                     </div>
                     <div className="flex items-center gap-1">
-                      <Eye size={14} />
+                      <Eye size={12} className="lg:hidden" />
+                      <Eye size={14} className="hidden lg:block" />
                       {work.views}
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Button variant="outline" size="sm">
-                      <Heart size={14} className="mr-1" />
-                      Favoritar
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => handleFavorite(work.id)}
+                      className="text-xs lg:text-sm"
+                    >
+                      <Heart 
+                        size={14} 
+                        className={`mr-1 ${favorites.includes(work.id) ? 'fill-red-500 text-red-500' : ''}`} 
+                      />
+                      <span className="hidden lg:inline">Favoritar</span>
                     </Button>
-                    <Button size="sm" className="govbr-btn-primary">
+                    <Button 
+                      size="sm" 
+                      className="govbr-btn-primary text-xs lg:text-sm"
+                      onClick={() => handleDownload(work.id, work.title)}
+                    >
                       <Download size={14} className="mr-1" />
-                      Download
+                      <span className="hidden lg:inline">Download</span>
                     </Button>
                   </div>
                 </div>
@@ -378,7 +421,7 @@ const Repository = () => {
         
         {getFilteredWorks().length > 0 && (
           <div className="text-center">
-            <Button variant="outline" size="lg">
+            <Button variant="outline" size="lg" className="text-sm lg:text-base">
               Carregar Mais Trabalhos
             </Button>
           </div>
