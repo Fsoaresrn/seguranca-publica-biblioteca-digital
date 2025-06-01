@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -32,7 +31,13 @@ interface Work {
   force: string;
 }
 
-const Dashboard: React.FC = () => {
+interface DashboardProps {
+  userRole?: 'servidor' | 'moderador' | 'administrador';
+  userName?: string;
+  onNavigate?: (section: string) => void;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const worksPerPage = 5;
@@ -190,18 +195,20 @@ const Dashboard: React.FC = () => {
   const currentWorks = allRecentWorks.slice(startIndex, endIndex);
 
   const handleQuickAction = (action: string) => {
-    switch (action) {
-      case 'advanced-search':
-        navigate('/search-advanced');
-        break;
-      case 'favorites':
-        navigate('/favorites');
-        break;
-      case 'submit-work':
-        navigate('/submit-work');
-        break;
-      default:
-        break;
+    if (onNavigate) {
+      switch (action) {
+        case 'advanced-search':
+          onNavigate('search');
+          break;
+        case 'favorites':
+          onNavigate('favorites');
+          break;
+        case 'submit-work':
+          onNavigate('submit-work');
+          break;
+        default:
+          break;
+      }
     }
   };
 

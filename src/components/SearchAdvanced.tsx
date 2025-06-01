@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search, Filter, Calendar, User, BookOpen, FileText, Download, Star, Eye } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -222,7 +221,48 @@ const SearchAdvanced: React.FC = () => {
 
   const handleSearch = () => {
     console.log('Searching with filters:', filters);
-    // Implement search logic
+    
+    // Demonstração de busca funcional
+    let filteredResults = [...searchResults];
+    
+    // Filtrar por termo de busca
+    if (filters.query) {
+      filteredResults = filteredResults.filter(result => 
+        result.title.toLowerCase().includes(filters.query.toLowerCase()) ||
+        result.abstract.toLowerCase().includes(filters.query.toLowerCase()) ||
+        result.keywords.some(keyword => keyword.toLowerCase().includes(filters.query.toLowerCase()))
+      );
+    }
+    
+    // Filtrar por instituição
+    if (filters.institution) {
+      filteredResults = filteredResults.filter(result => 
+        result.institution.toLowerCase().includes(filters.institution.toLowerCase())
+      );
+    }
+    
+    // Filtrar por força de segurança
+    if (filters.forceType.length > 0) {
+      filteredResults = filteredResults.filter(result => 
+        filters.forceType.includes(result.force)
+      );
+    }
+    
+    // Filtrar por estado
+    if (filters.state !== 'all') {
+      filteredResults = filteredResults.filter(result => 
+        result.state === filters.state
+      );
+    }
+    
+    // Filtrar por categoria
+    if (filters.category !== 'all') {
+      filteredResults = filteredResults.filter(result => 
+        result.category === filters.category
+      );
+    }
+    
+    setSearchResults(filteredResults);
   };
 
   const handleForceTypeChange = (force: string, checked: boolean) => {
@@ -246,6 +286,137 @@ const SearchAdvanced: React.FC = () => {
       forceType: [],
       state: 'all'
     });
+    // Resetar para todos os resultados
+    setSearchResults([
+      {
+        id: 1,
+        title: 'Inteligência Artificial aplicada à Investigação Criminal',
+        author: 'Dr. Roberto Silva',
+        institution: 'Academia Nacional de Polícia',
+        year: '2024',
+        category: 'Tecnologia Policial',
+        force: 'Polícia Federal',
+        state: 'DF',
+        downloads: 2341,
+        rating: 4.8,
+        abstract: 'Este trabalho apresenta uma análise abrangente sobre o uso de inteligência artificial em processos investigativos criminais, destacando ferramentas de análise de dados, reconhecimento facial e predição de crimes.',
+        keywords: ['IA', 'Investigação', 'Tecnologia', 'Análise Criminal'],
+        publishedDate: new Date('2024-01-15'),
+        views: 3456
+      },
+      {
+        id: 2,
+        title: 'Policiamento Comunitário em Áreas de Vulnerabilidade Social',
+        author: 'Cap. Maria Fernanda',
+        institution: 'PMERJ',
+        year: '2023',
+        category: 'Policiamento Comunitário',
+        force: 'Polícia Militar',
+        state: 'RJ',
+        downloads: 1876,
+        rating: 4.6,
+        abstract: 'Análise de estratégias de policiamento comunitário implementadas em comunidades vulneráveis do Rio de Janeiro, com foco na redução da violência e melhoria da relação polícia-comunidade.',
+        keywords: ['Policiamento Comunitário', 'Vulnerabilidade Social', 'Prevenção'],
+        publishedDate: new Date('2023-12-20'),
+        views: 2789
+      },
+      {
+        id: 3,
+        title: 'Crimes Cibernéticos: Novas Abordagens Investigativas',
+        author: 'Del. Ana Carolina',
+        institution: 'PCSP',
+        year: '2024',
+        category: 'Investigação Criminal',
+        force: 'Polícia Civil',
+        state: 'SP',
+        downloads: 3102,
+        rating: 4.9,
+        abstract: 'Metodologias inovadoras para investigação de crimes cibernéticos, incluindo análise forense digital, rastreamento de criptomoedas e cooperação internacional.',
+        keywords: ['Crimes Cibernéticos', 'Forense Digital', 'Investigação'],
+        publishedDate: new Date('2024-02-10'),
+        views: 4123
+      },
+      {
+        id: 4,
+        title: 'Gestão de Trânsito Urbano: Tecnologias Emergentes',
+        author: 'Agente Carlos Mendes',
+        institution: 'Academia de Trânsito SP',
+        year: '2024',
+        category: 'Gestão de Trânsito',
+        force: 'Agente de Trânsito',
+        state: 'SP',
+        downloads: 892,
+        rating: 4.3,
+        abstract: 'Estudo sobre implementação de tecnologias inteligentes na gestão do trânsito urbano, incluindo semáforos adaptativos e sistemas de monitoramento.',
+        keywords: ['Trânsito', 'Tecnologia', 'Gestão Urbana'],
+        publishedDate: new Date('2024-01-28'),
+        views: 1567
+      },
+      {
+        id: 5,
+        title: 'Perícia Criminal Digital: Análise de Evidências Eletrônicas',
+        author: 'Perito João Santos',
+        institution: 'Instituto de Criminalística',
+        year: '2024',
+        category: 'Perícia Criminal',
+        force: 'Perícia Criminal',
+        state: 'RS',
+        downloads: 1234,
+        rating: 4.7,
+        abstract: 'Metodologias avançadas para análise de evidências digitais em crimes cibernéticos, incluindo recuperação de dados e análise forense de dispositivos móveis.',
+        keywords: ['Perícia Digital', 'Evidências', 'Forense'],
+        publishedDate: new Date('2024-02-05'),
+        views: 2345
+      },
+      {
+        id: 6,
+        title: 'Sistema Penitenciário Federal: Desafios e Soluções',
+        author: 'Agente Federal Pedro Lima',
+        institution: 'Academia Penitenciária Federal',
+        year: '2024',
+        category: 'Sistema Penitenciário',
+        force: 'Polícia Penal Federal',
+        state: 'DF',
+        downloads: 567,
+        rating: 4.2,
+        abstract: 'Análise dos principais desafios do sistema penitenciário federal brasileiro e propostas de soluções inovadoras para ressocialização.',
+        keywords: ['Sistema Penitenciário', 'Ressocialização', 'Gestão'],
+        publishedDate: new Date('2024-01-12'),
+        views: 1890
+      },
+      {
+        id: 7,
+        title: 'Segurança Portuária: Controle e Monitoramento',
+        author: 'Guarda Portuário Roberto Costa',
+        institution: 'Autoridade Portuária Santos',
+        year: '2024',
+        category: 'Segurança Portuária',
+        force: 'Guarda Portuária',
+        state: 'SP',
+        downloads: 723,
+        rating: 4.4,
+        abstract: 'Estudo sobre sistemas de segurança portuária, incluindo tecnologias de monitoramento e controle de acesso em áreas portuárias.',
+        keywords: ['Segurança Portuária', 'Monitoramento', 'Controle'],
+        publishedDate: new Date('2024-02-18'),
+        views: 1456
+      },
+      {
+        id: 8,
+        title: 'Policiamento Rodoviário: Prevenção de Acidentes',
+        author: 'Inspetor Marcos Silva',
+        institution: 'Academia PRF',
+        year: '2024',
+        category: 'Segurança Rodoviária',
+        force: 'Polícia Rodoviária Federal',
+        state: 'MG',
+        downloads: 1456,
+        rating: 4.6,
+        abstract: 'Estratégias preventivas para redução de acidentes rodoviários, incluindo uso de tecnologia e educação para o trânsito.',
+        keywords: ['Segurança Rodoviária', 'Prevenção', 'Acidentes'],
+        publishedDate: new Date('2024-01-30'),
+        views: 2678
+      }
+    ]);
   };
 
   const sortedResults = [...searchResults].sort((a, b) => {
@@ -331,7 +502,7 @@ const SearchAdvanced: React.FC = () => {
                 <Label htmlFor="institution" className="text-sm font-medium">Instituição</Label>
                 <Input
                   id="institution"
-                  placeholder="Nome da instituição"
+                  placeholder="Ex: PMERJ, Academia Nacional..."
                   value={filters.institution}
                   onChange={(e) => setFilters(prev => ({ ...prev, institution: e.target.value }))}
                   className="mt-1"

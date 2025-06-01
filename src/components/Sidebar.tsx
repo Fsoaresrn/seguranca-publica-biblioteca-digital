@@ -6,7 +6,8 @@ import {
   User, 
   FileText, 
   Calendar,
-  Book
+  Book,
+  Heart
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -35,13 +36,19 @@ const Sidebar: React.FC<SidebarProps> = ({
       name: 'Busca Avançada',
       id: 'search',
       icon: Search,
-      description: 'Buscar trabalhos acadêmicos'
+      description: 'Buscar trabalhos'
     },
     {
       name: 'Meus Trabalhos',
       id: 'my-works',
       icon: FileText,
-      description: 'Gerenciar suas publicações'
+      description: 'Gerenciar publicações'
+    },
+    {
+      name: 'Meus Favoritos',
+      id: 'favorites',
+      icon: Heart,
+      description: 'Trabalhos favoritados'
     },
     {
       name: 'Repositório',
