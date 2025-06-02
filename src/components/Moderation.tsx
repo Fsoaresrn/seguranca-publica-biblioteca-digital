@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Shield, FileCheck, Clock, AlertCircle, CheckCircle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -23,7 +22,7 @@ const Moderation: React.FC = () => {
     searchTerm: ''
   });
 
-  // Mock data expandido para demonstração
+  // Dados expandidos com mais exemplos para demonstração
   const [works, setWorks] = useState<ModerationWork[]>([
     {
       id: '1',
@@ -225,6 +224,103 @@ const Moderation: React.FC = () => {
       views: 67,
       downloads: 15,
       rating: 4.0
+    },
+    {
+      id: '9',
+      title: 'Combate ao Tráfico de Drogas: Estratégias Integradas',
+      abstract: 'Análise das estratégias integradas entre diferentes forças de segurança no combate ao tráfico de drogas.',
+      author: 'Delegado Paulo Henrique',
+      email: 'paulo.henrique@pc.go.gov.br',
+      registration: '112233',
+      institution: 'Academia de Polícia Civil de Goiás',
+      state: 'Goiás',
+      force: 'Polícia Civil',
+      course: 'Curso de Delegado',
+      year: '2024',
+      keywords: 'tráfico de drogas, estratégias integradas, combate',
+      category: 'investigacao-criminal',
+      type: 'Livro',
+      language: 'Português',
+      fileName: 'combate_trafico_drogas.pdf',
+      fileSize: 5234567,
+      status: 'submitted',
+      submittedAt: new Date('2024-02-01'),
+      views: 23,
+      downloads: 5,
+      rating: 4.3
+    },
+    {
+      id: '10',
+      title: 'Uso de Drones na Segurança Pública',
+      abstract: 'Implementação e uso operacional de veículos aéreos não tripulados em atividades de segurança pública.',
+      author: 'Capitão Sandra Melo',
+      email: 'sandra.melo@pm.pr.gov.br',
+      registration: '445566',
+      institution: 'Academia Policial Militar do Guatupê',
+      state: 'Paraná',
+      force: 'Polícia Militar',
+      course: 'Curso de Aperfeiçoamento de Oficiais',
+      year: '2024',
+      keywords: 'drones, tecnologia, segurança pública, veículos aéreos',
+      category: 'tecnologia-seguranca',
+      type: 'Ebook',
+      language: 'Português',
+      fileName: 'drones_seguranca_publica.pdf',
+      fileSize: 1567890,
+      status: 'submitted',
+      submittedAt: new Date('2024-02-03'),
+      views: 89,
+      downloads: 34,
+      rating: 4.7
+    },
+    {
+      id: '11',
+      title: 'Psicologia Aplicada ao Interrogatório Policial',
+      abstract: 'Técnicas psicológicas aplicadas em interrogatórios policiais respeitando os direitos humanos.',
+      author: 'Dra. Luciana Fernandes',
+      email: 'luciana.fernandes@pc.ba.gov.br',
+      registration: '778899',
+      institution: 'Academia de Polícia Civil da Bahia',
+      state: 'Bahia',
+      force: 'Polícia Civil',
+      course: 'Especialização em Psicologia Criminal',
+      year: '2024',
+      keywords: 'psicologia, interrogatório, direitos humanos',
+      category: 'investigacao-criminal',
+      type: 'Revista',
+      language: 'Português',
+      fileName: 'psicologia_interrogatorio.pdf',
+      fileSize: 2890123,
+      status: 'under_review',
+      submittedAt: new Date('2024-02-05'),
+      reviewedBy: 'Moderador Carlos',
+      views: 156,
+      downloads: 67,
+      rating: 4.4
+    },
+    {
+      id: '12',
+      title: 'Prevenção de Incêndios em Áreas Urbanas',
+      abstract: 'Estratégias de prevenção e combate a incêndios em áreas urbanas densamente povoadas.',
+      author: 'Tenente Marcos Oliveira',
+      email: 'marcos.oliveira@bombeiros.rs.gov.br',
+      registration: '334455',
+      institution: 'Academia do Corpo de Bombeiros do Rio Grande do Sul',
+      state: 'Rio Grande do Sul',
+      force: 'Bombeiros',
+      course: 'Curso de Formação de Oficiais',
+      year: '2024',
+      keywords: 'prevenção, incêndios, áreas urbanas, combate',
+      category: 'prevencao-violencia',
+      type: 'TCC',
+      language: 'Português',
+      fileName: 'prevencao_incendios_urbanos.pdf',
+      fileSize: 3567890,
+      status: 'submitted',
+      submittedAt: new Date('2024-02-07'),
+      views: 45,
+      downloads: 12,
+      rating: 4.0
     }
   ]);
 
@@ -287,7 +383,10 @@ const Moderation: React.FC = () => {
     setSelectedWorks([]);
   };
 
+  // Função melhorada para aprovação com notificação
   const handleApprove = (workId: string, notes: string, categoryChange?: string) => {
+    const work = works.find(w => w.id === workId);
+    
     setWorks(prev => prev.map(work => 
       work.id === workId 
         ? { 
@@ -301,13 +400,27 @@ const Moderation: React.FC = () => {
         : work
     ));
     
+    // Simular envio de notificação por email
+    if (work) {
+      console.log(`📧 Email enviado para ${work.email}:`);
+      console.log(`Assunto: Trabalho aprovado - ${work.title}`);
+      console.log(`Mensagem: Seu trabalho "${work.title}" foi aprovado e está disponível na plataforma BNSP.`);
+      console.log(`Observações do moderador: ${notes}`);
+      if (categoryChange) {
+        console.log(`A categoria foi alterada para: ${categoryChange}`);
+      }
+    }
+    
     toast({
       title: 'Trabalho aprovado',
-      description: 'O trabalho foi aprovado com sucesso.'
+      description: 'O trabalho foi aprovado e o autor foi notificado por email.'
     });
   };
 
+  // Função melhorada para rejeição com notificação
   const handleReject = (workId: string, notes: string) => {
+    const work = works.find(w => w.id === workId);
+    
     setWorks(prev => prev.map(work => 
       work.id === workId 
         ? { 
@@ -320,19 +433,25 @@ const Moderation: React.FC = () => {
         : work
     ));
     
-    // Simular envio de notificação para o autor
-    const work = works.find(w => w.id === workId);
+    // Simular envio de notificação por email
     if (work) {
-      console.log(`Notificação enviada para ${work.email}: Trabalho "${work.title}" foi rejeitado. Motivo: ${notes}`);
+      console.log(`📧 Email enviado para ${work.email}:`);
+      console.log(`Assunto: Trabalho rejeitado - ${work.title}`);
+      console.log(`Mensagem: Infelizmente, seu trabalho "${work.title}" foi rejeitado.`);
+      console.log(`Motivo da rejeição: ${notes}`);
+      console.log(`Você pode revisar o trabalho e enviar novamente após as correções necessárias.`);
     }
     
     toast({
       title: 'Trabalho rejeitado',
-      description: 'O trabalho foi rejeitado e o autor foi notificado.'
+      description: 'O trabalho foi rejeitado e o autor foi notificado por email.'
     });
   };
 
+  // Função melhorada para solicitação de alterações com notificação
   const handleRequestChanges = (workId: string, notes: string) => {
+    const work = works.find(w => w.id === workId);
+    
     setWorks(prev => prev.map(work => 
       work.id === workId 
         ? { 
@@ -344,15 +463,18 @@ const Moderation: React.FC = () => {
         : work
     ));
     
-    // Simular envio de notificação para o autor
-    const work = works.find(w => w.id === workId);
+    // Simular envio de notificação por email
     if (work) {
-      console.log(`Notificação enviada para ${work.email}: Solicitation de alterações para "${work.title}". Observações: ${notes}`);
+      console.log(`📧 Email enviado para ${work.email}:`);
+      console.log(`Assunto: Alterações solicitadas - ${work.title}`);
+      console.log(`Mensagem: Foram solicitadas alterações em seu trabalho "${work.title}".`);
+      console.log(`Alterações solicitadas: ${notes}`);
+      console.log(`Por favor, revise o trabalho conforme as observações e envie novamente.`);
     }
     
     toast({
       title: 'Alterações solicitadas',
-      description: 'As alterações foram solicitadas e o autor foi notificado.'
+      description: 'As alterações foram solicitadas e o autor foi notificado por email.'
     });
   };
 

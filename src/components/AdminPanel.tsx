@@ -4,13 +4,63 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import UserManagement from './admin/UserManagement';
+import SystemSettings from './admin/SystemSettings';
+import PendingActionsDetail from './admin/PendingActionsDetail';
+import { useToast } from '@/hooks/use-toast';
 
 interface AdminPanelProps {
   onNavigate?: (section: string) => void;
 }
 
+interface PendingAction {
+  id: number;
+  title: string;
+  description: string;
+  priority: 'high' | 'medium' | 'low';
+  count: number;
+  type: 'users' | 'moderation' | 'categories' | 'backup';
+}
+
 const AdminPanel: React.FC<AdminPanelProps> = ({ onNavigate }) => {
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('overview');
+  const [selectedAction, setSelectedAction] = useState<PendingAction | null>(null);
+  const [isActionDetailOpen, setIsActionDetailOpen] = useState(false);
+  const [pendingActions, setPendingActions] = useState<PendingAction[]>([
+    {
+      id: 1,
+      title: 'Revisar novos usuários',
+      description: '15 usuários aguardando aprovação de cadastro',
+      priority: 'high',
+      count: 15,
+      type: 'users'
+    },
+    {
+      id: 2,
+      title: 'Moderar trabalhos',
+      description: '8 trabalhos aguardando aprovação',
+      priority: 'medium',
+      count: 8,
+      type: 'moderation'
+    },
+    {
+      id: 3,
+      title: 'Atualizar categorias',
+      description: 'Revisão das categorias de trabalhos solicitada',
+      priority: 'low',
+      count: 1,
+      type: 'categories'
+    },
+    {
+      id: 4,
+      title: 'Configurar backup',
+      description: 'Backup automático precisa ser configurado',
+      priority: 'high',
+      count: 1,
+      type: 'backup'
+    }
+  ]);
 
   const systemStats = [
     {
@@ -82,36 +132,22 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onNavigate }) => {
     { name: 'Backup', status: 'online', uptime: '99.7%' }
   ];
 
-  const pendingActions = [
-    {
-      id: 1,
-      title: 'Revisar novos usuários',
-      description: '15 usuários aguardando aprovação de cadastro',
-      priority: 'high',
-      count: 15
-    },
-    {
-      id: 2,
-      title: 'Moderar trabalhos',
-      description: '8 trabalhos aguardando aprovação',
-      priority: 'medium',
-      count: 8
-    },
-    {
-      id: 3,
-      title: 'Atualizar categorias',
-      description: 'Revisão das categorias de trabalhos solicitada',
-      priority: 'low',
-      count: 1
-    },
-    {
-      id: 4,
-      title: 'Configurar backup',
-      description: 'Backup automático precisa ser configurado',
-      priority: 'high',
-      count: 1
-    }
-  ];
+  const handleViewActionDetails = (action: PendingAction) => {
+    setSelectedAction(action);
+    setIsActionDetailOpen(true);
+  };
+
+  const handleResolveAction = (actionId: number, resolution: string) => {
+    setPendingActions(prev => prev.filter(action => action.id !== actionId));
+    
+    console.log(`✅ Ação resolvida - ID: ${actionId}`);
+    console.log(`📝 Resolução: ${resolution}`);
+    
+    toast({
+      title: 'Ação resolvida',
+      description: 'A ação pendente foi marcada como resolvida com sucesso.'
+    });
+  };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -245,29 +281,11 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onNavigate }) => {
         </TabsContent>
 
         <TabsContent value="users">
-          <Card>
-            <CardHeader>
-              <CardTitle>Gestão de Usuários</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-center text-gray-500 py-8">
-                Funcionalidade de gestão de usuários em desenvolvimento...
-              </p>
-            </CardContent>
-          </Card>
+          <UserManagement />
         </TabsContent>
 
         <TabsContent value="system">
-          <Card>
-            <CardHeader>
-              <CardTitle>Configurações do Sistema</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-center text-gray-500 py-8">
-                Painel de configurações do sistema em desenvolvimento...
-              </p>
-            </CardContent>
-          </Card>
+          <SystemSettings />
         </TabsContent>
 
         <TabsContent value="actions">
@@ -287,16 +305,47 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onNavigate }) => {
                       <p className="text-gray-600">{action.description}</p>
                     </div>
                     <div className="flex gap-2">
-                      <Button size="sm" variant="outline">Ver Detalhes</Button>
-                      <Button size="sm" className="govbr-btn-primary">Resolver</Button>
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={() => handleViewActionDetails(action)}
+                      >
+                        Ver Detalhes
+                      </Button>
+                      <Button 
+                        size="sm" 
+                        className="govbr-btn-primary"
+                        onClick={() => handleViewActionDetails(action)}
+                      >
+                        Resolver
+                      </Button>
                     </div>
                   </div>
                 </CardContent>
               </Card>
             ))}
+            
+            {pendingActions.length === 0 && (
+              <Card>
+                <CardContent className="p-8 text-center">
+                  <p className="text-gray-500">Nenhuma ação pendente no momento.</p>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </TabsContent>
       </Tabs>
+
+      {/* Modal de detalhes da ação */}
+      <PendingActionsDetail
+        action={selectedAction}
+        isOpen={isActionDetailOpen}
+        onClose={() => {
+          setIsActionDetailOpen(false);
+          setSelectedAction(null);
+        }}
+        onResolve={handleResolveAction}
+      />
     </div>
   );
 };
