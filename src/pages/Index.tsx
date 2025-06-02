@@ -70,7 +70,7 @@ const Index = () => {
 
     switch (currentSection) {
       case 'dashboard':
-        return <Dashboard userRole={userRole} userName={userName} onNavigate={handleNavigation} />;
+        return <Dashboard />;
       case 'search':
         return <SearchAdvanced />;
       case 'submit-work':
