@@ -7,6 +7,22 @@ const GovBrHeader = () => {
     window.open('https://cadastros.sinesp.gov.br/sinesp-cadastros/public/precadastro_envio_link.jsf?lg=pt', '_blank');
   };
 
+  const handleOrgaosGoverno = () => {
+    window.open('https://www.gov.br/pt-br/orgaos-do-governo', '_blank');
+  };
+
+  const handleAcessoInformacao = () => {
+    window.open('https://www.gov.br/acessoainformacao/pt-br', '_blank');
+  };
+
+  const handleLegislacao = () => {
+    window.open('https://www4.planalto.gov.br/legislacao', '_blank');
+  };
+
+  const handleAcessibilidade = () => {
+    window.open('https://www.gov.br/governodigital/pt-br/acessibilidade-e-usuario/acessibilidade-digital', '_blank');
+  };
+
   return (
     <div className="w-full bg-white border-b border-gray-200">
       {/* Top Gov.br Bar */}
@@ -22,16 +38,28 @@ const GovBrHeader = () => {
               <span className="text-sm font-medium">Governo Federal</span>
             </div>
             <div className="flex items-center space-x-6">
-              <button className="text-white hover:text-blue-100 text-sm">
+              <button 
+                onClick={handleOrgaosGoverno}
+                className="text-white hover:text-blue-100 text-sm"
+              >
                 Órgãos do Governo
               </button>
-              <button className="text-white hover:text-blue-100 text-sm">
+              <button 
+                onClick={handleAcessoInformacao}
+                className="text-white hover:text-blue-100 text-sm"
+              >
                 Acesso à Informação
               </button>
-              <button className="text-white hover:text-blue-100 text-sm">
+              <button 
+                onClick={handleLegislacao}
+                className="text-white hover:text-blue-100 text-sm"
+              >
                 Legislação
               </button>
-              <button className="text-white hover:text-blue-100 text-sm">
+              <button 
+                onClick={handleAcessibilidade}
+                className="text-white hover:text-blue-100 text-sm"
+              >
                 Acessibilidade
               </button>
               <button className="text-white hover:text-blue-100 text-sm">
