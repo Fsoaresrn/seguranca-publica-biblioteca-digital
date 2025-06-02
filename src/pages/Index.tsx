@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import GovBrHeader from '@/components/GovBrHeader';
 import Header from '@/components/Header';
@@ -24,6 +23,7 @@ import TermosUso from '@/components/TermosUso';
 import PoliticaPrivacidade from '@/components/PoliticaPrivacidade';
 import Login from '@/components/Login';
 import CollectionExplorer from '@/components/CollectionExplorer';
+import CategoryView from '@/components/CategoryView';
 
 const Index = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
