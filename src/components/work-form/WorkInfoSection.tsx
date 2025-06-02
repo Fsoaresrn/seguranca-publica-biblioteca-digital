@@ -49,7 +49,10 @@ const workTypes = [
   'Artigo Científico',
   'Monografia',
   'Relatório Técnico',
-  'Manual Operacional'
+  'Manual Operacional',
+  'Livro',
+  'Ebook',
+  'Revista'
 ];
 
 const WorkInfoSection: React.FC<WorkInfoSectionProps> = ({ form }) => {

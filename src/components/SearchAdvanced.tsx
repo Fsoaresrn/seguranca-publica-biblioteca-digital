@@ -51,7 +51,7 @@ const SearchAdvanced: React.FC = () => {
   });
 
   const [sortBy, setSortBy] = useState('rating');
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([
+  const [allResults] = useState<SearchResult[]>([
     {
       id: 1,
       title: 'Inteligência Artificial aplicada à Investigação Criminal',
@@ -179,8 +179,42 @@ const SearchAdvanced: React.FC = () => {
       keywords: ['Segurança Rodoviária', 'Prevenção', 'Acidentes'],
       publishedDate: new Date('2024-01-30'),
       views: 2678
+    },
+    {
+      id: 9,
+      title: 'Investigação de Lavagem de Dinheiro',
+      author: 'Del. Marcos Oliveira',
+      institution: 'Polícia Federal',
+      year: '2024',
+      category: 'Investigação Criminal',
+      force: 'Polícia Federal',
+      state: 'DF',
+      downloads: 1890,
+      rating: 4.5,
+      abstract: 'Técnicas modernas para investigação de crimes de lavagem de dinheiro e rastreamento de ativos financeiros.',
+      keywords: ['Lavagem de Dinheiro', 'Investigação Financeira', 'Crimes Econômicos'],
+      publishedDate: new Date('2024-03-01'),
+      views: 2234
+    },
+    {
+      id: 10,
+      title: 'Segurança em Eventos Públicos',
+      author: 'Maj. Carlos Santos',
+      institution: 'PMSP',
+      year: '2024',
+      category: 'Policiamento Comunitário',
+      force: 'Polícia Militar',
+      state: 'SP',
+      downloads: 1234,
+      rating: 4.4,
+      abstract: 'Estratégias de segurança para grandes eventos públicos, incluindo planejamento operacional e gestão de multidões.',
+      keywords: ['Eventos Públicos', 'Segurança', 'Multidões'],
+      publishedDate: new Date('2024-02-28'),
+      views: 1789
     }
   ]);
+
+  const [searchResults, setSearchResults] = useState<SearchResult[]>(allResults);
 
   const categories = [
     'Investigação Criminal',
@@ -222,8 +256,7 @@ const SearchAdvanced: React.FC = () => {
   const handleSearch = () => {
     console.log('Searching with filters:', filters);
     
-    // Demonstração de busca funcional
-    let filteredResults = [...searchResults];
+    let filteredResults = [...allResults];
     
     // Filtrar por termo de busca
     if (filters.query) {
@@ -231,6 +264,13 @@ const SearchAdvanced: React.FC = () => {
         result.title.toLowerCase().includes(filters.query.toLowerCase()) ||
         result.abstract.toLowerCase().includes(filters.query.toLowerCase()) ||
         result.keywords.some(keyword => keyword.toLowerCase().includes(filters.query.toLowerCase()))
+      );
+    }
+    
+    // Filtrar por autor
+    if (filters.author) {
+      filteredResults = filteredResults.filter(result => 
+        result.author.toLowerCase().includes(filters.author.toLowerCase())
       );
     }
     
@@ -262,6 +302,19 @@ const SearchAdvanced: React.FC = () => {
       );
     }
     
+    // Filtrar por ano
+    if (filters.yearFrom) {
+      filteredResults = filteredResults.filter(result => 
+        parseInt(result.year) >= parseInt(filters.yearFrom)
+      );
+    }
+    
+    if (filters.yearTo) {
+      filteredResults = filteredResults.filter(result => 
+        parseInt(result.year) <= parseInt(filters.yearTo)
+      );
+    }
+    
     setSearchResults(filteredResults);
   };
 
@@ -286,137 +339,7 @@ const SearchAdvanced: React.FC = () => {
       forceType: [],
       state: 'all'
     });
-    // Resetar para todos os resultados
-    setSearchResults([
-      {
-        id: 1,
-        title: 'Inteligência Artificial aplicada à Investigação Criminal',
-        author: 'Dr. Roberto Silva',
-        institution: 'Academia Nacional de Polícia',
-        year: '2024',
-        category: 'Tecnologia Policial',
-        force: 'Polícia Federal',
-        state: 'DF',
-        downloads: 2341,
-        rating: 4.8,
-        abstract: 'Este trabalho apresenta uma análise abrangente sobre o uso de inteligência artificial em processos investigativos criminais, destacando ferramentas de análise de dados, reconhecimento facial e predição de crimes.',
-        keywords: ['IA', 'Investigação', 'Tecnologia', 'Análise Criminal'],
-        publishedDate: new Date('2024-01-15'),
-        views: 3456
-      },
-      {
-        id: 2,
-        title: 'Policiamento Comunitário em Áreas de Vulnerabilidade Social',
-        author: 'Cap. Maria Fernanda',
-        institution: 'PMERJ',
-        year: '2023',
-        category: 'Policiamento Comunitário',
-        force: 'Polícia Militar',
-        state: 'RJ',
-        downloads: 1876,
-        rating: 4.6,
-        abstract: 'Análise de estratégias de policiamento comunitário implementadas em comunidades vulneráveis do Rio de Janeiro, com foco na redução da violência e melhoria da relação polícia-comunidade.',
-        keywords: ['Policiamento Comunitário', 'Vulnerabilidade Social', 'Prevenção'],
-        publishedDate: new Date('2023-12-20'),
-        views: 2789
-      },
-      {
-        id: 3,
-        title: 'Crimes Cibernéticos: Novas Abordagens Investigativas',
-        author: 'Del. Ana Carolina',
-        institution: 'PCSP',
-        year: '2024',
-        category: 'Investigação Criminal',
-        force: 'Polícia Civil',
-        state: 'SP',
-        downloads: 3102,
-        rating: 4.9,
-        abstract: 'Metodologias inovadoras para investigação de crimes cibernéticos, incluindo análise forense digital, rastreamento de criptomoedas e cooperação internacional.',
-        keywords: ['Crimes Cibernéticos', 'Forense Digital', 'Investigação'],
-        publishedDate: new Date('2024-02-10'),
-        views: 4123
-      },
-      {
-        id: 4,
-        title: 'Gestão de Trânsito Urbano: Tecnologias Emergentes',
-        author: 'Agente Carlos Mendes',
-        institution: 'Academia de Trânsito SP',
-        year: '2024',
-        category: 'Gestão de Trânsito',
-        force: 'Agente de Trânsito',
-        state: 'SP',
-        downloads: 892,
-        rating: 4.3,
-        abstract: 'Estudo sobre implementação de tecnologias inteligentes na gestão do trânsito urbano, incluindo semáforos adaptativos e sistemas de monitoramento.',
-        keywords: ['Trânsito', 'Tecnologia', 'Gestão Urbana'],
-        publishedDate: new Date('2024-01-28'),
-        views: 1567
-      },
-      {
-        id: 5,
-        title: 'Perícia Criminal Digital: Análise de Evidências Eletrônicas',
-        author: 'Perito João Santos',
-        institution: 'Instituto de Criminalística',
-        year: '2024',
-        category: 'Perícia Criminal',
-        force: 'Perícia Criminal',
-        state: 'RS',
-        downloads: 1234,
-        rating: 4.7,
-        abstract: 'Metodologias avançadas para análise de evidências digitais em crimes cibernéticos, incluindo recuperação de dados e análise forense de dispositivos móveis.',
-        keywords: ['Perícia Digital', 'Evidências', 'Forense'],
-        publishedDate: new Date('2024-02-05'),
-        views: 2345
-      },
-      {
-        id: 6,
-        title: 'Sistema Penitenciário Federal: Desafios e Soluções',
-        author: 'Agente Federal Pedro Lima',
-        institution: 'Academia Penitenciária Federal',
-        year: '2024',
-        category: 'Sistema Penitenciário',
-        force: 'Polícia Penal Federal',
-        state: 'DF',
-        downloads: 567,
-        rating: 4.2,
-        abstract: 'Análise dos principais desafios do sistema penitenciário federal brasileiro e propostas de soluções inovadoras para ressocialização.',
-        keywords: ['Sistema Penitenciário', 'Ressocialização', 'Gestão'],
-        publishedDate: new Date('2024-01-12'),
-        views: 1890
-      },
-      {
-        id: 7,
-        title: 'Segurança Portuária: Controle e Monitoramento',
-        author: 'Guarda Portuário Roberto Costa',
-        institution: 'Autoridade Portuária Santos',
-        year: '2024',
-        category: 'Segurança Portuária',
-        force: 'Guarda Portuária',
-        state: 'SP',
-        downloads: 723,
-        rating: 4.4,
-        abstract: 'Estudo sobre sistemas de segurança portuária, incluindo tecnologias de monitoramento e controle de acesso em áreas portuárias.',
-        keywords: ['Segurança Portuária', 'Monitoramento', 'Controle'],
-        publishedDate: new Date('2024-02-18'),
-        views: 1456
-      },
-      {
-        id: 8,
-        title: 'Policiamento Rodoviário: Prevenção de Acidentes',
-        author: 'Inspetor Marcos Silva',
-        institution: 'Academia PRF',
-        year: '2024',
-        category: 'Segurança Rodoviária',
-        force: 'Polícia Rodoviária Federal',
-        state: 'MG',
-        downloads: 1456,
-        rating: 4.6,
-        abstract: 'Estratégias preventivas para redução de acidentes rodoviários, incluindo uso de tecnologia e educação para o trânsito.',
-        keywords: ['Segurança Rodoviária', 'Prevenção', 'Acidentes'],
-        publishedDate: new Date('2024-01-30'),
-        views: 2678
-      }
-    ]);
+    setSearchResults(allResults);
   };
 
   const sortedResults = [...searchResults].sort((a, b) => {
@@ -438,7 +361,7 @@ const SearchAdvanced: React.FC = () => {
       <div>
         <h1 className="govbr-heading-1">Busca Avançada</h1>
         <p className="govbr-body mt-2">
-          Encontre trabalhos acadêmicos com filtros específicos e busca semântica inteligente
+          Encontre trabalhos com filtros específicos e busca semântica inteligente
         </p>
       </div>
 

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { User } from 'lucide-react';
 import { UseFormReturn } from 'react-hook-form';
@@ -5,9 +6,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { WorkFormData } from '@/types/work';
+
 interface AuthorInfoSectionProps {
   form: UseFormReturn<WorkFormData>;
 }
+
 const AuthorInfoSection: React.FC<AuthorInfoSectionProps> = ({
   form
 }) => {
@@ -44,13 +47,14 @@ const AuthorInfoSection: React.FC<AuthorInfoSectionProps> = ({
         <FormField control={form.control} name="registration" render={({
         field
       }) => <FormItem>
-              <FormLabel className="govbr-label required">CPF/RG Funcional *</FormLabel>
+              <FormLabel className="govbr-label required">Número do CPF ou RG Funcional *</FormLabel>
               <FormControl>
-                <Input placeholder="Número da matrícula ou RG funcional" className="govbr-input" {...field} />
+                <Input placeholder="Número do CPF ou RG funcional" className="govbr-input" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>} />
       </CardContent>
     </Card>;
 };
+
 export default AuthorInfoSection;
