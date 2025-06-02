@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -32,9 +33,7 @@ interface Work {
 }
 
 interface DashboardProps {
-  userRole?: 'servidor' | 'moderador' | 'administrador';
-  userName?: string;
-  onNavigate?: (section: string) => void;
+  onNavigate?: (section: string, data?: any) => void;
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
@@ -209,6 +208,12 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
         default:
           break;
       }
+    }
+  };
+
+  const handleCategoryClick = (categoryName: string) => {
+    if (onNavigate) {
+      onNavigate('category-view', { category: categoryName });
     }
   };
 
@@ -417,6 +422,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
               <div 
                 key={category.name}
                 className="p-4 border border-govbr-gray-20 rounded-lg hover:shadow-md transition-shadow cursor-pointer"
+                onClick={() => handleCategoryClick(category.name)}
               >
                 <div className="text-2xl mb-2">{category.icon}</div>
                 <h4 className="font-medium text-sm mb-1">{category.name}</h4>

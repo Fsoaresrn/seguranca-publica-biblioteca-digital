@@ -70,7 +70,7 @@ const Index = () => {
 
     switch (currentSection) {
       case 'dashboard':
-        return <Dashboard />;
+        return <Dashboard onNavigate={handleNavigation} />;
       case 'search':
         return <SearchAdvanced />;
       case 'submit-work':
@@ -81,6 +81,8 @@ const Index = () => {
         return <Repository onNavigate={handleNavigation} />;
       case 'collection-explorer':
         return <CollectionExplorer collectionId={navigationData?.collectionId} onNavigate={handleNavigation} />;
+      case 'category-view':
+        return <CategoryView category={navigationData?.category} onNavigate={handleNavigation} />;
       case 'admin':
         return <AdminPanel onNavigate={handleNavigation} />;
       case 'moderation':
