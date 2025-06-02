@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Settings, Database, Mail, Shield, Globe, Bell, Server, Save } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,6 +8,7 @@ import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
+import SystemDataManagement from './SystemDataManagement';
 
 const SystemSettings: React.FC = () => {
   const { toast } = useToast();
@@ -105,12 +105,13 @@ const SystemSettings: React.FC = () => {
       </div>
 
       <Tabs defaultValue="general" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="general">Geral</TabsTrigger>
           <TabsTrigger value="email">Email</TabsTrigger>
           <TabsTrigger value="security">Segurança</TabsTrigger>
           <TabsTrigger value="moderation">Moderação</TabsTrigger>
           <TabsTrigger value="notifications">Notificações</TabsTrigger>
+          <TabsTrigger value="data">Dados do Sistema</TabsTrigger>
         </TabsList>
 
         <TabsContent value="general">
@@ -535,6 +536,10 @@ const SystemSettings: React.FC = () => {
               </Button>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="data">
+          <SystemDataManagement />
         </TabsContent>
       </Tabs>
     </div>

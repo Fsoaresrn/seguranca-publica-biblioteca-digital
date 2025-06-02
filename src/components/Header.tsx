@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { Search, User, Bell, Menu, BookOpen } from 'lucide-react';
+import { Search, User, Bell, Menu, BookOpen, Home, Award, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -17,27 +16,30 @@ import {
 } from '@/components/ui/popover';
 
 interface HeaderProps {
-  onMenuClick?: () => void;
-  userRole?: 'servidor' | 'moderador' | 'administrador';
-  userName?: string;
+  currentView?: string;
   onNavigate?: (section: string) => void;
+  onSearch?: (query: string) => void;
+  user?: { name: string, role: 'servidor' | 'moderador' | 'administrador' };
+  onLogin?: () => void;
   onLogout?: () => void;
-  isLoggedIn?: boolean;
 }
 
 const Header: React.FC<HeaderProps> = ({ 
-  onMenuClick, 
-  userRole = 'servidor',
-  userName = 'João Silva',
-  onNavigate,
-  onLogout,
-  isLoggedIn = false
+  currentView, 
+  onNavigate, 
+  onSearch, 
+  user, 
+  onLogin, 
+  onLogout
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [notifications, setNotifications] = useState([]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Searching for:', searchQuery);
+    if (onSearch) {
+      onSearch(searchQuery);
+    }
   };
 
   const getRoleLabel = (role: string) => {
@@ -61,28 +63,12 @@ const Header: React.FC<HeaderProps> = ({
     }
   };
 
-  const notifications = [
-    {
-      id: 1,
-      title: 'Novo trabalho para revisão',
-      message: 'Um novo artigo foi submetido para moderação',
-      time: '5 min atrás',
-      unread: true
-    },
-    {
-      id: 2,
-      title: 'Trabalho aprovado',
-      message: 'Seu artigo "Tecnologia Policial" foi aprovado',
-      time: '1 hora atrás',
-      unread: true
-    },
-    {
-      id: 3,
-      title: 'Sistema atualizado',
-      message: 'Novas funcionalidades disponíveis na plataforma',
-      time: '2 horas atrás',
-      unread: false
-    }
+  const menuItems = [
+    { id: 'home', label: 'Início', icon: Home },
+    { id: 'repository', label: 'Repositório', icon: BookOpen },
+    { id: 'search-advanced', label: 'Busca Avançada', icon: Search },
+    { id: 'yearbook', label: 'Anuário', icon: Award },
+    { id: 'central-ajuda', label: 'Central de Ajuda', icon: HelpCircle }
   ];
 
   const handleNotificationsClick = () => {
@@ -106,7 +92,7 @@ const Header: React.FC<HeaderProps> = ({
             <Button
               variant="ghost"
               size="sm"
-              onClick={onMenuClick}
+              onClick={() => handleNavigation('home')}
               className="lg:hidden"
               aria-label="Abrir menu de navegação"
             >
@@ -145,7 +131,7 @@ const Header: React.FC<HeaderProps> = ({
 
           {/* User Actions */}
           <div className="flex items-center space-x-4">
-            {isLoggedIn ? (
+            {user ? (
               <>
                 {/* Notifications */}
                 <Popover>
@@ -182,8 +168,8 @@ const Header: React.FC<HeaderProps> = ({
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="flex items-center space-x-2 h-10" aria-label="Menu do usuário">
                       <div className="hidden sm:block text-right">
-                        <p className="text-sm font-medium text-gray-900">{userName}</p>
-                        <p className="text-xs text-gray-500">{getRoleLabel(userRole)}</p>
+                        <p className="text-sm font-medium text-gray-900">{user.name}</p>
+                        <p className="text-xs text-gray-500">{getRoleLabel(user.role)}</p>
                       </div>
                       <div className="h-8 w-8 bg-govbr-blue-warm-vivid rounded-full flex items-center justify-center">
                         <User className="h-4 w-4 text-white" />
@@ -192,8 +178,8 @@ const Header: React.FC<HeaderProps> = ({
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-56 bg-white border border-govbr-gray-20 shadow-lg">
                     <div className="px-3 py-2 border-b border-govbr-gray-10">
-                      <p className="text-sm font-medium">{userName}</p>
-                      <p className="text-xs text-gray-500">{getRoleLabel(userRole)}</p>
+                      <p className="text-sm font-medium">{user.name}</p>
+                      <p className="text-xs text-gray-500">{getRoleLabel(user.role)}</p>
                     </div>
                     <DropdownMenuItem className="cursor-pointer" onClick={() => handleNavigation('profile')}>
                       Meu Perfil

@@ -9,6 +9,21 @@ interface RepositoryProps {
   onNavigate?: (section: string, data?: any) => void;
 }
 
+interface Work {
+  id: number;
+  title: string;
+  author: string;
+  institution: string;
+  year: number;
+  category: string;
+  type: string;
+  downloads: number;
+  rating: number;
+  pages: number;
+  description: string;
+  file: string;
+}
+
 const Repository: React.FC<RepositoryProps> = ({ onNavigate }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -138,6 +153,51 @@ const Repository: React.FC<RepositoryProps> = ({ onNavigate }) => {
       tags: ['Meio Ambiente', 'Perícia', 'Crimes Ambientais']
     }
   ];
+
+  const [works] = useState<Work[]>([
+    {
+      id: 1,
+      title: 'Inteligência Artificial na Investigação Criminal',
+      author: 'Dr. Pedro Henrique Silva',
+      institution: 'Academia Nacional de Polícia',
+      year: 2024,
+      category: 'Tecnologia em Segurança',
+      type: 'Livro',
+      downloads: 1543,
+      rating: 4.8,
+      pages: 320,
+      description: 'Análise abrangente sobre o uso de inteligência artificial em investigações policiais modernas.',
+      file: '/docs/ia-investigacao-criminal.pdf'
+    },
+    {
+      id: 2,
+      title: 'Manual de Policiamento Comunitário',
+      author: 'Dra. Maria Santos Oliveira',
+      institution: 'Academia de Polícia Civil - SP',
+      year: 2024,
+      category: 'Policiamento Comunitário',
+      type: 'Ebook',
+      downloads: 2187,
+      rating: 4.9,
+      pages: 156,
+      description: 'Guia prático para implementação de estratégias de policiamento comunitário.',
+      file: '/docs/manual-policiamento-comunitario.pdf'
+    },
+    {
+      id: 3,
+      title: 'Revista de Segurança Pública - Vol. 15',
+      author: 'Conselho Editorial SENASP',
+      institution: 'Secretaria Nacional de Segurança Pública',
+      year: 2024,
+      category: 'Segurança Pública',
+      type: 'Revista',
+      downloads: 3421,
+      rating: 4.7,
+      pages: 98,
+      description: 'Edição especial com artigos selecionados sobre segurança pública.',
+      file: '/docs/revista-seguranca-publica-vol15.pdf'
+    }
+  ]);
 
   const getFilteredWorks = () => {
     if (selectedCategory === 'all') {
