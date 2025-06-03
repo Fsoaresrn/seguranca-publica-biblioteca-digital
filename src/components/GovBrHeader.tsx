@@ -22,16 +22,28 @@ const GovBrHeader = () => {
               <span className="text-sm font-medium">Governo Federal</span>
             </div>
             <div className="flex items-center space-x-6">
-              <button className="text-white hover:text-blue-100 text-sm">
+              <button 
+                className="text-white hover:text-blue-100 text-sm"
+                onClick={() => window.open('https://www.gov.br/pt-br/orgaos-do-governo', '_blank')}
+              >
                 Órgãos do Governo
               </button>
-              <button className="text-white hover:text-blue-100 text-sm">
+              <button 
+                className="text-white hover:text-blue-100 text-sm"
+                onClick={() => window.open('https://www.gov.br/acessoainformacao/pt-br', '_blank')}
+              >
                 Acesso à Informação
               </button>
-              <button className="text-white hover:text-blue-100 text-sm">
+              <button 
+                className="text-white hover:text-blue-100 text-sm"
+                onClick={() => window.open('https://www4.planalto.gov.br/legislacao', '_blank')}
+              >
                 Legislação
               </button>
-              <button className="text-white hover:text-blue-100 text-sm">
+              <button 
+                className="text-white hover:text-blue-100 text-sm"
+                onClick={() => window.open('https://www.gov.br/governodigital/pt-br/acessibilidade-e-usuario/acessibilidade-digital', '_blank')}
+              >
                 Acessibilidade
               </button>
               <button className="text-white hover:text-blue-100 text-sm">
@@ -41,7 +53,7 @@ const GovBrHeader = () => {
                 className="bg-white text-govbr-blue-warm-vivid hover:bg-gray-100 text-sm px-4 py-1 h-8"
                 onClick={() => window.open('https://acesso.gov.br/', '_blank')}
               >
-                Entrar com seg.br
+                Entrar com gov.br
               </Button>
               <Button 
                 className="bg-transparent border border-white text-white hover:bg-white hover:text-govbr-blue-warm-vivid text-sm px-4 py-1 h-8"
