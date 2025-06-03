@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import GovBrHeader from '@/components/GovBrHeader';
 import Header from '@/components/Header';
@@ -26,7 +27,7 @@ import CollectionExplorer from '@/components/CollectionExplorer';
 import CategoryView from '@/components/CategoryView';
 
 const Index = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false); // Changed default to false for mobile-first
   const [currentSection, setCurrentSection] = useState('library-home');
   const [userRole] = useState<'servidor' | 'moderador' | 'administrador'>('moderador');
   const [userName, setUserName] = useState('');
@@ -130,20 +131,26 @@ const Index = () => {
         <Header 
           onNavigate={handleNavigation}
           onLogout={handleLogout}
+          onMenuClick={handleMenuClick}
         />
       )}
       
-      <div className="flex">
+      <div className="flex relative">
         {showHeaderAndSidebar && (
           <Sidebar 
             isOpen={sidebarOpen}
             onNavigate={handleNavigation}
             currentSection={currentSection}
             userRole={userRole}
+            onClose={() => setSidebarOpen(false)}
           />
         )}
         
-        <main className={`flex-1 ${showHeaderAndSidebar ? 'p-6 lg:p-8' : ''} overflow-auto`}>
+        <main className={cn(
+          "flex-1 overflow-auto",
+          showHeaderAndSidebar ? "p-4 lg:p-6 xl:p-8" : "",
+          showHeaderAndSidebar && sidebarOpen ? "md:ml-0" : ""
+        )}>
           <div className={showHeaderAndSidebar ? "max-w-7xl mx-auto" : ""}>
             {renderContent()}
           </div>
@@ -152,12 +159,12 @@ const Index = () => {
 
       {/* Government Footer */}
       {(showHeaderAndSidebar || currentSection === 'library-home') && (
-        <footer className="bg-govbr-blue-warm-dark text-white py-8 mt-12">
+        <footer className="bg-govbr-blue-warm-dark text-white py-6 md:py-8 mt-8 md:mt-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               <div>
                 <h3 className="text-lg font-semibold mb-4">BNSP</h3>
-                <p className="text-govbr-blue-warm-20 text-sm">
+                <p className="text-govbr-blue-warm-20 text-sm leading-relaxed">
                   Biblioteca Nacional da Segurança Pública - Plataforma oficial da 
                   Secretaria Nacional de Segurança Pública - Senasp/MJSP para 
                   compartilhamento de conhecimento acadêmico entre servidores de segurança pública.
@@ -166,24 +173,24 @@ const Index = () => {
               <div>
                 <h3 className="text-lg font-semibold mb-4">Links Importantes</h3>
                 <ul className="space-y-2 text-sm text-govbr-blue-warm-20">
-                  <li><a href="https://www.gov.br/pt-br" target="_blank" className="hover:text-white">Portal Gov.br</a></li>
-                  <li><a href="https://www.gov.br/mj/pt-br/assuntos/sua-seguranca/seguranca-publica" target="_blank" className="hover:text-white">SENASP</a></li>
-                  <li><a href="https://www.gov.br/mj/pt-br" target="_blank" className="hover:text-white">Ministério da Justiça e Segurança Pública</a></li>
-                  <li><a href="https://seguranca.sinesp.gov.br/" target="_blank" className="hover:text-white">Sinesp Segurança</a></li>
+                  <li><a href="https://www.gov.br/pt-br" target="_blank" className="hover:text-white transition-colors">Portal Gov.br</a></li>
+                  <li><a href="https://www.gov.br/mj/pt-br/assuntos/sua-seguranca/seguranca-publica" target="_blank" className="hover:text-white transition-colors">SENASP</a></li>
+                  <li><a href="https://www.gov.br/mj/pt-br" target="_blank" className="hover:text-white transition-colors">Ministério da Justiça e Segurança Pública</a></li>
+                  <li><a href="https://seguranca.sinesp.gov.br/" target="_blank" className="hover:text-white transition-colors">Sinesp Segurança</a></li>
                 </ul>
               </div>
               <div>
                 <h3 className="text-lg font-semibold mb-4">Suporte</h3>
                 <ul className="space-y-2 text-sm text-govbr-blue-warm-20">
-                  <li><button onClick={() => handleNavigation('central-ajuda')} className="hover:text-white">Central de Ajuda</button></li>
-                  <li><button onClick={() => handleNavigation('termos-uso')} className="hover:text-white">Termos de Uso</button></li>
-                  <li><button onClick={() => handleNavigation('politica-privacidade')} className="hover:text-white">Política de Privacidade</button></li>
-                  <li><button onClick={handleLgpd} className="hover:text-white">LGPD</button></li>
+                  <li><button onClick={() => handleNavigation('central-ajuda')} className="hover:text-white transition-colors text-left">Central de Ajuda</button></li>
+                  <li><button onClick={() => handleNavigation('termos-uso')} className="hover:text-white transition-colors text-left">Termos de Uso</button></li>
+                  <li><button onClick={() => handleNavigation('politica-privacidade')} className="hover:text-white transition-colors text-left">Política de Privacidade</button></li>
+                  <li><button onClick={handleLgpd} className="hover:text-white transition-colors text-left">LGPD</button></li>
                 </ul>
               </div>
             </div>
-            <div className="border-t border-govbr-blue-warm-vivid mt-8 pt-6 text-center">
-              <p className="text-govbr-blue-warm-20 text-sm">
+            <div className="border-t border-govbr-blue-warm-vivid mt-6 md:mt-8 pt-4 md:pt-6 text-center">
+              <p className="text-govbr-blue-warm-20 text-xs md:text-sm">
                 © 2025 Governo Federal - Ministério da Justiça e Segurança Pública - MJSP / Secretaria Nacional de Segurança Pública - SENASP
               </p>
             </div>
@@ -193,5 +200,8 @@ const Index = () => {
     </div>
   );
 };
+
+// Add missing cn utility function import
+import { cn } from '@/lib/utils';
 
 export default Index;

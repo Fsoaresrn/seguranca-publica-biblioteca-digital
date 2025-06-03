@@ -55,28 +55,28 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
 
   return (
     <div className="min-h-screen bg-govbr-gray-5 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center p-6 bg-govbr-blue-warm-vivid rounded-full mb-4">
-            <BookOpen className="h-12 w-12 text-white" />
+      <div className="w-full max-w-sm sm:max-w-md">
+        <div className="text-center mb-6 md:mb-8">
+          <div className="inline-flex items-center justify-center p-4 md:p-6 bg-govbr-blue-warm-vivid rounded-full mb-4">
+            <BookOpen className="h-8 w-8 md:h-12 md:w-12 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-govbr-blue-warm-dark mb-2">
+          <h1 className="text-xl md:text-2xl font-bold text-govbr-blue-warm-dark mb-2">
             BNSP - Login
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-600 text-sm md:text-base">
             Entre com suas credenciais do Sinesp Segurança
           </p>
         </div>
 
         <Card className="govbr-card">
-          <CardHeader>
-            <CardTitle className="text-center">Acesso ao Sistema</CardTitle>
+          <CardHeader className="pb-4">
+            <CardTitle className="text-center text-lg md:text-xl">Acesso ao Sistema</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-4 md:px-6">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <Label htmlFor="cpf">CPF do Usuário</Label>
-                <div className="relative">
+                <Label htmlFor="cpf" className="text-sm md:text-base">CPF do Usuário</Label>
+                <div className="relative mt-1">
                   <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <Input
                     id="cpf"
@@ -84,7 +84,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
                     placeholder="000.000.000-00"
                     value={cpf}
                     onChange={handleCPFChange}
-                    className="pl-10"
+                    className="pl-10 text-sm md:text-base h-10 md:h-12"
                     maxLength={14}
                     required
                   />
@@ -92,8 +92,8 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
               </div>
 
               <div>
-                <Label htmlFor="password">Senha</Label>
-                <div className="relative">
+                <Label htmlFor="password" className="text-sm md:text-base">Senha</Label>
+                <div className="relative mt-1">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <Input
                     id="password"
@@ -101,7 +101,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
                     placeholder="Digite sua senha"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-10"
+                    className="pl-10 text-sm md:text-base h-10 md:h-12"
                     required
                   />
                 </div>
@@ -109,7 +109,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
 
               <Button 
                 type="submit" 
-                className="w-full govbr-btn-primary"
+                className="w-full govbr-btn-primary h-10 md:h-12 text-sm md:text-base"
                 disabled={isLoading}
               >
                 {isLoading ? 'Entrando...' : 'Entrar no Sistema'}
@@ -122,7 +122,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
               </p>
               <Button 
                 variant="outline" 
-                className="w-full"
+                className="w-full h-10 md:h-12 text-sm md:text-base"
                 onClick={handleCreateAccount}
               >
                 Criar Conta no Sinesp Segurança
@@ -130,7 +130,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
               
               <div className="text-xs text-gray-500 space-y-1">
                 <p>Esqueceu sua senha?</p>
-                <button className="text-govbr-blue-warm-vivid hover:underline">
+                <button className="text-govbr-blue-warm-vivid hover:underline text-xs md:text-sm">
                   Recuperar senha
                 </button>
               </div>
@@ -138,7 +138,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
           </CardContent>
         </Card>
 
-        <div className="mt-6 text-center text-xs text-gray-500">
+        <div className="mt-4 md:mt-6 text-center text-xs text-gray-500">
           <p>Sistema integrado ao Sinesp Segurança</p>
           <p>Ministério da Justiça e Segurança Pública - MJSP</p>
         </div>
