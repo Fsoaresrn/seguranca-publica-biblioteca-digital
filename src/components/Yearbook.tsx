@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Book, Download, Star, Calendar, User, Building, Award, Eye } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -318,7 +319,7 @@ const Yearbook: React.FC = () => {
                     <p className="text-sm text-gray-600 mb-1">{work.author}</p>
                     <p className="text-xs text-gray-500">{work.institution}</p>
                     <div className="flex items-center gap-2 mt-2">
-                      <Badge className={`${getTypeColor(work.type)} text-xs`}>{work.type}</Badge>
+                      <Badge size="sm" className={getTypeColor(work.type)}>{work.type}</Badge>
                       <span className="text-xs text-yellow-600 flex items-center">
                         <Star className="h-3 w-3 mr-1" />
                         {work.votes}

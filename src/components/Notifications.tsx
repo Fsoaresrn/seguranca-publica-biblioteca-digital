@@ -64,54 +64,47 @@ const Notifications: React.FC = () => {
   };
 
   return (
-    <div className="space-y-4 md:space-y-6 animate-fade-in px-4 md:px-0">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-6 animate-fade-in">
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className="govbr-heading-1 flex items-center text-xl md:text-3xl">
-            <Bell className="h-6 w-6 md:h-8 md:w-8 mr-2 md:mr-3 text-govbr-blue-warm-vivid" />
+          <h1 className="govbr-heading-1 flex items-center">
+            <Bell className="h-8 w-8 mr-3 text-govbr-blue-warm-vivid" />
             Notificações
           </h1>
-          <p className="text-gray-600 mt-1 md:mt-2 text-sm md:text-base">
+          <p className="text-gray-600 mt-2">
             Acompanhe todas as atualizações e atividades da plataforma
           </p>
         </div>
-        <Button 
-          onClick={markAllAsRead} 
-          variant="outline"
-          className="w-full sm:w-auto text-sm"
-        >
+        <Button onClick={markAllAsRead} variant="outline">
           Marcar todas como lidas
         </Button>
       </div>
 
-      <div className="space-y-3 md:space-y-4">
+      <div className="space-y-4">
         {notifications.map((notification) => {
           const Icon = notification.icon;
           return (
-            <Card 
-              key={notification.id} 
-              className={`${notification.unread ? 'border-l-4 border-l-govbr-blue-warm-vivid bg-blue-50' : ''} hover:shadow-md transition-shadow`}
-            >
-              <CardContent className="p-4 md:p-6">
-                <div className="flex items-start space-x-3 md:space-x-4">
-                  <div className={`p-2 rounded-lg bg-gray-100 flex-shrink-0`}>
-                    <Icon className={`h-4 w-4 md:h-5 md:w-5 ${notification.color}`} />
+            <Card key={notification.id} className={`${notification.unread ? 'border-l-4 border-l-govbr-blue-warm-vivid bg-blue-50' : ''}`}>
+              <CardContent className="p-6">
+                <div className="flex items-start space-x-4">
+                  <div className={`p-2 rounded-lg bg-gray-100`}>
+                    <Icon className={`h-5 w-5 ${notification.color}`} />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2 gap-2">
-                      <h3 className="font-semibold text-govbr-blue-warm-dark text-sm md:text-base truncate">
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="font-semibold text-govbr-blue-warm-dark">
                         {notification.title}
                       </h3>
-                      <div className="flex items-center space-x-2 flex-shrink-0">
+                      <div className="flex items-center space-x-2">
                         {notification.unread && (
-                          <Badge variant="secondary" className="bg-govbr-blue-warm-vivid text-white text-xs">
+                          <Badge variant="secondary" className="bg-govbr-blue-warm-vivid text-white">
                             Nova
                           </Badge>
                         )}
-                        <span className="text-xs md:text-sm text-gray-500 whitespace-nowrap">{notification.time}</span>
+                        <span className="text-sm text-gray-500">{notification.time}</span>
                       </div>
                     </div>
-                    <p className="text-gray-600 text-sm md:text-base leading-relaxed">{notification.message}</p>
+                    <p className="text-gray-600">{notification.message}</p>
                   </div>
                 </div>
               </CardContent>
@@ -120,8 +113,8 @@ const Notifications: React.FC = () => {
         })}
       </div>
 
-      <div className="text-center py-6 md:py-8">
-        <p className="text-gray-500 text-sm md:text-base">Você visualizou todas as notificações</p>
+      <div className="text-center py-8">
+        <p className="text-gray-500">Você visualizou todas as notificações</p>
       </div>
     </div>
   );

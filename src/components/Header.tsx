@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search, User, Bell, Menu, BookOpen, Home, Award, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -23,7 +22,6 @@ interface HeaderProps {
   user?: { name: string, role: 'servidor' | 'moderador' | 'administrador' };
   onLogin?: () => void;
   onLogout?: () => void;
-  onMenuClick?: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ 
@@ -32,8 +30,7 @@ const Header: React.FC<HeaderProps> = ({
   onSearch, 
   user, 
   onLogin, 
-  onLogout,
-  onMenuClick
+  onLogout
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [notifications, setNotifications] = useState([]);
@@ -95,7 +92,7 @@ const Header: React.FC<HeaderProps> = ({
             <Button
               variant="ghost"
               size="sm"
-              onClick={onMenuClick}
+              onClick={() => handleNavigation('home')}
               className="lg:hidden"
               aria-label="Abrir menu de navegação"
             >

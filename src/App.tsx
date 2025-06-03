@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header';
@@ -49,11 +48,11 @@ function App() {
       case 'home':
         return <LibraryHome onNavigate={setCurrentView} />;
       case 'repository':
-        return <Repository onNavigate={setCurrentView} />;
+        return <Repository onNavigate={setCurrentView} searchTerm={searchTerm} />;
       case 'search-advanced':
-        return <SearchAdvanced />;
+        return <SearchAdvanced onNavigate={setCurrentView} onSearch={handleSearch} />;
       case 'central-ajuda':
-        return <CentralAjuda />;
+        return <CentralAjuda onNavigate={setCurrentView} />;
       case 'login':
         return <Login onLogin={handleLogin} />;
       case 'admin':
