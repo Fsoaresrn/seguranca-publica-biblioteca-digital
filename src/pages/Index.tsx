@@ -25,9 +25,10 @@ import PoliticaPrivacidade from '@/components/PoliticaPrivacidade';
 import Login from '@/components/Login';
 import CollectionExplorer from '@/components/CollectionExplorer';
 import CategoryView from '@/components/CategoryView';
+import { cn } from '@/lib/utils';
 
 const Index = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false); // Changed default to false for mobile-first
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentSection, setCurrentSection] = useState('library-home');
   const [userRole] = useState<'servidor' | 'moderador' | 'administrador'>('moderador');
   const [userName, setUserName] = useState('');
@@ -121,22 +122,27 @@ const Index = () => {
     window.open('https://www.gov.br/esporte/pt-br/acesso-a-informacao/lgpd', '_blank');
   };
 
-  const showHeaderAndSidebar = currentSection !== 'login' && currentSection !== 'library-home';
+  const showHeaderAndSidebar = currentSection !== 'login';
 
   return (
     <div className="min-h-screen bg-govbr-gray-5">
-      {(showHeaderAndSidebar || currentSection === 'library-home') && <GovBrHeader />}
+      {/* Gov.br Header - sempre presente */}
+      <GovBrHeader />
       
+      {/* Header principal - presente em todas as páginas exceto login */}
       {showHeaderAndSidebar && (
         <Header 
+          currentView={currentSection}
           onNavigate={handleNavigation}
           onLogout={handleLogout}
           onMenuClick={handleMenuClick}
+          user={isLoggedIn ? { name: userName, role: userRole } : undefined}
         />
       )}
       
       <div className="flex relative">
-        {showHeaderAndSidebar && (
+        {/* Sidebar - presente apenas quando logado e não na página de login */}
+        {showHeaderAndSidebar && currentSection !== 'library-home' && (
           <Sidebar 
             isOpen={sidebarOpen}
             onNavigate={handleNavigation}
@@ -148,60 +154,55 @@ const Index = () => {
         
         <main className={cn(
           "flex-1 overflow-auto",
-          showHeaderAndSidebar ? "p-4 lg:p-6 xl:p-8" : "",
+          showHeaderAndSidebar && currentSection !== 'library-home' ? "p-4 lg:p-6 xl:p-8" : "",
           showHeaderAndSidebar && sidebarOpen ? "md:ml-0" : ""
         )}>
-          <div className={showHeaderAndSidebar ? "max-w-7xl mx-auto" : ""}>
+          <div className={showHeaderAndSidebar && currentSection !== 'library-home' ? "max-w-7xl mx-auto" : ""}>
             {renderContent()}
           </div>
         </main>
       </div>
 
-      {/* Government Footer */}
-      {(showHeaderAndSidebar || currentSection === 'library-home') && (
-        <footer className="bg-govbr-blue-warm-dark text-white py-6 md:py-8 mt-8 md:mt-12">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-              <div>
-                <h3 className="text-lg font-semibold mb-4">BNSP</h3>
-                <p className="text-govbr-blue-warm-20 text-sm leading-relaxed">
-                  Biblioteca Nacional da Segurança Pública - Plataforma oficial da 
-                  Secretaria Nacional de Segurança Pública - Senasp/MJSP para 
-                  compartilhamento de conhecimento acadêmico entre servidores de segurança pública.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Links Importantes</h3>
-                <ul className="space-y-2 text-sm text-govbr-blue-warm-20">
-                  <li><a href="https://www.gov.br/pt-br" target="_blank" className="hover:text-white transition-colors">Portal Gov.br</a></li>
-                  <li><a href="https://www.gov.br/mj/pt-br/assuntos/sua-seguranca/seguranca-publica" target="_blank" className="hover:text-white transition-colors">SENASP</a></li>
-                  <li><a href="https://www.gov.br/mj/pt-br" target="_blank" className="hover:text-white transition-colors">Ministério da Justiça e Segurança Pública</a></li>
-                  <li><a href="https://seguranca.sinesp.gov.br/" target="_blank" className="hover:text-white transition-colors">Sinesp Segurança</a></li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Suporte</h3>
-                <ul className="space-y-2 text-sm text-govbr-blue-warm-20">
-                  <li><button onClick={() => handleNavigation('central-ajuda')} className="hover:text-white transition-colors text-left">Central de Ajuda</button></li>
-                  <li><button onClick={() => handleNavigation('termos-uso')} className="hover:text-white transition-colors text-left">Termos de Uso</button></li>
-                  <li><button onClick={() => handleNavigation('politica-privacidade')} className="hover:text-white transition-colors text-left">Política de Privacidade</button></li>
-                  <li><button onClick={handleLgpd} className="hover:text-white transition-colors text-left">LGPD</button></li>
-                </ul>
-              </div>
-            </div>
-            <div className="border-t border-govbr-blue-warm-vivid mt-6 md:mt-8 pt-4 md:pt-6 text-center">
-              <p className="text-govbr-blue-warm-20 text-xs md:text-sm">
-                © 2025 Governo Federal - Ministério da Justiça e Segurança Pública - MJSP / Secretaria Nacional de Segurança Pública - SENASP
+      {/* Government Footer - sempre presente */}
+      <footer className="bg-govbr-blue-warm-dark text-white py-6 md:py-8 mt-8 md:mt-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <div>
+              <h3 className="text-lg font-semibold mb-4">BNSP</h3>
+              <p className="text-govbr-blue-warm-20 text-sm leading-relaxed">
+                Biblioteca Nacional da Segurança Pública - Plataforma oficial da 
+                Secretaria Nacional de Segurança Pública - Senasp/MJSP para 
+                compartilhamento de conhecimento acadêmico entre servidores de segurança pública.
               </p>
             </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Links Importantes</h3>
+              <ul className="space-y-2 text-sm text-govbr-blue-warm-20">
+                <li><a href="https://www.gov.br/pt-br" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Portal Gov.br</a></li>
+                <li><a href="https://www.gov.br/mj/pt-br/assuntos/sua-seguranca/seguranca-publica" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">SENASP</a></li>
+                <li><a href="https://www.gov.br/mj/pt-br" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Ministério da Justiça e Segurança Pública</a></li>
+                <li><a href="https://seguranca.sinesp.gov.br/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Sinesp Segurança</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Suporte</h3>
+              <ul className="space-y-2 text-sm text-govbr-blue-warm-20">
+                <li><button onClick={() => handleNavigation('central-ajuda')} className="hover:text-white transition-colors text-left">Central de Ajuda</button></li>
+                <li><button onClick={() => handleNavigation('termos-uso')} className="hover:text-white transition-colors text-left">Termos de Uso</button></li>
+                <li><button onClick={() => handleNavigation('politica-privacidade')} className="hover:text-white transition-colors text-left">Política de Privacidade</button></li>
+                <li><button onClick={handleLgpd} className="hover:text-white transition-colors text-left">LGPD</button></li>
+              </ul>
+            </div>
           </div>
-        </footer>
-      )}
+          <div className="border-t border-govbr-blue-warm-vivid mt-6 md:mt-8 pt-4 md:pt-6 text-center">
+            <p className="text-govbr-blue-warm-20 text-xs md:text-sm">
+              © 2025 Governo Federal - Ministério da Justiça e Segurança Pública - MJSP / Secretaria Nacional de Segurança Pública - SENASP
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
-
-// Add missing cn utility function import
-import { cn } from '@/lib/utils';
 
 export default Index;
