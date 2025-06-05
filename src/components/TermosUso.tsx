@@ -2,7 +2,6 @@
 import React from 'react';
 import { FileText, Shield, AlertTriangle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const TermosUso = () => {
   return (
@@ -14,103 +13,138 @@ const TermosUso = () => {
           Termos de Uso
         </h1>
         <p className="govbr-body max-w-2xl mx-auto">
-          Biblioteca Nacional da Segurança Pública - BNSP
+          Termos e condições para utilização da Biblioteca Nacional da Segurança Pública
         </p>
       </div>
 
-      <Alert>
-        <AlertTriangle className="h-4 w-4" />
-        <AlertDescription>
-          Última atualização: Janeiro de 2024. Ao utilizar esta plataforma, você concorda com os termos descritos abaixo.
-        </AlertDescription>
-      </Alert>
-
-      {/* Terms Content */}
+      {/* Última Atualização */}
       <Card className="govbr-card">
-        <CardHeader>
-          <CardTitle className="govbr-heading-3">1. Definições</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="govbr-body">
-            A Biblioteca Nacional da Segurança Pública (BNSP) é uma plataforma digital mantida pela Secretaria Nacional de Segurança Pública (SENASP) 
-            do Ministério da Justiça e Segurança Pública, destinada ao compartilhamento de conhecimento acadêmico entre servidores de segurança pública.
-          </p>
+        <CardContent className="p-6">
+          <div className="flex items-center space-x-2 text-sm text-gray-600">
+            <AlertTriangle className="h-4 w-4" />
+            <span>Última atualização: Janeiro de 2025</span>
+          </div>
         </CardContent>
       </Card>
 
-      <Card className="govbr-card">
-        <CardHeader>
-          <CardTitle className="govbr-heading-3">2. Acesso e Elegibilidade</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <ul className="list-disc list-inside space-y-2 govbr-body">
-            <li>O acesso à plataforma é restrito a servidores públicos da área de segurança pública</li>
-            <li>Usuários devem comprovar vínculo institucional através de documentação oficial</li>
-            <li>É vedado o compartilhamento de credenciais de acesso com terceiros</li>
-            <li>O cadastro deve conter informações verdadeiras e atualizadas</li>
-          </ul>
-        </CardContent>
-      </Card>
+      {/* Seções dos Termos */}
+      <div className="space-y-6">
+        <Card className="govbr-card">
+          <CardHeader>
+            <CardTitle className="govbr-heading-3">1. Aceitação dos Termos</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-600 leading-relaxed">
+              Ao acessar e utilizar a Biblioteca Nacional da Segurança Pública (BNSP), você concorda 
+              em cumprir e estar vinculado aos seguintes termos e condições de uso. Se você não 
+              concordar com qualquer parte destes termos, não poderá acessar o serviço.
+            </p>
+          </CardContent>
+        </Card>
 
-      <Card className="govbr-card">
-        <CardHeader>
-          <CardTitle className="govbr-heading-3">3. Uso da Plataforma</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <ul className="list-disc list-inside space-y-2 govbr-body">
-            <li>O conteúdo disponibilizado destina-se exclusivamente a fins acadêmicos e profissionais</li>
-            <li>É proibida a reprodução comercial dos materiais sem autorização expressa</li>
-            <li>Usuários devem respeitar os direitos autorais dos trabalhos publicados</li>
-            <li>A citação adequada das fontes é obrigatória em qualquer uso dos materiais</li>
-          </ul>
-        </CardContent>
-      </Card>
+        <Card className="govbr-card">
+          <CardHeader>
+            <CardTitle className="govbr-heading-3">2. Definições</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4 text-gray-600">
+              <p><strong>BNSP:</strong> Biblioteca Nacional da Segurança Pública</p>
+              <p><strong>SENASP:</strong> Secretaria Nacional de Segurança Pública</p>
+              <p><strong>MJSP:</strong> Ministério da Justiça e Segurança Pública</p>
+              <p><strong>Usuário:</strong> Qualquer pessoa que acesse ou utilize a plataforma</p>
+              <p><strong>Conteúdo:</strong> Trabalhos acadêmicos, documentos e materiais disponibilizados na plataforma</p>
+            </div>
+          </CardContent>
+        </Card>
 
-      <Card className="govbr-card">
-        <CardHeader>
-          <CardTitle className="govbr-heading-3">4. Submissão de Trabalhos</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <ul className="list-disc list-inside space-y-2 govbr-body">
-            <li>Autores garantem a originalidade e veracidade dos trabalhos submetidos</li>
-            <li>Trabalhos passarão por processo de revisão antes da publicação</li>
-            <li>A BNSP reserva-se o direito de recusar publicações que não atendam aos critérios técnicos</li>
-            <li>Autores mantêm os direitos autorais, concedendo licença de uso à BNSP</li>
-          </ul>
-        </CardContent>
-      </Card>
+        <Card className="govbr-card">
+          <CardHeader>
+            <CardTitle className="govbr-heading-3">3. Uso Permitido</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3 text-gray-600">
+              <p>A BNSP destina-se exclusivamente a:</p>
+              <ul className="list-disc ml-6 space-y-2">
+                <li>Servidores de segurança pública</li>
+                <li>Pesquisadores acadêmicos da área de segurança pública</li>
+                <li>Estudantes de cursos relacionados à segurança pública</li>
+                <li>Profissionais autorizados pela SENASP</li>
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
 
-      <Card className="govbr-card">
-        <CardHeader>
-          <CardTitle className="govbr-heading-3 flex items-center">
-            <Shield className="h-5 w-5 mr-2 text-govbr-green-cool-vivid" />
-            5. Responsabilidades
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="govbr-body">
-            A BNSP não se responsabiliza por danos decorrentes do uso inadequado da plataforma ou do conteúdo disponibilizado. 
-            Usuários são responsáveis por manter a segurança de suas credenciais e pelo uso apropriado dos recursos da plataforma.
-          </p>
-        </CardContent>
-      </Card>
+        <Card className="govbr-card">
+          <CardHeader>
+            <CardTitle className="govbr-heading-3">4. Responsabilidades do Usuário</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3 text-gray-600">
+              <p>O usuário compromete-se a:</p>
+              <ul className="list-disc ml-6 space-y-2">
+                <li>Fornecer informações verdadeiras e atualizadas</li>
+                <li>Manter a confidencialidade de suas credenciais de acesso</li>
+                <li>Utilizar a plataforma apenas para fins legítimos e educacionais</li>
+                <li>Respeitar os direitos autorais dos materiais disponibilizados</li>
+                <li>Não compartilhar conteúdo confidencial ou sensível</li>
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
 
-      <Card className="govbr-card">
-        <CardHeader>
-          <CardTitle className="govbr-heading-3">6. Modificações dos Termos</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="govbr-body">
-            Estes termos podem ser atualizados periodicamente. Usuários serão notificados sobre mudanças significativas 
-            e o uso continuado da plataforma implica na aceitação dos novos termos.
-          </p>
-        </CardContent>
-      </Card>
+        <Card className="govbr-card">
+          <CardHeader>
+            <CardTitle className="govbr-heading-3">5. Propriedade Intelectual</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-600 leading-relaxed">
+              Todos os direitos de propriedade intelectual dos materiais disponibilizados na BNSP 
+              pertencem aos seus respectivos autores ou à SENASP/MJSP. O uso dos materiais deve 
+              respeitar as licenças e direitos autorais aplicáveis.
+            </p>
+          </CardContent>
+        </Card>
 
-      <div className="text-center pt-6">
-        <p className="text-sm text-gray-500">
-          Para dúvidas sobre estes termos, entre em contato através da Central de Ajuda.
-        </p>
+        <Card className="govbr-card">
+          <CardHeader>
+            <CardTitle className="govbr-heading-3">6. Limitação de Responsabilidade</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-600 leading-relaxed">
+              A SENASP/MJSP não se responsabiliza por danos diretos, indiretos, incidentais ou 
+              consequenciais decorrentes do uso da plataforma. O conteúdo é fornecido "como está" 
+              sem garantias de qualquer tipo.
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="govbr-card">
+          <CardHeader>
+            <CardTitle className="govbr-heading-3">7. Modificações dos Termos</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-600 leading-relaxed">
+              A SENASP/MJSP reserva-se o direito de modificar estes termos a qualquer momento. 
+              As alterações entrarão em vigor imediatamente após a publicação na plataforma. 
+              O uso continuado da BNSP constitui aceitação dos termos modificados.
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="govbr-card">
+          <CardHeader>
+            <CardTitle className="govbr-heading-3 flex items-center">
+              <Shield className="h-5 w-5 mr-2 text-govbr-green-cool-vivid" />
+              8. Contato
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-600 leading-relaxed">
+              Para dúvidas sobre estes termos de uso, entre em contato com a SENASP através dos 
+              canais oficiais disponíveis na Central de Ajuda da plataforma.
+            </p>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

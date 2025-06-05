@@ -1,8 +1,8 @@
 
 import React from 'react';
-import { Shield, Lock, Eye, Database, UserCheck } from 'lucide-react';
+import { Shield, Eye, Lock, Database } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
 
 const PoliticaPrivacidade = () => {
   return (
@@ -10,145 +10,197 @@ const PoliticaPrivacidade = () => {
       {/* Header */}
       <div className="text-center">
         <h1 className="govbr-heading-1 mb-4 flex items-center justify-center">
-          <Shield className="h-10 w-10 mr-3 text-govbr-blue-warm-vivid" />
+          <Shield className="h-10 w-10 mr-3 text-govbr-green-cool-vivid" />
           Política de Privacidade
         </h1>
         <p className="govbr-body max-w-2xl mx-auto">
-          Como coletamos, usamos e protegemos suas informações na BNSP
+          Como coletamos, utilizamos e protegemos suas informações pessoais na BNSP
         </p>
+        <Badge variant="secondary" className="mt-4">
+          Conforme LGPD - Lei 13.709/2018
+        </Badge>
       </div>
 
-      <Alert>
-        <Lock className="h-4 w-4" />
-        <AlertDescription>
-          Esta política está em conformidade com a Lei Geral de Proteção de Dados (LGPD) - Lei nº 13.709/2018.
-        </AlertDescription>
-      </Alert>
-
-      {/* Privacy Content */}
+      {/* Informações Gerais */}
       <Card className="govbr-card">
         <CardHeader>
           <CardTitle className="govbr-heading-3 flex items-center">
-            <Database className="h-5 w-5 mr-2 text-govbr-blue-warm-vivid" />
-            1. Coleta de Dados
+            <Eye className="h-5 w-5 mr-2 text-govbr-blue-warm-vivid" />
+            Informações Gerais
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="govbr-body mb-4">Coletamos as seguintes informações:</p>
-          <ul className="list-disc list-inside space-y-2 govbr-body">
-            <li><strong>Dados pessoais:</strong> Nome, email, CPF, instituição de origem</li>
-            <li><strong>Dados profissionais:</strong> Cargo, área de atuação, histórico acadêmico</li>
-            <li><strong>Dados de navegação:</strong> Páginas visitadas, downloads realizados, tempo de sessão</li>
-            <li><strong>Dados de interação:</strong> Trabalhos favoritados, comentários, avaliações</li>
-          </ul>
-        </CardContent>
-      </Card>
-
-      <Card className="govbr-card">
-        <CardHeader>
-          <CardTitle className="govbr-heading-3 flex items-center">
-            <Eye className="h-5 w-5 mr-2 text-govbr-green-cool-vivid" />
-            2. Finalidade do Uso
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <ul className="list-disc list-inside space-y-2 govbr-body">
-            <li>Verificação de elegibilidade e autenticação de usuários</li>
-            <li>Personalização da experiência na plataforma</li>
-            <li>Comunicação sobre atualizações e novos conteúdos</li>
-            <li>Geração de estatísticas e relatórios de uso (dados anonimizados)</li>
-            <li>Melhoria dos serviços oferecidos</li>
-            <li>Cumprimento de obrigações legais e regulamentares</li>
-          </ul>
-        </CardContent>
-      </Card>
-
-      <Card className="govbr-card">
-        <CardHeader>
-          <CardTitle className="govbr-heading-3">3. Compartilhamento de Dados</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="govbr-body">
-            Seus dados pessoais não são compartilhados com terceiros, exceto:
-          </p>
-          <ul className="list-disc list-inside space-y-2 govbr-body mt-4">
-            <li>Quando exigido por lei ou ordem judicial</li>
-            <li>Para prestadores de serviço que auxiliam na operação da plataforma (sob contrato de confidencialidade)</li>
-            <li>Em caso de transferência de responsabilidade da plataforma (com prévia notificação)</li>
-          </ul>
-        </CardContent>
-      </Card>
-
-      <Card className="govbr-card">
-        <CardHeader>
-          <CardTitle className="govbr-heading-3 flex items-center">
-            <Lock className="h-5 w-5 mr-2 text-orange-600" />
-            4. Segurança dos Dados
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <ul className="list-disc list-inside space-y-2 govbr-body">
-            <li>Criptografia de dados em trânsito e em repouso</li>
-            <li>Controles de acesso baseados em funções</li>
-            <li>Monitoramento contínuo de segurança</li>
-            <li>Backups regulares e seguros</li>
-            <li>Treinamento regular da equipe em segurança da informação</li>
-          </ul>
-        </CardContent>
-      </Card>
-
-      <Card className="govbr-card">
-        <CardHeader>
-          <CardTitle className="govbr-heading-3 flex items-center">
-            <UserCheck className="h-5 w-5 mr-2 text-purple-600" />
-            5. Seus Direitos (LGPD)
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="govbr-body mb-4">Você tem direito a:</p>
-          <ul className="list-disc list-inside space-y-2 govbr-body">
-            <li><strong>Acesso:</strong> Conhecer quais dados possuímos sobre você</li>
-            <li><strong>Correção:</strong> Atualizar dados incorretos ou desatualizados</li>
-            <li><strong>Exclusão:</strong> Solicitar a remoção de seus dados pessoais</li>
-            <li><strong>Portabilidade:</strong> Receber seus dados em formato estruturado</li>
-            <li><strong>Oposição:</strong> Contestar o tratamento de seus dados</li>
-            <li><strong>Informação:</strong> Obter detalhes sobre o uso de seus dados</li>
-          </ul>
-        </CardContent>
-      </Card>
-
-      <Card className="govbr-card">
-        <CardHeader>
-          <CardTitle className="govbr-heading-3">6. Retenção de Dados</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="govbr-body">
-            Os dados são mantidos pelo tempo necessário para cumprimento das finalidades descritas, 
-            respeitando os prazos legais de retenção. Dados de navegação são anonimizados após 24 meses.
+        <CardContent>
+          <p className="text-gray-600 leading-relaxed">
+            Esta Política de Privacidade descreve como a Secretaria Nacional de Segurança Pública (SENASP), 
+            vinculada ao Ministério da Justiça e Segurança Pública (MJSP), coleta, utiliza, armazena e 
+            protege as informações pessoais dos usuários da Biblioteca Nacional da Segurança Pública (BNSP).
           </p>
         </CardContent>
       </Card>
 
-      <Card className="govbr-card">
-        <CardHeader>
-          <CardTitle className="govbr-heading-3">7. Contato</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="govbr-body">
-            Para exercer seus direitos ou esclarecer dúvidas sobre esta política, entre em contato:
-          </p>
-          <ul className="list-none space-y-2 govbr-body mt-4">
-            <li><strong>Email:</strong> privacidade@senasp.gov.br</li>
-            <li><strong>Telefone:</strong> 0800 123 4567</li>
-            <li><strong>Endereço:</strong> SENASP - Ministério da Justiça e Segurança Pública</li>
-          </ul>
-        </CardContent>
-      </Card>
+      {/* Seções da Política */}
+      <div className="space-y-6">
+        <Card className="govbr-card">
+          <CardHeader>
+            <CardTitle className="govbr-heading-3">1. Dados Coletados</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-semibold text-govbr-blue-warm-dark mb-2">Dados de Identificação:</h4>
+                <ul className="list-disc ml-6 space-y-1 text-gray-600">
+                  <li>Nome completo</li>
+                  <li>CPF</li>
+                  <li>E-mail institucional ou pessoal</li>
+                  <li>Instituição de vínculo</li>
+                  <li>Cargo ou função</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold text-govbr-blue-warm-dark mb-2">Dados de Navegação:</h4>
+                <ul className="list-disc ml-6 space-y-1 text-gray-600">
+                  <li>Endereço IP</li>
+                  <li>Logs de acesso</li>
+                  <li>Páginas visitadas</li>
+                  <li>Tempo de permanência</li>
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
-      <div className="text-center pt-6">
-        <p className="text-sm text-gray-500">
-          Esta política pode ser atualizada periodicamente. A versão mais atual estará sempre disponível nesta página.
-        </p>
+        <Card className="govbr-card">
+          <CardHeader>
+            <CardTitle className="govbr-heading-3">2. Finalidade do Tratamento</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3 text-gray-600">
+              <p>Os dados pessoais são coletados e tratados para:</p>
+              <ul className="list-disc ml-6 space-y-2">
+                <li>Permitir o acesso e uso da plataforma BNSP</li>
+                <li>Verificar a elegibilidade do usuário</li>
+                <li>Personalizar a experiência do usuário</li>
+                <li>Gerar estatísticas de uso (dados anonimizados)</li>
+                <li>Comunicar atualizações e melhorias</li>
+                <li>Garantir a segurança da plataforma</li>
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="govbr-card">
+          <CardHeader>
+            <CardTitle className="govbr-heading-3">3. Base Legal</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-600 leading-relaxed">
+              O tratamento de dados pessoais na BNSP fundamenta-se no artigo 7º da LGPD, 
+              especificamente na execução de políticas públicas (inciso III) e no exercício 
+              regular de direitos em processo judicial, administrativo ou arbitral (inciso VI).
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="govbr-card">
+          <CardHeader>
+            <CardTitle className="govbr-heading-3 flex items-center">
+              <Lock className="h-5 w-5 mr-2 text-govbr-green-cool-vivid" />
+              4. Medidas de Segurança
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3 text-gray-600">
+              <p>Para proteger seus dados, implementamos:</p>
+              <ul className="list-disc ml-6 space-y-2">
+                <li>Criptografia de dados em trânsito e em repouso</li>
+                <li>Controles de acesso baseados em perfis</li>
+                <li>Monitoramento contínuo de segurança</li>
+                <li>Backups regulares e seguros</li>
+                <li>Treinamento regular da equipe</li>
+                <li>Auditorias periódicas de segurança</li>
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="govbr-card">
+          <CardHeader>
+            <CardTitle className="govbr-heading-3">5. Compartilhamento de Dados</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-600 leading-relaxed">
+              Os dados pessoais não são comercializados, transferidos ou divulgados a terceiros, 
+              exceto quando necessário para cumprir obrigação legal, regulatória ou ordem judicial, 
+              ou quando autorizado expressamente pelo titular.
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="govbr-card">
+          <CardHeader>
+            <CardTitle className="govbr-heading-3">6. Seus Direitos</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3 text-gray-600">
+              <p>Como titular de dados, você tem direito a:</p>
+              <ul className="list-disc ml-6 space-y-2">
+                <li>Confirmar a existência de tratamento</li>
+                <li>Acessar seus dados</li>
+                <li>Corrigir dados incompletos ou incorretos</li>
+                <li>Anonimizar, bloquear ou eliminar dados desnecessários</li>
+                <li>Solicitar portabilidade dos dados</li>
+                <li>Eliminar dados tratados com consentimento</li>
+                <li>Obter informações sobre compartilhamento</li>
+                <li>Revogar consentimento</li>
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="govbr-card">
+          <CardHeader>
+            <CardTitle className="govbr-heading-3 flex items-center">
+              <Database className="h-5 w-5 mr-2 text-govbr-blue-warm-vivid" />
+              7. Retenção de Dados
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-600 leading-relaxed">
+              Os dados pessoais são mantidos pelo tempo necessário para cumprir as finalidades 
+              descritas nesta política, respeitando os prazos legais de retenção aplicáveis às 
+              atividades da administração pública federal.
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="govbr-card">
+          <CardHeader>
+            <CardTitle className="govbr-heading-3">8. Contato - Encarregado de Dados</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3 text-gray-600">
+              <p>Para exercer seus direitos ou esclarecer dúvidas sobre esta política:</p>
+              <div className="bg-govbr-gray-5 p-4 rounded-lg">
+                <p><strong>Encarregado de Dados Pessoais da SENASP/MJSP</strong></p>
+                <p>E-mail: dpo.senasp@mj.gov.br</p>
+                <p>Telefone: 0800 123 4567</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="govbr-card">
+          <CardHeader>
+            <CardTitle className="govbr-heading-3">9. Alterações na Política</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-600 leading-relaxed">
+              Esta política pode ser atualizada periodicamente. Alterações significativas serão 
+              comunicadas aos usuários através da plataforma ou por e-mail. A versão mais recente 
+              estará sempre disponível na BNSP.
+            </p>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
